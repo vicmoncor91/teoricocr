@@ -78,16 +78,16 @@
 
         .service-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 15px; }
         .btn-service, .btn-cat {
-            background: #f8f9fa; border: 1.5px solid #eee; padding: 12px 5px;
+            background: #f8f9fa; border: 1.5px solid #eee; padding: 10px 5px;
             border-radius: 12px; font-weight: 600; color: var(--negro-suave);
-            cursor: pointer; transition: all 0.2s; font-size: 0.85rem;
+            cursor: pointer; transition: all 0.2s; font-size: 0.75rem;
             display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
         }
         .btn-service i { color: var(--rojo-principal); font-size: 1.1rem; }
         .btn-service:active, .btn-cat:active { background: var(--rojo-principal); color: white; border-color: var(--rojo-principal); transform: scale(0.95); }
+        .btn-service:active i { color: white; }
 
-        /* Estilo específico para botones de paquetes (Clases) */
-        .btn-package { grid-column: span 2; padding: 15px; font-size: 1rem; background: #fff; border: 2px solid var(--gris-claro); }
+        .btn-package { grid-column: span 2; padding: 15px; font-size: 1rem; }
 
         /* --- EXAMEN --- */
         #quiz-container { width: 90%; max-width: 400px; display: none; padding: 20px 0; }
@@ -138,7 +138,6 @@
         <div class="popup-card">
             <i class="fas fa-times close-modal-x" onclick="cerrarClases()"></i>
             <h3 style="margin-top:0; color:var(--rojo-principal);">Paquetes de Clases de Manejo</h3>
-            <p style="font-size:0.85rem; color:#666;">Selecciona tu nivel actual:</p>
             <div class="service-grid">
                 <button class="btn-service btn-package" onclick="contactarWhatsApp('Información sobre paquete: Desde cero')">Desde cero</button>
                 <button class="btn-service btn-package" onclick="contactarWhatsApp('Información sobre paquete: Principiante')">Principiante</button>
@@ -154,14 +153,14 @@
             <i class="fas fa-times close-modal-x" onclick="cerrarAlquiler()"></i>
             <h3 style="margin-top:0; color:var(--rojo-principal);">Alquiler de Vehículo</h3>
             <div class="service-grid">
-                <button class="btn-cat" onclick="contactarWhatsApp('Interés en alquilar vehículo B1')">B1</button>
-                <button class="btn-cat" onclick="contactarWhatsApp('Interés en alquilar vehículo B2')">B2</button>
-                <button class="btn-cat" onclick="contactarWhatsApp('Interés en alquilar vehículo B3')">B3</button>
-                <button class="btn-cat" onclick="contactarWhatsApp('Interés en alquilar vehículo B4')">B4</button>
-                <button class="btn-cat" onclick="contactarWhatsApp('Interés en alquilar vehículo A1')">A1</button>
-                <button class="btn-cat" onclick="contactarWhatsApp('Interés en alquilar vehículo A2')">A2</button>
-                <button class="btn-cat" onclick="contactarWhatsApp('Interés en alquilar vehículo A3')">A3</button>
-                <button class="btn-cat" onclick="contactarWhatsApp('Interés en alquilar vehículo C2')">C2</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Interés en alquilar un vehiculo B1')">B1</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Interés en alquilar un vehiculo B2')">B2</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Interés en alquilar un vehiculo B3')">B3</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Interés en alquilar un vehiculo B4')">B4</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Interés en alquilar un vehiculo A1')">A1</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Interés en alquilar un vehiculo A2')">A2</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Interés en alquilar un vehiculo A3')">A3</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Interés en alquilar un vehiculo C2')">C2</button>
             </div>
         </div>
     </div>
@@ -171,20 +170,18 @@
             <i class="fas fa-times close-modal-x" onclick="cerrarServicios()"></i>
             <h3 style="margin:0; color:var(--rojo-principal); font-size: 1.2rem;">Otros Servicios</h3>
             <div class="service-grid">
-                <button class="btn-service" onclick="contactarWhatsApp('Info sobre: Renovación')"><i class="fas fa-id-card"></i> Renovación</button>
-                <button class="btn-service" onclick="contactarWhatsApp('Info sobre: Permiso temporal')"><i class="fas fa-clock"></i> Permiso</button>
-                <button class="btn-service" onclick="contactarWhatsApp('Info sobre: Citas')"><i class="fas fa-calendar-alt"></i> Citas</button>
-                <button class="btn-service" onclick="contactarWhatsApp('Info sobre: Dictamen médico')"><i class="fas fa-stethoscope"></i> Dictamen</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Info sobre: Renovación de licencia')"><i class="fas fa-id-card"></i> Renovación</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Info sobre: Permiso temporal')"><i class="fas fa-clock"></i> Permiso temporal</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Info sobre: Duplicado de licencia')"><i class="fas fa-copy"></i> Duplicado</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Info sobre: Cita teórica o práctica')"><i class="fas fa-calendar-alt"></i> Citas</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Info sobre: Cursos teóricos personalizados')"><i class="fas fa-graduation-cap"></i> Cursos Teóricos</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Info sobre: Resumen de motocicleta o automóvil')"><i class="fas fa-book"></i> Resúmenes</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Info sobre: Prescripción de infracciones')"><i class="fas fa-file-invoice"></i> Prescripción</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Info sobre: Asesoría legal tránsito')"><i class="fas fa-gavel"></i> Asesoría legal</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Info sobre: Dictamen médico')"><i class="fas fa-stethoscope"></i> Dictamen médico</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Info sobre: Pre-evaluación (Plantel réplica)')"><i class="fas fa-clipboard-check"></i> Pre-evaluación</button>
+                <button class="btn-service" style="grid-column: span 2;" onclick="contactarWhatsApp('Info sobre: Reconocimiento de rutas')"><i class="fas fa-map-marked-alt"></i> Reconocimiento de rutas</button>
             </div>
-        </div>
-    </div>
-
-    <div id="install-overlay" class="overlay">
-        <div class="popup-card">
-            <i class="fas fa-times close-modal-x" onclick="cerrarInstalacion()"></i>
-            <b>Instalar Teórico CR</b>
-            <p>Práctica en cualquier momento desde tu inicio.</p>
-            <button id="btn-instalar-pwa" class="btn" style="width: 100%;">Instalar</button>
         </div>
     </div>
 
@@ -217,7 +214,6 @@
 
         window.onload = () => { window.history.pushState({ etapa: 'menu' }, ''); };
 
-        // --- MANEJO DE HISTORIAL (BOTÓN ATRÁS) ---
         window.onpopstate = function(event) {
             const quizVisible = document.getElementById('quiz-container').style.display === 'block';
             const modalAbierto = document.querySelector('.overlay.show');
@@ -228,7 +224,7 @@
             } else if (modalAbierto) {
                 cerrarTodosModales();
             } else {
-                // Si está en el menú, permite la acción normal del navegador (salir)
+                // Comportamiento base
             }
         };
 
@@ -238,7 +234,6 @@
             window.open(`https://wa.me/${tel}?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
-        // --- FUNCIONES MODALES ---
         function registrarEstadoModal() { window.history.pushState({ etapa: 'modal' }, ''); }
 
         function abrirClases() { registrarEstadoModal(); document.getElementById('classes-overlay').classList.add('show'); }
@@ -250,13 +245,12 @@
         function abrirServicios() { registrarEstadoModal(); document.getElementById('services-overlay').classList.add('show'); }
         function cerrarServicios() { document.getElementById('services-overlay').classList.remove('show'); }
 
-        function cerrarInstalacion() { document.getElementById('install-overlay').classList.remove('show'); }
-        
         function cerrarTodosModales() {
-            cerrarClases(); cerrarAlquiler(); cerrarServicios(); cerrarInstalacion();
+            cerrarClases(); cerrarAlquiler(); cerrarServicios();
+            const inst = document.getElementById('install-overlay');
+            if(inst) inst.classList.remove('show');
         }
 
-        // --- EXAMEN ---
         function iniciarExamen(tipo) {
             cerrarTodosModales();
             window.history.pushState({ etapa: 'examen' }, '');
