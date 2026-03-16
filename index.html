@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Teórico CR</title>
-    <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
@@ -16,183 +15,87 @@
 
         html, body {
             overflow-x: hidden;
-            height: 100%;
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             background-color: var(--blanco);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-        }
+        body { display: flex; flex-direction: column; align-items: center; }
 
-        /* Banner de Instalación */
-        #installBanner {
-            display: none;
-            width: 100%;
-            background: var(--negro-suave);
-            color: white;
-            padding: 10px;
-            text-align: center;
-            font-size: 13px;
-            z-index: 1000;
-        }
-        #btnInstall {
-            background: var(--rojo-principal);
-            color: white;
-            border: none;
-            padding: 5px 12px;
-            border-radius: 4px;
-            margin-left: 8px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+        header { text-align: center; padding: 15px; }
+        .app-logo { height: 55px; margin: 8px auto; display: block; }
+        .app-name-text { font-weight: bold; font-size: 1.1rem; color: #000; }
 
-        header {
-            text-align: center;
-            padding: 15px 10px 10px 10px;
-            flex-shrink: 0;
-        }
-
-        .header-title { color: #333; margin: 0; font-size: 1.2rem; font-weight: bold; line-height: 1; }
-        .header-subtitle { color: #666; font-size: 0.9rem; margin-top: 2px; }
-        
-        .app-logo {
-            height: 55px;
-            width: auto;
-            margin: 8px auto;
-            display: block;
-        }
-
-        .app-name-text { font-weight: bold; font-size: 1.1rem; color: #000; margin-bottom: 10px; }
-
-        /* Contenedor de botones principal */
-        .menu-container {
-            width: 90%;
-            max-width: 380px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            padding-bottom: 90px;
-        }
-
-        .exam-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
+        .menu-container { width: 90%; max-width: 380px; display: flex; flex-direction: column; gap: 10px; padding-bottom: 100px; }
+        .exam-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
         .btn {
-            background-color: var(--rojo-principal);
-            color: white;
-            border: none;
-            padding: 14px 10px;
-            border-radius: 12px;
-            font-size: 15px;
-            font-weight: 600;
-            text-align: center;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-            transition: transform 0.1s;
-            cursor: pointer;
+            background-color: var(--rojo-principal); color: white; border: none;
+            padding: 14px 10px; border-radius: 12px; font-size: 15px; font-weight: 600;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            text-decoration: none; cursor: pointer; transition: transform 0.1s;
         }
-
         .btn:active { transform: scale(0.97); }
         .btn-dark { background-color: var(--negro-suave); }
+        .btn-outline { background-color: transparent; border: 2px solid var(--rojo-principal); color: var(--rojo-principal); }
 
-        /* --- ESTILOS DEL EXAMEN --- */
-        #quiz-container {
-            width: 92%;
-            max-width: 450px;
-            margin-top: 20px;
-            padding-bottom: 100px;
-        }
-
+        /* Estilos Examen */
+        #quiz-container { width: 90%; max-width: 400px; margin-top: 20px; display: none; padding-bottom: 100px; }
+        #question-text { font-weight: bold; font-size: 1.1rem; margin-bottom: 20px; color: #222; }
         .option-btn {
-            background-color: var(--gris-claro);
-            color: var(--negro-suave);
-            border: 2px solid transparent;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: left;
-            font-size: 14px;
-            cursor: pointer;
-            width: 100%;
-            display: block;
-            margin-bottom: 10px;
-            transition: all 0.2s;
+            width: 100%; padding: 15px; margin-bottom: 10px; border-radius: 10px;
+            border: 1px solid #ddd; background: #f9f9f9; text-align: left; font-size: 1rem; cursor: pointer;
         }
 
-        .option-btn:active { background-color: #e0e0e0; }
+        /* Pantalla Resultados */
+        #result-container { width: 90%; max-width: 400px; text-align: center; display: none; padding: 30px 0 100px; }
+        .score-circle { font-size: 3rem; font-weight: bold; margin: 10px 0; color: var(--rojo-principal); }
+        .status-badge { font-weight: bold; font-size: 1.2rem; margin-bottom: 15px; }
 
-        #result-container {
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        /* Footer fijo */
-        footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background: white;
-            padding: 12px 0;
-            display: flex;
-            justify-content: center;
-            gap: 35px;
-            border-top: 1px solid #eee;
-            z-index: 999;
-        }
-
+        footer { position: fixed; bottom: 0; width: 100%; background: white; padding: 12px 0; display: flex; justify-content: center; gap: 35px; border-top: 1px solid #eee; }
         footer a { color: #555; font-size: 24px; text-decoration: none; }
-        .fa-whatsapp { color: #25D366; }
     </style>
 </head>
 <body>
 
-    <div id="installBanner">
-        ¿Instalar Teórico CR en tu inicio? 
-        <button id="btnInstall">INSTALAR</button>
-    </div>
-
     <header id="mainHeader">
-        <div class="header-title">Escuela de manejo CR</div>
-        <div class="header-subtitle">San Ramón</div>
-        <img src="logo.png" alt="Teórico CR" class="app-logo">
+        <div style="color: #333; font-weight: bold;">Escuela de manejo CR</div>
+        <div style="color: #666; font-size: 0.9rem;">San Ramón</div>
+        <img src="logo.png" alt="Logo" class="app-logo">
         <div class="app-name-text">Teórico CR</div>
     </header>
 
     <div class="menu-container" id="mainMenu">
         <div class="exam-grid">
-            <a href="#" class="btn" onclick="iniciarExamen()"><i class="fas fa-motorcycle"></i> Moto</a>
-            <a href="#" class="btn" onclick="iniciarExamen()"><i class="fas fa-car"></i> Auto</a>
+            <button class="btn" onclick="iniciarExamen()"><i class="fas fa-motorcycle"></i> Moto</button>
+            <button class="btn" onclick="iniciarExamen()"><i class="fas fa-car"></i> Auto</button>
         </div>
-        <a href="https://wa.me/50672408103?text=Hola" class="btn">Curso Virtual Personalizado</a>
-        <a href="https://wa.me/50672408103?text=Hola" class="btn">Material Didáctico Resumido</a>
+        <a href="https://wa.me/50672408103?text=Hola.%20Quisiera%20más%20información%20sobre%20el%20Curso%20virtual%20personalizado" class="btn">Curso Virtual Personalizado</a>
+        <a href="https://wa.me/50672408103?text=Hola.%20Estoy%20utilizando%20la%20app%20Teórico%20CR.%20Quisiera%20más%20información%20sobre%20el%20Material%20didáctico%20resumido" class="btn">Material Didáctico Resumido</a>
         <a href="#" class="btn">Clases de Manejo B1</a>
         <a href="#" class="btn">Alquiler San Ramón</a>
-        <a href="https://wa.me/50663784552?text=Hola" class="btn btn-dark">Apelación de Infracciones</a>
-        <a href="#" class="btn">Otros Servicios</a>
+        <a href="https://wa.me/50663784552?text=Hola.%20Asesoría%20infracciones" class="btn btn-dark">Apelación de Infracciones</a>
     </div>
 
-    <div id="quiz-container" style="display:none;">
-        <div id="question-number" style="font-size: 0.9rem; color: var(--rojo-principal); font-weight: bold; margin-bottom: 10px;"></div>
-        <div id="question-text" style="font-weight: bold; font-size: 1.2rem; margin-bottom: 25px; color: #222;"></div>
+    <div id="quiz-container">
+        <div id="question-number" style="color: #e31e24; font-weight: bold; margin-bottom: 5px;"></div>
+        <div id="question-text"></div>
         <div id="options-container"></div>
     </div>
 
-    <div id="result-container" style="display:none;">
-        <h2 id="result-score" style="font-size: 3rem; margin: 0;"></h2>
-        <p id="result-message"></p>
-        <button onclick="location.reload()" class="btn" style="width: 100%; margin-top: 20px;">Finalizar</button>
+    <div id="result-container">
+        <div id="result-status" class="status-badge"></div>
+        <div class="score-circle" id="result-score"></div>
+        <p id="result-message" style="font-size: 1.1rem; padding: 0 10px;"></p>
+        
+        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 25px;">
+            <button class="btn" onclick="compartirResultado()"><i class="fas fa-share-alt"></i> Compartir resultado</button>
+            <button class="btn btn-outline" onclick="location.reload()">Reintentar examen</button>
+            
+            <p style="margin-top: 20px; font-weight: bold; color: #444;">¿Quieres prepararte más?</p>
+            <a href="https://wa.me/50672408103?text=Hola.%20Quisiera%20más%20información%20sobre%20el%20Curso%20virtual%20personalizado" class="btn">Curso virtual personalizado</a>
+            <a href="https://wa.me/50672408103?text=Hola.%20Estoy%20utilizando%20la%20app%20Teórico%20CR.%20Quisiera%20más%20información%20sobre%20el%20Material%20didáctico%20resumido" class="btn">Material didáctico resumido</a>
+        </div>
     </div>
 
     <footer>
@@ -204,16 +107,17 @@
 
     <script src="preguntas.js"></script>
     <script>
-        let preguntasSeleccionadas = [];
-        let indiceActual = 0;
-        let aciertos = 0;
+        let preguntasSimulacro = [];
+        let index = 0;
+        let puntos = 0;
 
         function iniciarExamen() {
-            // Mezclar y seleccionar 40 preguntas del banco en preguntas.js
-            preguntasSeleccionadas = [...bancoPreguntas].sort(() => 0.5 - Math.random()).slice(0, 40);
-            indiceActual = 0;
-            aciertos = 0;
-            
+            if (typeof bancoPreguntas === 'undefined') {
+                alert("Error: No se encontró el archivo de preguntas.");
+                return;
+            }
+            preguntasSimulacro = [...bancoPreguntas].sort(() => 0.5 - Math.random()).slice(0, 40);
+            index = 0; puntos = 0;
             document.getElementById('mainHeader').style.display = 'none';
             document.getElementById('mainMenu').style.display = 'none';
             document.getElementById('quiz-container').style.display = 'block';
@@ -221,67 +125,55 @@
         }
 
         function mostrarPregunta() {
-            const p = preguntasSeleccionadas[indiceActual];
-            document.getElementById('question-number').innerText = `PREGUNTA ${indiceActual + 1} DE 40`;
+            const p = preguntasSimulacro[index];
+            document.getElementById('question-number').innerText = `PREGUNTA ${index + 1} DE 40`;
             document.getElementById('question-text').innerText = p.pregunta;
-            
             const container = document.getElementById('options-container');
             container.innerHTML = '';
             
             p.opciones.forEach((opt, i) => {
-                const btn = document.createElement('button');
-                btn.className = 'option-btn';
-                btn.innerText = opt;
-                btn.onclick = () => verificarRespuesta(i);
-                container.appendChild(btn);
+                const b = document.createElement('button');
+                b.className = 'option-btn';
+                b.innerText = opt;
+                b.onclick = () => {
+                    if(i === p.correcta) puntos++;
+                    index++;
+                    if(index < 40) mostrarPregunta(); else finalizar();
+                };
+                container.appendChild(b);
             });
             window.scrollTo(0,0);
         }
 
-        function verificarRespuesta(opcionElegida) {
-            if (opcionElegida === preguntasSeleccionadas[indiceActual].correcta) {
-                aciertos++;
-            }
-            
-            indiceActual++;
-            if (indiceActual < 40) {
-                mostrarPregunta();
-            } else {
-                mostrarResultado();
-            }
-        }
-
-        function mostrarResultado() {
+        function finalizar() {
             document.getElementById('quiz-container').style.display = 'none';
-            const resCon = document.getElementById('result-container');
-            resCon.style.display = 'block';
+            document.getElementById('result-container').style.display = 'block';
             
-            const porcentaje = Math.round((aciertos / 40) * 100);
-            document.getElementById('result-score').innerText = `${porcentaje}%`;
+            const nota = Math.round((puntos / 40) * 100);
+            document.getElementById('result-score').innerText = nota;
             
+            const st = document.getElementById('result-status');
             const msg = document.getElementById('result-message');
-            if (porcentaje >= 70) {
-                msg.innerHTML = `<span style="color: green; font-weight: bold;">¡APROBADO!</span><br>Has superado el simulacro con ${aciertos} aciertos.`;
+            
+            if (nota < 70) {
+                st.innerText = "REPROBADO"; st.style.color = "red";
+                msg.innerText = "Debes estudiar más.";
             } else {
-                msg.innerHTML = `<span style="color: var(--rojo-principal); font-weight: bold;">REPROBADO</span><br>Necesitas al menos 70% para aprobar. Sigue estudiando.`;
+                st.innerText = "APROBADO"; st.style.color = "green";
+                if (nota <= 85) msg.innerText = "Bien. Pero puedes mejorar.";
+                else if (nota <= 99) msg.innerText = "Muy bien. Vas por buen camino.";
+                else msg.innerText = "Serás un excelente conductor o conductora.";
             }
         }
 
-        // PWA Install Logic
-        let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            document.getElementById('installBanner').style.display = 'block';
-        });
-
-        document.getElementById('btnInstall').addEventListener('click', () => {
-            document.getElementById('installBanner').style.display = 'none';
-            deferredPrompt.prompt();
-        });
-
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js');
+        function compartirResultado() {
+            const nota = document.getElementById('result-score').innerText;
+            const text = `¡Saqué un ${nota} en mi simulacro de Teórico CR! Inténtalo tú también aquí: https://play.google.com/store/apps/details?id=TU_ID_AQUI`;
+            if (navigator.share) {
+                navigator.share({ title: 'Mi resultado Teórico CR', text: text });
+            } else {
+                window.open(`https://wa.me/?text=${encodeURIComponent(text)}`);
+            }
         }
     </script>
 </body>
