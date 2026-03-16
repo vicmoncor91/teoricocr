@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teórico CR</title>
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -10,84 +10,94 @@
         :root {
             --rojo-principal: #e31e24;
             --blanco: #ffffff;
-            --gris-linea: #eee;
-        }
-
-        html, body {
-            overflow-x: hidden;
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            background-color: var(--blanco);
-            font-family: 'Segoe UI', Arial, sans-serif;
+            --gris-suave: #f4f4f4;
         }
 
         body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--blanco);
+            margin: 0;
+            padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start;
-            box-sizing: border-box;
-            padding: 5px 0 80px 0;
+            overflow-x: hidden;
         }
 
-        /* BANNER DE INSTALACIÓN COMPACTO */
+        /* Banner de Instalación */
         #installBanner {
             display: none;
-            width: 90%;
-            max-width: 400px;
+            width: 100%;
             background: #333;
             color: white;
-            padding: 10px 15px;
-            border-radius: 12px;
-            margin-bottom: 10px;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            z-index: 1001;
+            padding: 15px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
-
-        #installBanner p { margin: 0; font-size: 13px; font-weight: 500; }
         #btnInstall {
             background: var(--rojo-principal);
             color: white;
             border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 12px;
+            padding: 8px 15px;
+            border-radius: 5px;
+            margin-left: 10px;
             font-weight: bold;
-            cursor: pointer;
         }
 
-       <header>
-        <div class="header-title">Escuela de manejo CR</div>
-        <div class="header-subtitle">San Ramón</div>
-        <img src="logo.png" alt="Logo Teórico CR" style="height: 60px; width: auto; margin: 5px 0;">
-        <div class="app-name">Teórico CR</div>
-    </header>
+        header {
+            text-align: center;
+            padding: 20px 10px;
+            width: 100%;
+        }
+
+        .header-title { color: #333; margin: 0; font-size: 1.4rem; font-weight: bold; }
+        .header-subtitle { color: #666; font-size: 1rem; margin-bottom: 10px; }
+        
+        /* Ajuste del Logo */
+        .app-logo {
+            height: 80px; /* Tamaño más cómodo */
+            width: auto;
+            margin: 10px 0;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
         .menu-container {
-            width: 92%;
+            width: 90%;
             max-width: 400px;
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 15px;
+            padding-bottom: 100px;
         }
 
+        /* Títulos de sección sutiles */
+        .section-label {
+            font-size: 12px;
+            font-weight: bold;
+            color: #999;
+            text-transform: uppercase;
+            margin-bottom: -5px;
+            margin-top: 10px;
+        }
+
+        /* Grid de Exámenes */
         .exam-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
-            margin-bottom: 2px;
         }
 
         .btn {
             background-color: var(--rojo-principal);
             color: white;
             border: none;
-            padding: 12px 10px;
-            border-radius: 10px;
-            font-size: 14px;
+            padding: 15px 10px;
+            border-radius: 12px;
+            font-size: 15px;
             font-weight: 600;
             text-align: center;
             text-decoration: none;
@@ -95,11 +105,9 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
-        .btn:active { transform: scale(0.97); }
-        .separator { height: 1px; background-color: var(--gris-linea); margin: 4px 0; width: 100%; }
         .btn-dark { background-color: #333; }
 
         footer {
@@ -107,47 +115,51 @@
             bottom: 0;
             width: 100%;
             background: white;
-            padding: 12px 0;
+            padding: 15px 0;
             display: flex;
             justify-content: center;
             gap: 30px;
-            border-top: 1px solid var(--gris-linea);
+            border-top: 1px solid #eee;
         }
 
-        footer a { font-size: 24px; text-decoration: none; }
+        footer a { color: #555; font-size: 26px; text-decoration: none; }
         .fa-whatsapp { color: #25D366; }
-        .fa-tiktok { color: #000; }
-        .fa-facebook { color: #1877F2; }
-        .fa-instagram { color: #E4405F; }
     </style>
 </head>
 <body>
 
     <div id="installBanner">
-        <p>📱 Instalar Teórico CR</p>
+        ¿Quieres la App en tu inicio? 
         <button id="btnInstall">INSTALAR</button>
     </div>
 
     <header>
         <div class="header-title">Escuela de manejo CR</div>
         <div class="header-subtitle">San Ramón</div>
-        <div class="logo-placeholder"><i class="fas fa-car-side"></i></div>
-        <div class="app-name">Teórico CR</div>
+        <img src="logo.png" alt="Teórico CR" class="app-logo">
+        <div style="font-weight: bold; font-size: 1.2rem;">Teórico CR</div>
     </header>
 
     <div class="menu-container">
+        
+        <div class="section-label">Simuladores</div>
         <div class="exam-grid">
             <a href="#" class="btn"><i class="fas fa-motorcycle"></i> Moto</a>
             <a href="#" class="btn"><i class="fas fa-car"></i> Auto</a>
         </div>
-        <div class="separator"></div>
-        <a href="https://wa.me/50672408103?text=Hola.%20Quisiera%20más%20información%20sobre%20el%20Curso%20virtual%20personalizado" class="btn">Curso Virtual Personalizado</a>
-        <a href="https://wa.me/50672408103?text=Hola.%20Quisiera%20más%20información%20sobre%20el%20Material%20didáctico%20resumido" class="btn">Material Didáctico Resumido</a>
+
+        <div class="section-label">Servicios WhatsApp</div>
+        <a href="https://wa.me/50672408103?text=Información Curso" class="btn">Curso Virtual Personalizado</a>
+        <a href="https://wa.me/50672408103?text=Información Material" class="btn">Material Didáctico Resumido</a>
+        
+        <div class="section-label">Clases y Alquiler</div>
         <a href="#" class="btn">Clases de Manejo B1</a>
         <a href="#" class="btn">Alquiler San Ramón</a>
-        <div class="separator"></div>
-        <a href="https://wa.me/50663784552?text=Hola.%20Necesito%20asesoría%20sobre%20apelación%20o%20prescripción%20de%20infracciones" class="btn btn-dark">Apelación de Infracciones</a>
+
+        <div class="section-label">Legal</div>
+        <a href="https://wa.me/50663784552" class="btn btn-dark">Apelación de Infracciones</a>
         <a href="#" class="btn">Otros Servicios</a>
+
     </div>
 
     <footer>
@@ -159,21 +171,15 @@
 
     <script>
         let deferredPrompt;
-        const installBanner = document.getElementById('installBanner');
-        const btnInstall = document.getElementById('btnInstall');
-
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            installBanner.style.display = 'flex';
+            document.getElementById('installBanner').style.display = 'block';
         });
 
-        btnInstall.addEventListener('click', () => {
-            installBanner.style.display = 'none';
+        document.getElementById('btnInstall').addEventListener('click', () => {
+            document.getElementById('installBanner').style.display = 'none';
             deferredPrompt.prompt();
-            deferredPrompt.userChoice.then((choiceResult) => {
-                deferredPrompt = null;
-            });
         });
 
         if ('serviceWorker' in navigator) {
