@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prueba PWA</title>
+    <link rel="manifest" href="manifest.json">
+</head>
+<body style="text-align: center; padding-top: 50px; font-family: Arial;">
+
+    <div id="display" style="font-size: 24px; margin-bottom: 20px; border-bottom: 1px solid black;">
+        Escribe algo abajo
+    </div>
+    
+    <input type="text" id="userInput" placeholder="Texto aquí">
+    <button onclick="updateText()">Mostrar</button>
+
+    <script>
+        function updateText() {
+            var input = document.getElementById('userInput');
+            var display = document.getElementById('display');
+            display.innerText = input.value;
+            input.value = '';
+        }
+
+        // El Service Worker es lo que hace que sea instalable
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+    </script>
+</body>
+</html>
