@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Teórico CR</title>
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -10,78 +10,76 @@
         :root {
             --rojo-principal: #e31e24;
             --blanco: #ffffff;
-            --gris-suave: #f4f4f4;
+            --negro-suave: #333;
+        }
+
+        /* Bloqueo de scroll lateral */
+        html, body {
+            overflow-x: hidden;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: var(--blanco);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--blanco);
-            margin: 0;
-            padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            overflow-x: hidden;
+            justify-content: flex-start;
+            box-sizing: border-box;
+            padding: 0;
         }
 
-        /* Banner de Instalación */
+        /* Banner de Instalación superior */
         #installBanner {
             display: none;
             width: 100%;
-            background: #333;
+            background: var(--negro-suave);
             color: white;
-            padding: 15px;
+            padding: 10px;
             text-align: center;
-            position: sticky;
-            top: 0;
+            font-size: 13px;
             z-index: 1000;
         }
         #btnInstall {
             background: var(--rojo-principal);
             color: white;
             border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            margin-left: 10px;
+            padding: 5px 12px;
+            border-radius: 4px;
+            margin-left: 8px;
             font-weight: bold;
+            cursor: pointer;
         }
 
         header {
             text-align: center;
-            padding: 20px 10px;
-            width: 100%;
+            padding: 15px 10px 10px 10px;
+            flex-shrink: 0;
         }
 
-        .header-title { color: #333; margin: 0; font-size: 1.4rem; font-weight: bold; }
-        .header-subtitle { color: #666; font-size: 1rem; margin-bottom: 10px; }
+        .header-title { color: #333; margin: 0; font-size: 1.2rem; font-weight: bold; line-height: 1; }
+        .header-subtitle { color: #666; font-size: 0.9rem; margin-top: 2px; }
         
-        /* Ajuste del Logo */
         .app-logo {
-            height: 80px; /* Tamaño más cómodo */
+            height: 55px; /* Logo más pequeño como pediste */
             width: auto;
-            margin: 10px 0;
+            margin: 8px auto;
             display: block;
-            margin-left: auto;
-            margin-right: auto;
         }
 
+        .app-name-text { font-weight: bold; font-size: 1.1rem; color: #000; }
+
+        /* Contenedor de botones optimizado */
         .menu-container {
             width: 90%;
-            max-width: 400px;
+            max-width: 380px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            padding-bottom: 100px;
-        }
-
-        /* Títulos de sección sutiles */
-        .section-label {
-            font-size: 12px;
-            font-weight: bold;
-            color: #999;
-            text-transform: uppercase;
-            margin-bottom: -5px;
-            margin-top: 10px;
+            gap: 10px; /* Espacio que hace que "respire" cada botón */
+            padding-bottom: 90px;
         }
 
         /* Grid de Exámenes */
@@ -95,7 +93,7 @@
             background-color: var(--rojo-principal);
             color: white;
             border: none;
-            padding: 15px 10px;
+            padding: 14px 10px;
             border-radius: 12px;
             font-size: 15px;
             font-weight: 600;
@@ -105,31 +103,35 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            transition: transform 0.1s;
         }
 
-        .btn-dark { background-color: #333; }
+        .btn:active { transform: scale(0.97); }
 
+        .btn-dark { background-color: var(--negro-suave); }
+
+        /* Footer Redes Sociales fijo */
         footer {
             position: fixed;
             bottom: 0;
             width: 100%;
             background: white;
-            padding: 15px 0;
+            padding: 12px 0;
             display: flex;
             justify-content: center;
-            gap: 30px;
+            gap: 35px;
             border-top: 1px solid #eee;
         }
 
-        footer a { color: #555; font-size: 26px; text-decoration: none; }
+        footer a { color: #555; font-size: 24px; text-decoration: none; }
         .fa-whatsapp { color: #25D366; }
     </style>
 </head>
 <body>
 
     <div id="installBanner">
-        ¿Quieres la App en tu inicio? 
+        ¿Instalar Teórico CR en tu inicio? 
         <button id="btnInstall">INSTALAR</button>
     </div>
 
@@ -137,27 +139,21 @@
         <div class="header-title">Escuela de manejo CR</div>
         <div class="header-subtitle">San Ramón</div>
         <img src="logo.png" alt="Teórico CR" class="app-logo">
-        <div style="font-weight: bold; font-size: 1.2rem;">Teórico CR</div>
+        <div class="app-name-text">Teórico CR</div>
     </header>
 
     <div class="menu-container">
         
-        <div class="section-label">Simuladores</div>
         <div class="exam-grid">
             <a href="#" class="btn"><i class="fas fa-motorcycle"></i> Moto</a>
             <a href="#" class="btn"><i class="fas fa-car"></i> Auto</a>
         </div>
 
-        <div class="section-label">Servicios WhatsApp</div>
-        <a href="https://wa.me/50672408103?text=Información Curso" class="btn">Curso Virtual Personalizado</a>
-        <a href="https://wa.me/50672408103?text=Información Material" class="btn">Material Didáctico Resumido</a>
-        
-        <div class="section-label">Clases y Alquiler</div>
+        <a href="https://wa.me/50672408103?text=Hola.%20Quisiera%20más%20información%20sobre%20el%20Curso%20virtual%20personalizado" class="btn">Curso Virtual Personalizado</a>
+        <a href="https://wa.me/50672408103?text=Hola.%20Quisiera%20más%20información%20sobre%20el%20Material%20didáctico%20resumido" class="btn">Material Didáctico Resumido</a>
         <a href="#" class="btn">Clases de Manejo B1</a>
         <a href="#" class="btn">Alquiler San Ramón</a>
-
-        <div class="section-label">Legal</div>
-        <a href="https://wa.me/50663784552" class="btn btn-dark">Apelación de Infracciones</a>
+        <a href="https://wa.me/50663784552?text=Hola.%20Necesito%20asesoría%20sobre%20apelación%20o%20prescripción%20de%20infracciones" class="btn btn-dark">Apelación de Infracciones</a>
         <a href="#" class="btn">Otros Servicios</a>
 
     </div>
@@ -171,15 +167,20 @@
 
     <script>
         let deferredPrompt;
+        const installBanner = document.getElementById('installBanner');
+
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            document.getElementById('installBanner').style.display = 'block';
+            installBanner.style.display = 'block';
         });
 
         document.getElementById('btnInstall').addEventListener('click', () => {
-            document.getElementById('installBanner').style.display = 'none';
+            installBanner.style.display = 'none';
             deferredPrompt.prompt();
+            deferredPrompt.userChoice.then(() => {
+                deferredPrompt = null;
+            });
         });
 
         if ('serviceWorker' in navigator) {
