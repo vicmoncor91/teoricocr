@@ -23,6 +23,94 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
+<div id="quiz-container" style="display:none; width: 90%; max-width: 400px; margin-top: 20px;">
+    <div id="question-number" style="font-size: 0.8rem; color: #666; margin-bottom: 5px;"></div>
+    <div id="question-text" style="font-weight: bold; font-size: 1.1rem; margin-bottom: 20px;"></div>
+    <div id="options-container" style="display: flex; flex-direction: column; gap: 10px;"></div>
+</div>
+
+<div id="result-container" style="display:none; text-align: center; width: 90%; max-width: 400px; margin-top: 50px;">
+    <h2 id="result-score"></h2>
+    <p id="result-message" style="font-size: 1.2rem; font-weight: bold;"></p>
+    <button onclick="location.reload()" class="btn" style="margin-top: 20px; width: 100%;">Volver al Inicio</button>
+</div>
+
+<script src="preguntas.js"></script>
+<script>
+    let preguntasSeleccionadas = [];
+    let indiceActual = 0;
+    let aciertos = 0;
+
+    // Función para iniciar el examen de Auto
+    document.querySelector('.btn i.fa-car').parentElement.onclick = function(e) {
+        e.preventDefault();
+        iniciarExamen();
+    };
+
+    function iniciarExamen() {
+        // Seleccionar 40 al azar
+        preguntasSeleccionadas = [...bancoPreguntas].sort(() => 0.5 - Math.random()).slice(0, 40);
+        indiceActual = 0;
+        aciertos = 0;
+        
+        document.querySelector('.menu-container').style.display = 'none';
+        document.querySelector('header').style.display = 'none';
+        document.getElementById('quiz-container').style.display = 'block';
+        mostrarPregunta();
+    }
+
+    function mostrarPregunta() {
+        const p = preguntasSeleccionadas[indiceActual];
+        document.getElementById('question-number').innerText = `Pregunta ${indiceActual + 1} de 40`;
+        document.getElementById('question-text').innerText = p.pregunta;
+        
+        const container = document.getElementById('options-container');
+        container.innerHTML = '';
+        
+        p.opciones.forEach((opt, i) => {
+            const btn = document.createElement('button');
+            btn.className = 'btn';
+            btn.style.backgroundColor = '#eee';
+            btn.style.color = '#333';
+            btn.style.justifyContent = 'flex-start';
+            btn.innerText = opt;
+            btn.onclick = () => verificarRespuesta(i);
+            container.appendChild(btn);
+        });
+    }
+
+    function verificarRespuesta(opcionElegida) {
+        if (opcionElegida === preguntasSeleccionadas[indiceActual].correcta) {
+            aciertos++;
+        }
+        
+        indiceActual++;
+        if (indiceActual < 40) {
+            mostrarPregunta();
+        } else {
+            mostrarResultado();
+        }
+    }
+
+    function mostrarResultado() {
+        document.getElementById('quiz-container').style.display = 'none';
+        const resCon = document.getElementById('result-container');
+        resCon.style.display = 'block';
+        
+        const porcentaje = Math.round((aciertos / 40) * 100);
+        document.getElementById('result-score').innerText = `${porcentaje}% (${aciertos}/40)`;
+        
+        const msg = document.getElementById('result-message');
+        if (porcentaje >= 70) {
+            msg.innerText = "¡Felicidades! Has aprobado el examen.";
+            msg.style.color = "green";
+        } else {
+            msg.innerText = "Debes estudiar más. Sigue practicando.";
+            msg.style.color = "red";
+        }
+    }
+</script>
+        
         body {
             display: flex;
             flex-direction: column;
