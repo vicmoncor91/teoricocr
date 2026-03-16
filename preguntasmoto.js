@@ -1,4 +1,4 @@
-const bancoPreguntasmoto = [
+const bancoPreguntasMoto = [
     {
         pregunta: "¿Cuál es el principio fundamental de la seguridad vial en la conducción de vehículos como motocicletas y bicimotos?",
         opciones: ["Reducir el tiempo de traslado", "Proteger la vida y la integridad de las personas", "Priorizar la velocidad de circulación", "Maximizar el rendimiento del vehículo"],
