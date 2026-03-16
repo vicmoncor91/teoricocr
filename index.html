@@ -31,10 +31,20 @@
 
         body { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; }
 
-        /* AJUSTE DE FONDO PARA QUE NO SE CORTE A LOS LADOS */
+        /* FONDOS PARA LOS EXÁMENES */
         body.fondo-auto {
             background-image: url('fondoexamen.jpeg');
-            background-size: 100% 100%; /* Ajuste forzado al ancho y alto del dispositivo */
+            background-size: 100% 100%;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-color: rgba(255, 255, 255, 0.85);
+            background-blend-mode: overlay;
+        }
+
+        body.fondo-moto {
+            background-image: url('fondomoto.jpeg');
+            background-size: 100% 100%;
             background-position: center;
             background-attachment: fixed;
             background-repeat: no-repeat;
@@ -234,7 +244,7 @@
 
             if (quizVisible) {
                 if (confirm("¿Deseas salir del examen? Se perderá el progreso.")) { 
-                    document.body.classList.remove('fondo-auto');
+                    document.body.classList.remove('fondo-auto', 'fondo-moto');
                     location.reload(); 
                 } 
                 else { window.history.pushState({ etapa: 'examen' }, ''); }
@@ -262,10 +272,12 @@
             cerrarTodosModales();
             window.history.pushState({ etapa: 'examen' }, '');
             
+            // LIMPIAR CLASES Y APLICAR LA CORRESPONDIENTE
+            document.body.classList.remove('fondo-auto', 'fondo-moto');
             if (tipo === 'auto') {
                 document.body.classList.add('fondo-auto');
-            } else {
-                document.body.classList.remove('fondo-auto');
+            } else if (tipo === 'moto') {
+                document.body.classList.add('fondo-moto');
             }
 
             let fuente = (tipo === 'moto') ? (typeof bancoPreguntasMoto !== 'undefined' ? bancoPreguntasMoto : bancoPreguntasmoto) : bancoPreguntas;
