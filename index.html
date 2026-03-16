@@ -3,81 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prueba PWA</title>
-    <link rel="manifest" href="manifest.json">
+    <title>Teórico CR</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { font-family: Arial; text-align: center; padding-top: 50px; background-color: #f0f2f5; }
-        
-        /* Estilo del banner de instalación */
-        #installBanner {
-            display: none; /* Oculto por defecto */
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); color: white;
-            flex-direction: column; justify-content: center; align-items: center;
-            z-index: 1000;
+        :root {
+            --rojo-principal: #e31e24;
+            --blanco: #ffffff;
+            --gris-suave: #f4f4f4;
         }
-        #installBanner div { background: white; color: black; padding: 20px; border-radius: 15px; width: 80%; max-width: 300px; }
-        button#btnInstall { background: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 5px; font-size: 18px; margin-top: 15px; cursor: pointer; }
-        
-        #display { font-size: 24px; margin-bottom: 20px; padding: 20px; }
-        input { padding: 12px; border-radius: 5px; border: 1px solid #ccc; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--blanco);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Encabezado */
+        header {
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+        }
+
+        .header-title {
+            color: #333;
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .header-subtitle {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .logo-placeholder {
+            font-size: 60px;
+            color: var(--rojo-principal);
+            margin: 10px 0;
+        }
+
+        /* Contenedor de Botones */
+        .menu-container {
+            width: 90%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding-bottom: 100px;
+        }
+
+        .btn {
+            background-color: var(--rojo-principal);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        .section-title {
+            font-size: 14px;
+            color: #888;
+            margin-top: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Footer Redes Sociales */
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: white;
+            padding: 15px 0;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            border-top: 1px solid #eee;
+        }
+
+        footer a {
+            color: #555;
+            font-size: 24px;
+            text-decoration: none;
+        }
+
+        .fa-whatsapp { color: #25D366; }
+        .fa-tiktok { color: #000000; }
+        .fa-facebook { color: #1877F2; }
+        .fa-instagram { color: #E4405F; }
     </style>
 </head>
 <body>
 
-    <div id="installBanner">
-        <div>
-            <h3>¡Instala la App!</h3>
-            <p>Para tener una mejor experiencia y acceso sin internet, instala esta aplicación.</p>
-            <button id="btnInstall">INSTALAR AHORA</button>
-            <p style="font-size: 12px; color: gray; cursor: pointer;" onclick="document.getElementById('installBanner').style.display='none'">Luego lo haré</p>
-        </div>
+    <header>
+        <div class="header-title">Escuela de manejo CR</div>
+        <div class="header-subtitle">San Ramón</div>
+        <div class="logo-placeholder">
+            <i class="fas fa-car"></i> </div>
+        <div style="font-weight: bold; font-size: 1.2rem;">Teórico CR</div>
+    </header>
+
+    <div class="menu-container">
+        
+        <div class="section-title">Simuladores de Examen</div>
+        <a href="#" class="btn"><i class="fas fa-motorcycle"></i> Examen Motocicleta</a>
+        <a href="#" class="btn"><i class="fas fa-car"></i> Examen Automóvil</a>
+
+        <div class="section-title">Servicios y Cursos</div>
+        <a href="https://wa.me/50672408103?text=Hola.%20Quisiera%20más%20información%20sobre%20el%20Curso%20virtual%20personalizado" class="btn">Curso Virtual Personalizado</a>
+        <a href="https://wa.me/50672408103?text=Hola.%20Quisiera%20más%20información%20sobre%20el%20Material%20didáctico%20resumido" class="btn">Material Didáctico Resumido</a>
+        
+        <div class="section-title">Clases de Manejo</div>
+        <a href="#" class="btn">Clases de Manejo B1</a>
+
+        <div class="section-title">Alquiler San Ramón</div>
+        <a href="#" class="btn">Alquiler de Vehículos</a>
+
+        <div class="section-title">Legal y Trámites</div>
+        <a href="https://wa.me/50663784552?text=Hola.%20Necesito%20asesoría%20sobre%20apelación%20o%20prescripción%20de%20infracciones" class="btn" style="background-color: #333;">Apelación de Infracciones</a>
+        <a href="#" class="btn">Otros Servicios</a>
+
     </div>
 
-    <div id="display">Escribe algo abajo</div>
-    <input type="text" id="userInput" placeholder="Texto aquí">
-    <button onclick="updateText()" style="padding: 10px 20px;">Mostrar</button>
+    <footer>
+        <a href="#"><i class="fab fa-tiktok"></i></a>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="https://wa.me/50672408103"><i class="fab fa-whatsapp"></i></a>
+    </footer>
 
-    <script>
-        // Lógica de la app
-        function updateText() {
-            var input = document.getElementById('userInput');
-            var display = document.getElementById('display');
-            display.innerText = input.value;
-            input.value = '';
-        }
-
-        // LÓGICA DE INSTALACIÓN
-        let deferredPrompt;
-        const installBanner = document.getElementById('installBanner');
-        const btnInstall = document.getElementById('btnInstall');
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            // Previene que Chrome muestre su banner automático pequeño
-            e.preventDefault();
-            // Guarda el evento para usarlo después
-            deferredPrompt = e;
-            // MUESTRA nuestro banner personalizado
-            installBanner.style.display = 'flex';
-        });
-
-        btnInstall.addEventListener('click', (e) => {
-            // Oculta nuestro banner
-            installBanner.style.display = 'none';
-            // Lanza el cartel OFICIAL del navegador
-            deferredPrompt.prompt();
-            // Revisa si el usuario aceptó
-            deferredPrompt.userChoice.then((choiceResult) => {
-                if (choiceResult.outcome === 'accepted') {
-                    console.log('El usuario instaló la app');
-                }
-                deferredPrompt = null;
-            });
-        });
-
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js');
-        }
-    </script>
 </body>
 </html>
