@@ -14,7 +14,6 @@
             --blanco: #ffffff;
             --negro-suave: #333;
             --gris-claro: #f4f4f4;
-            /* Colores Redes */
             --tiktok: #000000;
             --facebook: #1877F2;
             --instagram: #E4405F;
@@ -29,108 +28,59 @@
             height: 100%;
         }
 
-        body { 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-        }
+        body { display: flex; flex-direction: column; align-items: center; justify-content: center; }
 
-        /* --- ENCABEZADO MODIFICADO --- */
-        header { 
-            text-align: center; 
-            padding: 15px 10px; 
-            width: 100%; 
-        }
-        
-        .header-top { 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            /* gap eliminado al no haber texto */
-        }
-        
-        /* Icono un poco más grande (de 80px a 100px) y centrado horizontalmente */
-        .app-logo { 
-            height: 100px; 
-            width: auto; 
-            margin-bottom: 10px; /* Espacio inferior para separarlo de school-info */
-        } 
-        
-        /* .app-name-text eliminada */
-        
-        .school-info { 
-            color: #666; 
-            font-size: 0.85rem; 
-            line-height: 1.2; 
-        }
-        /* ----------------------------- */
+        header { text-align: center; padding: 15px 10px; width: 100%; }
+        .header-top { display: flex; align-items: center; justify-content: center; }
+        .app-logo { height: 100px; width: auto; margin-bottom: 10px; } 
+        .school-info { color: #666; font-size: 0.85rem; line-height: 1.2; }
 
         .menu-container { width: 90%; max-width: 380px; display: flex; flex-direction: column; gap: 10px; padding-bottom: 80px; }
-        
-        .section-title { 
-            font-weight: bold; 
-            font-size: 0.9rem; 
-            color: #555; 
-            text-transform: uppercase; 
-            letter-spacing: 1px;
-            margin-top: 10px;
-            margin-bottom: 5px;
-            border-bottom: 2px solid var(--gris-claro);
-            padding-bottom: 5px;
-        }
-        
+        .section-title { font-weight: bold; font-size: 0.9rem; color: #555; text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; margin-bottom: 5px; border-bottom: 2px solid var(--gris-claro); padding-bottom: 5px; }
         .exam-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
 
         .btn {
             background-color: var(--rojo-principal); color: white; border: none;
             padding: 14px 10px; border-radius: 12px; font-size: 15px; font-weight: 600;
             display: flex; align-items: center; justify-content: center; gap: 8px;
-            text-decoration: none; cursor: pointer; transition: transform 0.1s;
-            text-align: center;
+            text-decoration: none; cursor: pointer; transition: transform 0.1s; text-align: center;
         }
         .btn:active { transform: scale(0.97); }
         .btn-dark { background-color: var(--negro-suave); }
         .btn-outline { background-color: transparent; border: 2px solid var(--rojo-principal); color: var(--rojo-principal); }
 
-        #install-popup {
-            position: fixed; bottom: -120px; left: 50%; transform: translateX(-50%);
-            width: 90%; max-width: 400px; background: white;
-            box-shadow: 0 -5px 25px rgba(0,0,0,0.15);
-            border-radius: 20px 20px 0 0; padding: 15px;
-            display: flex; align-items: center; gap: 15px;
-            z-index: 1001; transition: bottom 0.5s ease;
+        /* --- VENTANA DE INSTALACIÓN CENTRADA --- */
+        #install-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center;
+            z-index: 2000;
         }
-        #install-popup.show { bottom: 0; }
-        .popup-icon { width: 50px; height: 50px; border-radius: 10px; }
-        .popup-text { flex: 1; }
-        .popup-text b { display: block; font-size: 0.95rem; }
-        .popup-text span { font-size: 0.8rem; color: #666; }
-        .close-popup { font-size: 20px; color: #ccc; cursor: pointer; padding: 5px; }
+        #install-overlay.show { display: flex; }
+        #install-popup {
+            width: 85%; max-width: 320px; background: white; border-radius: 20px;
+            padding: 25px; text-align: center; position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: popupIn 0.3s ease-out;
+        }
+        @keyframes popupIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .popup-icon { width: 80px; height: 80px; border-radius: 15px; margin-bottom: 15px; }
+        .popup-text b { display: block; font-size: 1.2rem; margin-bottom: 5px; }
+        .popup-text span { display: block; font-size: 0.9rem; color: #666; margin-bottom: 20px; }
+        .close-popup { position: absolute; top: 15px; right: 15px; font-size: 20px; color: #aaa; cursor: pointer; }
 
+        /* --- RESTO DE ESTILOS --- */
         #quiz-container { width: 90%; max-width: 400px; display: none; padding: 20px 0; }
         #question-text { font-weight: bold; font-size: 1.1rem; margin-bottom: 20px; color: #222; text-align: center; }
-        
-        .option-btn {
-            width: 100%; padding: 15px; margin-bottom: 12px; border-radius: 12px;
-            border: 1px solid #ddd; background: #f9f9f9; text-align: left; 
-            font-size: 1rem; cursor: pointer; display: flex; align-items: flex-start; gap: 12px;
-        }
+        .option-btn { width: 100%; padding: 15px; margin-bottom: 12px; border-radius: 12px; border: 1px solid #ddd; background: #f9f9f9; text-align: left; font-size: 1rem; cursor: pointer; display: flex; align-items: flex-start; gap: 12px; }
         .option-btn.correct { background-color: #d4edda !important; border-color: var(--verde-exito) !important; color: #155724 !important; }
         .option-btn.incorrect { background-color: #f8d7da !important; border-color: var(--rojo-principal) !important; color: #721c24 !important; }
         .option-letter { font-weight: bold; color: var(--rojo-principal); min-width: 22px; }
-
         #result-container { width: 90%; max-width: 400px; text-align: center; display: none; padding: 20px 0; }
         .score-circle { font-size: 3.5rem; font-weight: bold; margin: 10px 0; }
         .status-badge { font-weight: bold; font-size: 1.4rem; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; }
-
         footer { position: fixed; bottom: 0; width: 100%; background: white; padding: 12px 0; display: flex; justify-content: center; gap: 35px; border-top: 1px solid #eee; z-index: 900;}
-        footer a { font-size: 26px; text-decoration: none; transition: transform 0.2s; }
-        footer a:active { transform: scale(1.2); }
-        .fa-tiktok { color: var(--tiktok); }
-        .fa-facebook { color: var(--facebook); }
-        .fa-instagram { color: var(--instagram); }
-        .fa-whatsapp { color: var(--whatsapp); }
+        footer a { font-size: 26px; text-decoration: none; }
+        .fa-tiktok { color: var(--tiktok); } .fa-facebook { color: var(--facebook); } .fa-instagram { color: var(--instagram); } .fa-whatsapp { color: var(--whatsapp); }
     </style>
 </head>
 <body>
@@ -156,11 +106,16 @@
         <a href="https://wa.me/50663784552?text=Hola.%20Asesoría%20sobre%20apelación%20o%20prescripción%20de%20infracciones" class="btn btn-dark">Apelación o prescripción de infracciones</a>
     </div>
 
-    <div id="install-popup">
-        <img src="logo.png" class="popup-icon" alt="App Icon">
-        <div class="popup-text"><b>Teórico CR</b><span>Instala esta app en tu inicio</span></div>
-        <button id="btn-instalar-pwa" class="btn" style="padding: 8px 15px; font-size: 13px;">Instalar</button>
-        <i class="fas fa-times close-popup" onclick="cerrarPopup()"></i>
+    <div id="install-overlay">
+        <div id="install-popup">
+            <i class="fas fa-times close-popup" onclick="cerrarPopup()"></i>
+            <img src="logo.png" class="popup-icon" alt="App Icon">
+            <div class="popup-text">
+                <b>Teórico CR</b>
+                <span>Instala esta aplicación para estudiar sin interrupciones.</span>
+            </div>
+            <button id="btn-instalar-pwa" class="btn" style="width: 100%;">Instalar ahora</button>
+        </div>
     </div>
 
     <div id="quiz-container">
@@ -191,55 +146,49 @@
 
     <script>
         let preguntasSimulacro = [];
-        let index = 0;
-        let puntos = 0;
-        let bloquearOpciones = false;
+        let index = 0; let puntos = 0; let bloquearOpciones = false;
         const letrasOpciones = ['A', 'B', 'C', 'D'];
 
-        // --- MANEJO HISTORIAL (BOTÓN ATRÁS) ---
         window.onload = () => { window.history.pushState({ etapa: 'menu' }, ''); };
-
         window.onpopstate = function(event) {
-            const quizVisible = document.getElementById('quiz-container').style.display === 'block';
-            const resultVisible = document.getElementById('result-container').style.display === 'block';
-
-            if (quizVisible) {
-                if (confirm("¿Deseas salir del examen? Se perderá el progreso.")) {
-                    location.reload();
-                } else {
-                    window.history.pushState({ etapa: 'examen' }, '');
-                }
-            } else if (resultVisible) {
+            if (document.getElementById('quiz-container').style.display === 'block') {
+                if (confirm("¿Deseas salir del examen?")) { location.reload(); } 
+                else { window.history.pushState({ etapa: 'examen' }, ''); }
+            } else if (document.getElementById('result-container').style.display === 'block') {
                 location.reload();
             }
         };
 
-        // --- PWA ---
+        // --- LÓGICA DE INSTALACIÓN ---
         let deferredPrompt;
-        const installPopup = document.getElementById('install-popup');
+        const installOverlay = document.getElementById('install-overlay');
         if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
 
         window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault(); deferredPrompt = e;
-            setTimeout(() => { if(document.getElementById('mainMenu').style.display !== 'none') installPopup.classList.add('show'); }, 3000);
+            e.preventDefault();
+            deferredPrompt = e;
+            // Reducido a 1 segundo para mayor rapidez
+            setTimeout(() => {
+                if(document.getElementById('mainMenu').style.display !== 'none') {
+                    installOverlay.classList.add('show');
+                }
+            }, 1000);
         });
 
         document.getElementById('btn-instalar-pwa').addEventListener('click', async () => {
-            if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null; cerrarPopup(); }
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt = null;
+                cerrarPopup();
+            }
         });
-        function cerrarPopup() { installPopup.classList.remove('show'); }
+        function cerrarPopup() { installOverlay.classList.remove('show'); }
 
-        // --- EXAMEN ---
+        // --- FUNCIONES DE EXAMEN ---
         function iniciarExamen(tipo) {
             cerrarPopup();
             window.history.pushState({ etapa: 'examen' }, '');
-            let fuente;
-            if (tipo === 'moto') {
-                fuente = (typeof bancoPreguntasMoto !== 'undefined') ? bancoPreguntasMoto : 
-                         (typeof bancoPreguntasmoto !== 'undefined') ? bancoPreguntasmoto : null;
-            } else {
-                fuente = (typeof bancoPreguntas !== 'undefined') ? bancoPreguntas : null;
-            }
+            let fuente = (tipo === 'moto') ? (window.bancoPreguntasMoto || window.bancoPreguntasmoto) : window.bancoPreguntas;
             if (!fuente) { alert("Error al cargar preguntas"); return; }
             preguntasSimulacro = [...fuente].sort(() => 0.5 - Math.random()).slice(0, 40);
             index = 0; puntos = 0;
@@ -283,7 +232,6 @@
             const messageP = document.getElementById('result-message');
             scoreDiv.innerText = nota;
             let msg = ""; let color = "";
-
             if (nota <= 69) {
                 statusDiv.innerHTML = '<i class="fas fa-times-circle"></i> REPROBADO';
                 color = "var(--rojo-principal)"; msg = "Debes estudiar más.";
