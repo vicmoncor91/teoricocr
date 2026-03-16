@@ -1,19 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prueba PWA</title>
     <link rel="manifest" href="manifest.json">
+    <style>
+        body { font-family: Arial; text-align: center; padding-top: 50px; background-color: #f0f2f5; }
+        
+        /* Estilo del banner de instalación */
+        #installBanner {
+            display: none; /* Oculto por defecto */
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); color: white;
+            flex-direction: column; justify-content: center; align-items: center;
+            z-index: 1000;
+        }
+        #installBanner div { background: white; color: black; padding: 20px; border-radius: 15px; width: 80%; max-width: 300px; }
+        button#btnInstall { background: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 5px; font-size: 18px; margin-top: 15px; cursor: pointer; }
+        
+        #display { font-size: 24px; margin-bottom: 20px; padding: 20px; }
+        input { padding: 12px; border-radius: 5px; border: 1px solid #ccc; }
+    </style>
 </head>
-<body style="text-align: center; padding-top: 50px; font-family: Arial;">
+<body>
 
-    <div id="display" style="font-size: 24px; margin-bottom: 20px; border-bottom: 1px solid black;">
-        Escribe algo abajo
+    <div id="installBanner">
+        <div>
+            <h3>¡Instala la App!</h3>
+            <p>Para tener una mejor experiencia y acceso sin internet, instala esta aplicación.</p>
+            <button id="btnInstall">INSTALAR AHORA</button>
+            <p style="font-size: 12px; color: gray; cursor: pointer;" onclick="document.getElementById('installBanner').style.display='none'">Luego lo haré</p>
+        </div>
     </div>
-    
+
+    <div id="display">Escribe algo abajo</div>
     <input type="text" id="userInput" placeholder="Texto aquí">
-    <button onclick="updateText()">Mostrar</button>
+    <button onclick="updateText()" style="padding: 10px 20px;">Mostrar</button>
 
     <script>
+        // Lógica de la app
         function updateText() {
             var input = document.getElementById('userInput');
             var display = document.getElementById('display');
@@ -21,7 +47,34 @@
             input.value = '';
         }
 
-        // El Service Worker es lo que hace que sea instalable
+        // LÓGICA DE INSTALACIÓN
+        let deferredPrompt;
+        const installBanner = document.getElementById('installBanner');
+        const btnInstall = document.getElementById('btnInstall');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Previene que Chrome muestre su banner automático pequeño
+            e.preventDefault();
+            // Guarda el evento para usarlo después
+            deferredPrompt = e;
+            // MUESTRA nuestro banner personalizado
+            installBanner.style.display = 'flex';
+        });
+
+        btnInstall.addEventListener('click', (e) => {
+            // Oculta nuestro banner
+            installBanner.style.display = 'none';
+            // Lanza el cartel OFICIAL del navegador
+            deferredPrompt.prompt();
+            // Revisa si el usuario aceptó
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('El usuario instaló la app');
+                }
+                deferredPrompt = null;
+            });
+        });
+
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js');
         }
