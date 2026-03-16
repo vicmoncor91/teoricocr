@@ -2,93 +2,93 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Teórico CR</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
             --rojo-principal: #e31e24;
             --blanco: #ffffff;
-            --gris-suave: #f4f4f4;
+            --gris-linea: #eee;
+        }
+
+        /* Bloqueo de scroll lateral y ajuste a pantalla */
+        html, body {
+            overflow-x: hidden;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: var(--blanco);
+            font-family: 'Segoe UI', Arial, sans-serif;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--blanco);
-            margin: 0;
-            padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: space-between; /* Distribuye el contenido */
+            box-sizing: border-box;
+            padding: 10px 0 80px 0; /* Espacio para el footer fijo */
         }
 
-        /* Encabezado */
         header {
             text-align: center;
-            padding: 20px;
-            width: 100%;
+            flex-shrink: 0;
         }
 
-        .header-title {
-            color: #333;
-            margin: 0;
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
+        .header-title { color: #333; font-size: 1.2rem; font-weight: bold; margin: 0; }
+        .header-subtitle { color: #666; font-size: 0.9rem; }
+        .logo-placeholder { font-size: 45px; color: var(--rojo-principal); margin: 5px 0; }
+        .app-name { font-weight: bold; font-size: 1.1rem; }
 
-        .header-subtitle {
-            color: #666;
-            font-size: 1rem;
-            margin-bottom: 10px;
-        }
-
-        .logo-placeholder {
-            font-size: 60px;
-            color: var(--rojo-principal);
-            margin: 10px 0;
-        }
-
-        /* Contenedor de Botones */
+        /* Contenedor principal */
         .menu-container {
-            width: 90%;
+            width: 92%;
             max-width: 400px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            padding-bottom: 100px;
+            gap: 8px;
+        }
+
+        /* Fila de 2 columnas para exámenes */
+        .exam-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 5px;
         }
 
         .btn {
             background-color: var(--rojo-principal);
             color: white;
             border: none;
-            padding: 15px 20px;
-            border-radius: 12px;
-            font-size: 16px;
+            padding: 12px 10px;
+            border-radius: 10px;
+            font-size: 14px;
             font-weight: 600;
             text-align: center;
             text-decoration: none;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.2s;
+            gap: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
-        .btn:active {
-            transform: scale(0.95);
+        .btn:active { transform: scale(0.97); }
+
+        /* Separador sutil */
+        .separator {
+            height: 1px;
+            background-color: var(--gris-linea);
+            margin: 5px 0;
+            width: 100%;
         }
 
-        .section-title {
-            font-size: 14px;
-            color: #888;
-            margin-top: 15px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+        /* Botón especial oscuro */
+        .btn-dark { background-color: #333; }
 
-        /* Footer Redes Sociales */
+        /* Footer Redes */
         footer {
             position: fixed;
             bottom: 0;
@@ -97,18 +97,13 @@
             padding: 15px 0;
             display: flex;
             justify-content: center;
-            gap: 25px;
-            border-top: 1px solid #eee;
+            gap: 30px;
+            border-top: 1px solid var(--gris-linea);
         }
 
-        footer a {
-            color: #555;
-            font-size: 24px;
-            text-decoration: none;
-        }
-
+        footer a { font-size: 24px; text-decoration: none; }
         .fa-whatsapp { color: #25D366; }
-        .fa-tiktok { color: #000000; }
+        .fa-tiktok { color: #000; }
         .fa-facebook { color: #1877F2; }
         .fa-instagram { color: #E4405F; }
     </style>
@@ -118,31 +113,27 @@
     <header>
         <div class="header-title">Escuela de manejo CR</div>
         <div class="header-subtitle">San Ramón</div>
-        <div class="logo-placeholder">
-            <i class="fas fa-car"></i> </div>
-        <div style="font-weight: bold; font-size: 1.2rem;">Teórico CR</div>
+        <div class="logo-placeholder"><i class="fas fa-car-side"></i></div>
+        <div class="app-name">Teórico CR</div>
     </header>
 
     <div class="menu-container">
-        
-        <div class="section-title">Simuladores de Examen</div>
-        <a href="#" class="btn"><i class="fas fa-motorcycle"></i> Examen Motocicleta</a>
-        <a href="#" class="btn"><i class="fas fa-car"></i> Examen Automóvil</a>
+        <div class="exam-grid">
+            <a href="#" class="btn"><i class="fas fa-motorcycle"></i> Moto</a>
+            <a href="#" class="btn"><i class="fas fa-car"></i> Auto</a>
+        </div>
 
-        <div class="section-title">Servicios y Cursos</div>
+        <div class="separator"></div>
+
         <a href="https://wa.me/50672408103?text=Hola.%20Quisiera%20más%20información%20sobre%20el%20Curso%20virtual%20personalizado" class="btn">Curso Virtual Personalizado</a>
         <a href="https://wa.me/50672408103?text=Hola.%20Quisiera%20más%20información%20sobre%20el%20Material%20didáctico%20resumido" class="btn">Material Didáctico Resumido</a>
-        
-        <div class="section-title">Clases de Manejo</div>
         <a href="#" class="btn">Clases de Manejo B1</a>
+        <a href="#" class="btn">Alquiler San Ramón</a>
+        
+        <div class="separator"></div>
 
-        <div class="section-title">Alquiler San Ramón</div>
-        <a href="#" class="btn">Alquiler de Vehículos</a>
-
-        <div class="section-title">Legal y Trámites</div>
-        <a href="https://wa.me/50663784552?text=Hola.%20Necesito%20asesoría%20sobre%20apelación%20o%20prescripción%20de%20infracciones" class="btn" style="background-color: #333;">Apelación de Infracciones</a>
+        <a href="https://wa.me/50663784552?text=Hola.%20Necesito%20asesoría%20sobre%20apelación%20o%20prescripción%20de%20infracciones" class="btn btn-dark">Apelación de Infracciones</a>
         <a href="#" class="btn">Otros Servicios</a>
-
     </div>
 
     <footer>
