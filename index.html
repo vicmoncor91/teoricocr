@@ -309,7 +309,7 @@
 
         function compartirResultado() {
             const nota = document.getElementById('result-score').innerText;
-            const text = `¡Saqué un ${nota} en mi simulacro de Teórico CR! 🚗💨`;
+            const text = `¡Saqué un ${nota} en mi simulacro de Teórico CR! 🚗💨. Intentalo tú aquí: https://abre.ai/teoricocr`;
             if (navigator.share) navigator.share({ title: 'Resultado Teórico CR', text: text });
             else window.open(`https://wa.me/?text=${encodeURIComponent(text)}`);
         }
