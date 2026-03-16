@@ -23,12 +23,26 @@
         html, body {
             overflow-x: hidden;
             margin: 0; padding: 0;
+            /* SE MANTIENE EL COLOR BASE */
             background-color: var(--blanco);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             height: 100%;
         }
 
-        body { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        /* --- MODIFICACIÓN DEL BODY PARA FONDO COMPLETO --- */
+        body { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center;
+            min-height: 100vh;
+            background-image: url('fondoexamen.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-color: rgba(255, 255, 255, 0.85);
+            background-blend-mode: overlay;
+        }
 
         header { text-align: center; padding: 15px 10px; width: 100%; }
         .header-top { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 5px; }
@@ -89,14 +103,17 @@
         
         .btn-package { grid-column: span 2; padding: 15px; font-size: 1rem; }
 
-        /* --- EXAMEN --- */
-        #quiz-container { width: 90%; max-width: 400px; display: none; padding: 20px 0;
-                        background-image: url('fondoexamen.jpeg');
-    background-size: cover;
-    background-position: center;
-    /* Esto ayuda a que el texto sea legible sobre la imagen */
-    background-color: rgba(255, 255, 255, 0.85);
-    background-blend-mode: overlay;}
+        /* --- EXAMEN AJUSTADO --- */
+        #quiz-container { 
+            width: 90%; 
+            max-width: 400px; 
+            display: none; 
+            padding: 20px 0; 
+            margin: 0 auto; 
+            position: relative; 
+            z-index: 10;
+        }
+
         #question-text { font-weight: bold; font-size: 1.1rem; margin-bottom: 20px; color: #222; text-align: center; }
         .option-btn {
             width: 100%; padding: 15px; margin-bottom: 12px; border-radius: 12px;
@@ -186,7 +203,7 @@
                 <button class="btn-service" onclick="contactarWhatsApp('Quiero información sobre: Asesoría legal tránsito')"><i class="fas fa-gavel"></i> Asesoría legal</button>
                 <button class="btn-service" onclick="contactarWhatsApp('Quiero información sobre: Dictamen médico')"><i class="fas fa-stethoscope"></i> Dictamen médico</button>
                 <button class="btn-service" onclick="contactarWhatsApp('Quiero información sobre: Pre-evaluación (Plantel réplica)')"><i class="fas fa-clipboard-check"></i> Pre-evaluación</button>
-                <button class="btn-service" style="grid-column: span 2;" onclick="contactarWhatsApp('Información sobre: Reconocimiento de rutas')"><i class="fas fa-map-marked-alt"></i> Reconocimiento de rutas</button>
+                <button class="btn-service" style="grid-column: span 2;" onclick="contactarWhatsApp('Info sobre: Reconocimiento de rutas')"><i class="fas fa-map-marked-alt"></i> Reconocimiento de rutas</button>
             </div>
         </div>
     </div>
