@@ -90,7 +90,13 @@
         .btn-package { grid-column: span 2; padding: 15px; font-size: 1rem; }
 
         /* --- EXAMEN --- */
-        #quiz-container { width: 90%; max-width: 400px; display: none; padding: 20px 0; }
+        #quiz-container { width: 90%; max-width: 400px; display: none; padding: 20px 0;
+                        background-image: url('fondoexamen.jpg');
+    background-size: cover;
+    background-position: center;
+    /* Esto ayuda a que el texto sea legible sobre la imagen */
+    background-color: rgba(255, 255, 255, 0.85);
+    background-blend-mode: overlay;}
         #question-text { font-weight: bold; font-size: 1.1rem; margin-bottom: 20px; color: #222; text-align: center; }
         .option-btn {
             width: 100%; padding: 15px; margin-bottom: 12px; border-radius: 12px;
