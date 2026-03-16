@@ -37,16 +37,33 @@
         }
 
         /* --- ENCABEZADO MODIFICADO --- */
-        header { text-align: center; padding: 15px 10px; width: 100%; }
-        .header-top { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 5px; }
+        header { 
+            text-align: center; 
+            padding: 15px 10px; 
+            width: 100%; 
+        }
         
-        /* Icono más grande (de 40px a 80px) */
-        .app-logo { height: 80px; width: auto; } 
+        .header-top { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            /* gap eliminado al no haber texto */
+        }
         
-        /* Texto del título un poco más grande para acompañar */
-        .app-name-text { font-weight: bold; font-size: 1.5rem; color: #000; }
+        /* Icono un poco más grande (de 80px a 100px) y centrado horizontalmente */
+        .app-logo { 
+            height: 100px; 
+            width: auto; 
+            margin-bottom: 10px; /* Espacio inferior para separarlo de school-info */
+        } 
         
-        .school-info { color: #666; font-size: 0.85rem; line-height: 1.2; }
+        /* .app-name-text eliminada */
+        
+        .school-info { 
+            color: #666; 
+            font-size: 0.85rem; 
+            line-height: 1.2; 
+        }
         /* ----------------------------- */
 
         .menu-container { width: 90%; max-width: 380px; display: flex; flex-direction: column; gap: 10px; padding-bottom: 80px; }
@@ -122,7 +139,6 @@
         <div class="school-info"><b>Escuela de manejo CR</b><br>San Ramón</div>
         <div class="header-top">
             <img src="logo.png" alt="Logo" class="app-logo">
-            <div class="app-name-text">Teórico CR</div>
         </div>
     </header>
 
