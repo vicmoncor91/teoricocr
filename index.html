@@ -26,28 +26,29 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: space-between; /* Distribuye el contenido */
+            justify-content: flex-start; /* Alinea al inicio para controlar mejor los espacios */
             box-sizing: border-box;
-            padding: 10px 0 80px 0; /* Espacio para el footer fijo */
+            padding: 5px 0 80px 0; /* Padding superior mínimo */
         }
 
         header {
             text-align: center;
             flex-shrink: 0;
+            margin-bottom: 10px; /* Espacio reducido entre header y menú */
         }
 
-        .header-title { color: #333; font-size: 1.2rem; font-weight: bold; margin: 0; }
-        .header-subtitle { color: #666; font-size: 0.9rem; }
-        .logo-placeholder { font-size: 45px; color: var(--rojo-principal); margin: 5px 0; }
-        .app-name { font-weight: bold; font-size: 1.1rem; }
+        .header-title { color: #333; font-size: 1.1rem; font-weight: bold; margin: 0; line-height: 1.2; }
+        .header-subtitle { color: #666; font-size: 0.85rem; margin-top: 2px; }
+        .logo-placeholder { font-size: 40px; color: var(--rojo-principal); margin: 2px 0; }
+        .app-name { font-weight: bold; font-size: 1.1rem; margin-top: -5px; }
 
-        /* Contenedor principal */
+        /* Contenedor principal más compacto */
         .menu-container {
             width: 92%;
             max-width: 400px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px; /* Espacio entre botones más ajustado */
         }
 
         /* Fila de 2 columnas para exámenes */
@@ -55,7 +56,7 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
-            margin-bottom: 5px;
+            margin-bottom: 2px;
         }
 
         .btn {
@@ -81,7 +82,7 @@
         .separator {
             height: 1px;
             background-color: var(--gris-linea);
-            margin: 5px 0;
+            margin: 4px 0;
             width: 100%;
         }
 
@@ -94,7 +95,7 @@
             bottom: 0;
             width: 100%;
             background: white;
-            padding: 15px 0;
+            padding: 12px 0;
             display: flex;
             justify-content: center;
             gap: 30px;
@@ -137,9 +138,9 @@
     </div>
 
     <footer>
-        <a href="#"><i class="fab fa-tiktok"></i></a>
-        <a href="#"><i class="fab fa-facebook"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.tiktok.com/@tu_usuario"><i class="fab fa-tiktok"></i></a>
+        <a href="https://www.facebook.com/tu_pagina"><i class="fab fa-facebook"></i></a>
+        <a href="https://www.instagram.com/tu_perfil"><i class="fab fa-instagram"></i></a>
         <a href="https://wa.me/50672408103"><i class="fab fa-whatsapp"></i></a>
     </footer>
 
