@@ -18,15 +18,21 @@
             margin: 0; padding: 0;
             background-color: var(--blanco);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100%; /* Necesario para el centrado vertical */
         }
 
-        body { display: flex; flex-direction: column; align-items: center; }
+        body { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; /* Centrado vertical principal */
+        }
 
-        header { text-align: center; padding: 15px; }
+        header { text-align: center; padding: 15px; width: 100%; }
         .app-logo { height: 55px; margin: 8px auto; display: block; }
         .app-name-text { font-weight: bold; font-size: 1.1rem; color: #000; }
 
-        .menu-container { width: 90%; max-width: 380px; display: flex; flex-direction: column; gap: 10px; padding-bottom: 100px; }
+        .menu-container { width: 90%; max-width: 380px; display: flex; flex-direction: column; gap: 10px; padding-bottom: 20px; }
         .exam-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
         .btn {
@@ -40,17 +46,28 @@
         .btn-outline { background-color: transparent; border: 2px solid var(--rojo-principal); color: var(--rojo-principal); }
 
         /* Estilos Examen */
-        #quiz-container { width: 90%; max-width: 400px; margin-top: 20px; display: none; padding-bottom: 100px; }
-        #question-text { font-weight: bold; font-size: 1.1rem; margin-bottom: 20px; color: #222; }
+        #quiz-container { width: 90%; max-width: 400px; display: none; padding: 20px 0; }
+        #question-text { font-weight: bold; font-size: 1.1rem; margin-bottom: 20px; color: #222; text-align: center; }
+        
         .option-btn {
-            width: 100%; padding: 15px; margin-bottom: 10px; border-radius: 10px;
-            border: 1px solid #ddd; background: #f9f9f9; text-align: left; font-size: 1rem; cursor: pointer;
+            width: 100%; padding: 15px; margin-bottom: 12px; border-radius: 12px;
+            border: 1px solid #ddd; background: #f9f9f9; text-align: left; 
+            font-size: 1rem; cursor: pointer; display: flex; align-items: flex-start; gap: 12px;
+            transition: background 0.2s;
+        }
+        .option-btn:active { background: #eee; }
+        
+        /* Estilo para las letras A, B, C, D */
+        .option-letter {
+            font-weight: bold;
+            color: var(--rojo-principal);
+            min-width: 22px;
         }
 
         /* Pantalla Resultados */
-        #result-container { width: 90%; max-width: 400px; text-align: center; display: none; padding: 30px 0 100px; }
-        .score-circle { font-size: 3rem; font-weight: bold; margin: 10px 0; color: var(--rojo-principal); }
-        .status-badge { font-weight: bold; font-size: 1.2rem; margin-bottom: 15px; }
+        #result-container { width: 90%; max-width: 400px; text-align: center; display: none; padding: 20px 0; }
+        .score-circle { font-size: 3.5rem; font-weight: bold; margin: 10px 0; color: var(--rojo-principal); }
+        .status-badge { font-weight: bold; font-size: 1.4rem; margin-bottom: 15px; }
 
         footer { position: fixed; bottom: 0; width: 100%; background: white; padding: 12px 0; display: flex; justify-content: center; gap: 35px; border-top: 1px solid #eee; }
         footer a { color: #555; font-size: 24px; text-decoration: none; }
@@ -78,7 +95,7 @@
     </div>
 
     <div id="quiz-container">
-        <div id="question-number" style="color: #e31e24; font-weight: bold; margin-bottom: 5px;"></div>
+        <div id="question-number" style="color: #e31e24; font-weight: bold; margin-bottom: 8px; text-align: center;"></div>
         <div id="question-text"></div>
         <div id="options-container"></div>
     </div>
@@ -89,12 +106,8 @@
         <p id="result-message" style="font-size: 1.1rem; padding: 0 10px;"></p>
         
         <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 25px;">
-            <button class="btn" onclick="compartirResultado()"><i class="fas fa-share-alt"></i> Compartir resultado. Inténtalo tu también.</button>
+            <button class="btn" onclick="compartirResultado()"><i class="fas fa-share-alt"></i> Compartir resultado</button>
             <button class="btn btn-outline" onclick="location.reload()">Reintentar examen</button>
-            
-            <p style="margin-top: 20px; font-weight: bold; color: #444;">¿Quieres prepararte más?</p>
-            <a href="https://wa.me/50672408103?text=Hola.%20Quisiera%20más%20información%20sobre%20el%20Curso%20virtual%20personalizado" class="btn">Curso virtual personalizado</a>
-            <a href="https://wa.me/50672408103?text=Hola.%20Estoy%20utilizando%20la%20app%20Teórico%20CR.%20Quisiera%20más%20información%20sobre%20el%20Material%20didáctico%20resumido" class="btn">Material didáctico resumido</a>
         </div>
     </div>
 
@@ -110,10 +123,11 @@
         let preguntasSimulacro = [];
         let index = 0;
         let puntos = 0;
+        const letrasOpciones = ['A', 'B', 'C', 'D'];
 
         function iniciarExamen() {
             if (typeof bancoPreguntas === 'undefined') {
-                alert("Error: No se encontró el archivo de preguntas (preguntas.js).");
+                alert("Error: No se encontró el archivo de preguntas.");
                 return;
             }
             preguntasSimulacro = [...bancoPreguntas].sort(() => 0.5 - Math.random()).slice(0, 40);
@@ -134,7 +148,9 @@
             p.opciones.forEach((opt, i) => {
                 const b = document.createElement('button');
                 b.className = 'option-btn';
-                b.innerText = opt;
+                // Insertamos la letra y el texto de la opción
+                b.innerHTML = `<span class="option-letter">${letrasOpciones[i]}</span> <span>${opt}</span>`;
+                
                 b.onclick = () => {
                     if(i === p.correcta) puntos++;
                     index++;
@@ -168,8 +184,7 @@
 
         function compartirResultado() {
             const nota = document.getElementById('result-score').innerText;
-            // Reemplaza el enlace de Google Play por el real de tu app
-            const text = `¡Saqué un ${nota} en mi simulacro de Teórico CR! Inténtalo tú también aquí: https://play.google.com/store/apps/details?id=tu.id.de.app`;
+            const text = `¡Saqué un ${nota} en mi simulacro de Teórico CR! Inténtalo tú también aquí: https://tu-sitio.github.io/`;
             if (navigator.share) {
                 navigator.share({ title: 'Mi resultado Teórico CR', text: text });
             } else {
