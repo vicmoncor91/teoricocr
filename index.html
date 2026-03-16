@@ -55,6 +55,7 @@
         }
         .btn:active { transform: scale(0.97); }
         .btn-dark { background-color: var(--negro-suave); }
+        .btn-outline { background-color: transparent; border: 2px solid var(--rojo-principal); color: var(--rojo-principal); }
 
         /* --- MODALES --- */
         .overlay {
@@ -85,8 +86,7 @@
         }
         .btn-service i { color: var(--rojo-principal); font-size: 1.1rem; }
         .btn-service:active, .btn-cat:active { background: var(--rojo-principal); color: white; border-color: var(--rojo-principal); transform: scale(0.95); }
-        .btn-service:active i { color: white; }
-
+        
         .btn-package { grid-column: span 2; padding: 15px; font-size: 1rem; }
 
         /* --- EXAMEN --- */
@@ -153,14 +153,14 @@
             <i class="fas fa-times close-modal-x" onclick="cerrarAlquiler()"></i>
             <h3 style="margin-top:0; color:var(--rojo-principal);">Alquiler de Vehículo</h3>
             <div class="service-grid">
-                <button class="btn-cat" onclick="contactarWhatsApp('Interés en alquilar un vehiculo B1')">B1</button>
-                <button class="btn-cat" onclick="contactarWhatsApp('Interés en alquilar un vehiculo B2')">B2</button>
-                <button class="btn-cat" onclick="contactarWhatsApp('Interés en alquilar un vehiculo B3')">B3</button>
-                <button class="btn-cat" onclick="contactarWhatsApp('Interés en alquilar un vehiculo B4')">B4</button>
-                <button class="btn-cat" onclick="contactarWhatsApp('Interés en alquilar un vehiculo A1')">A1</button>
-                <button class="btn-cat" onclick="contactarWhatsApp('Interés en alquilar un vehiculo A2')">A2</button>
-                <button class="btn-cat" onclick="contactarWhatsApp('Interés en alquilar un vehiculo A3')">A3</button>
-                <button class="btn-cat" onclick="contactarWhatsApp('Interés en alquilar un vehiculo C2')">C2</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Alquiler de vehículo categoría B1')">B1</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Alquiler de vehículo categoría B2')">B2</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Alquiler de vehículo categoría B3')">B3</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Alquiler de vehículo categoría B4')">B4</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Alquiler de vehículo categoría A1')">A1</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Alquiler de vehículo categoría A2')">A2</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Alquiler de vehículo categoría A3')">A3</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Alquiler de vehículo categoría C2')">C2</button>
             </div>
         </div>
     </div>
@@ -170,17 +170,17 @@
             <i class="fas fa-times close-modal-x" onclick="cerrarServicios()"></i>
             <h3 style="margin:0; color:var(--rojo-principal); font-size: 1.2rem;">Otros Servicios</h3>
             <div class="service-grid">
-                <button class="btn-service" onclick="contactarWhatsApp('Info sobre: Renovación de licencia')"><i class="fas fa-id-card"></i> Renovación</button>
-                <button class="btn-service" onclick="contactarWhatsApp('Info sobre: Permiso temporal')"><i class="fas fa-clock"></i> Permiso temporal</button>
-                <button class="btn-service" onclick="contactarWhatsApp('Info sobre: Duplicado de licencia')"><i class="fas fa-copy"></i> Duplicado</button>
-                <button class="btn-service" onclick="contactarWhatsApp('Info sobre: Cita teórica o práctica')"><i class="fas fa-calendar-alt"></i> Citas</button>
-                <button class="btn-service" onclick="contactarWhatsApp('Info sobre: Cursos teóricos personalizados')"><i class="fas fa-graduation-cap"></i> Cursos Teóricos</button>
-                <button class="btn-service" onclick="contactarWhatsApp('Info sobre: Resumen de motocicleta o automóvil')"><i class="fas fa-book"></i> Resúmenes</button>
-                <button class="btn-service" onclick="contactarWhatsApp('Info sobre: Prescripción de infracciones')"><i class="fas fa-file-invoice"></i> Prescripción</button>
-                <button class="btn-service" onclick="contactarWhatsApp('Info sobre: Asesoría legal tránsito')"><i class="fas fa-gavel"></i> Asesoría legal</button>
-                <button class="btn-service" onclick="contactarWhatsApp('Info sobre: Dictamen médico')"><i class="fas fa-stethoscope"></i> Dictamen médico</button>
-                <button class="btn-service" onclick="contactarWhatsApp('Info sobre: Pre-evaluación (Plantel réplica)')"><i class="fas fa-clipboard-check"></i> Pre-evaluación</button>
-                <button class="btn-service" style="grid-column: span 2;" onclick="contactarWhatsApp('Info sobre: Reconocimiento de rutas')"><i class="fas fa-map-marked-alt"></i> Reconocimiento de rutas</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Información sobre: Renovación de licencia')"><i class="fas fa-id-card"></i> Renovación</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Información sobre: Permiso temporal')"><i class="fas fa-clock"></i> Permiso temporal</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Información sobre: Duplicado de licencia')"><i class="fas fa-copy"></i> Duplicado</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Información sobre: Cita teórica o práctica')"><i class="fas fa-calendar-alt"></i> Citas</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Información sobre: Cursos teóricos personalizados')"><i class="fas fa-graduation-cap"></i> Cursos Teóricos</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Información sobre: Resumen de motocicleta o automóvil')"><i class="fas fa-book"></i> Resúmenes</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Información sobre: Prescripción de infracciones')"><i class="fas fa-file-invoice"></i> Prescripción</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Información sobre: Asesoría legal tránsito')"><i class="fas fa-gavel"></i> Asesoría legal</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Información sobre: Dictamen médico')"><i class="fas fa-stethoscope"></i> Dictamen médico</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Información sobre: Pre-evaluación (Plantel réplica)')"><i class="fas fa-clipboard-check"></i> Pre-evaluación</button>
+                <button class="btn-service" style="grid-column: span 2;" onclick="contactarWhatsApp('Información sobre: Reconocimiento de rutas')"><i class="fas fa-map-marked-alt"></i> Reconocimiento de rutas</button>
             </div>
         </div>
     </div>
@@ -194,7 +194,11 @@
     <div id="result-container">
         <div id="result-status" class="status-badge"></div>
         <div class="score-circle" id="result-score"></div>
-        <button class="btn" onclick="location.reload()">Regresar al inicio</button>
+        <p id="result-message" style="font-size: 1.1rem; padding: 0 10px; font-weight: 500;"></p>
+        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 25px;">
+            <button class="btn" onclick="compartirResultado()"><i class="fas fa-share-alt"></i> Compartir resultado</button>
+            <button class="btn btn-outline" onclick="location.reload()">Reintentar examen</button>
+        </div>
     </div>
 
     <footer id="mainFooter">
@@ -219,12 +223,10 @@
             const modalAbierto = document.querySelector('.overlay.show');
 
             if (quizVisible) {
-                if (confirm("¿Deseas salir del examen?")) { location.reload(); } 
+                if (confirm("¿Deseas salir del examen? Se perderá el progreso.")) { location.reload(); } 
                 else { window.history.pushState({ etapa: 'examen' }, ''); }
             } else if (modalAbierto) {
                 cerrarTodosModales();
-            } else {
-                // Comportamiento base
             }
         };
 
@@ -235,21 +237,13 @@
         }
 
         function registrarEstadoModal() { window.history.pushState({ etapa: 'modal' }, ''); }
-
         function abrirClases() { registrarEstadoModal(); document.getElementById('classes-overlay').classList.add('show'); }
         function cerrarClases() { document.getElementById('classes-overlay').classList.remove('show'); }
-
         function abrirAlquiler() { registrarEstadoModal(); document.getElementById('rental-overlay').classList.add('show'); }
         function cerrarAlquiler() { document.getElementById('rental-overlay').classList.remove('show'); }
-        
         function abrirServicios() { registrarEstadoModal(); document.getElementById('services-overlay').classList.add('show'); }
         function cerrarServicios() { document.getElementById('services-overlay').classList.remove('show'); }
-
-        function cerrarTodosModales() {
-            cerrarClases(); cerrarAlquiler(); cerrarServicios();
-            const inst = document.getElementById('install-overlay');
-            if(inst) inst.classList.remove('show');
-        }
+        function cerrarTodosModales() { cerrarClases(); cerrarAlquiler(); cerrarServicios(); }
 
         function iniciarExamen(tipo) {
             cerrarTodosModales();
@@ -293,13 +287,31 @@
             document.getElementById('result-container').style.display = 'block';
             document.getElementById('mainFooter').style.display = 'flex';
             const nota = Math.round((puntos / 40) * 100);
-            document.getElementById('result-score').innerText = nota;
-            let statusDiv = document.getElementById('result-status');
+            const scoreDiv = document.getElementById('result-score');
+            const statusDiv = document.getElementById('result-status');
+            const messageP = document.getElementById('result-message');
+            scoreDiv.innerText = nota;
+            
             let color = (nota <= 69) ? "var(--rojo-principal)" : "var(--verde-exito)";
             statusDiv.innerHTML = (nota <= 69) ? '<i class="fas fa-times-circle"></i> REPROBADO' : '<i class="fas fa-check-circle"></i> APROBADO';
+            
+            let msg = "";
+            if (nota <= 69) msg = "Debes estudiar más.";
+            else if (nota <= 85) msg = "Bien. Pero puedes mejorar.";
+            else if (nota <= 99) msg = "Muy bien. Vas por buen camino.";
+            else msg = "Serás un excelente conductor o conductora.";
+
             statusDiv.style.color = color;
-            document.getElementById('result-score').style.color = color;
+            scoreDiv.style.color = color;
+            messageP.innerText = msg;
             if (nota === 100) dispararConfeti();
+        }
+
+        function compartirResultado() {
+            const nota = document.getElementById('result-score').innerText;
+            const text = `¡Saqué un ${nota} en mi simulacro de Teórico CR! 🚗💨`;
+            if (navigator.share) navigator.share({ title: 'Resultado Teórico CR', text: text });
+            else window.open(`https://wa.me/?text=${encodeURIComponent(text)}`);
         }
 
         function dispararConfeti() {
