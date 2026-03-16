@@ -1,16 +1,19 @@
 {
   "name": "Teórico CR",
   "short_name": "TeóricoCR",
-  "start_url": "index.html",
+  "id": "/teorico-cr-app",
+  "start_url": "./index.html",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#ffffff",
-  "theme_color": "#ffffff", 
+  "theme_color": "#e31e24",
+  "description": "Práctica para el examen teórico de conducir en Costa Rica",
   "icons": [
     {
       "src": "logo.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "any maskable"
     },
     {
       "src": "logo.png",
