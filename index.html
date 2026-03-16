@@ -55,7 +55,6 @@
         }
         .btn:active { transform: scale(0.97); }
         .btn-dark { background-color: var(--negro-suave); }
-        .btn-outline { background-color: transparent; border: 2px solid var(--rojo-principal); color: var(--rojo-principal); }
 
         /* --- MODALES --- */
         .overlay {
@@ -78,17 +77,19 @@
         .close-modal-x { position: absolute; top: 15px; right: 15px; font-size: 20px; color: #bbb; cursor: pointer; }
 
         .service-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 15px; }
-        .btn-service {
-            background: #f8f9fa; border: 1.5px solid #eee; padding: 10px 5px;
+        .btn-service, .btn-cat {
+            background: #f8f9fa; border: 1.5px solid #eee; padding: 12px 5px;
             border-radius: 12px; font-weight: 600; color: var(--negro-suave);
-            cursor: pointer; transition: all 0.2s; font-size: 0.75rem;
-            display: flex; flex-direction: column; align-items: center; gap: 5px;
+            cursor: pointer; transition: all 0.2s; font-size: 0.85rem;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
         }
         .btn-service i { color: var(--rojo-principal); font-size: 1.1rem; }
-        .btn-service:active { background: var(--rojo-principal); color: white; border-color: var(--rojo-principal); transform: scale(0.95); }
-        .btn-service:active i { color: white; }
+        .btn-service:active, .btn-cat:active { background: var(--rojo-principal); color: white; border-color: var(--rojo-principal); transform: scale(0.95); }
 
-        /* --- CONTENEDORES DE EXAMEN --- */
+        /* Estilo específico para botones de paquetes (Clases) */
+        .btn-package { grid-column: span 2; padding: 15px; font-size: 1rem; background: #fff; border: 2px solid var(--gris-claro); }
+
+        /* --- EXAMEN --- */
         #quiz-container { width: 90%; max-width: 400px; display: none; padding: 20px 0; }
         #question-text { font-weight: bold; font-size: 1.1rem; margin-bottom: 20px; color: #222; text-align: center; }
         .option-btn {
@@ -127,21 +128,24 @@
         </div>
 
         <div class="section-title">Nuestros Servicios</div>
-        <a href="https://wa.me/50672408103?text=Hola.%20Me%20interesan%20las%20Clases%20de%20manejo%20B1" class="btn">Clases de manejo B1</a>
+        <button class="btn" onclick="abrirClases()">Paquetes de Clases de Manejo</button>
         <button class="btn" onclick="abrirAlquiler()">Alquiler de vehículos (San Ramón)</button>
         <button class="btn" onclick="abrirServicios()">Otros servicios</button>
         <a href="https://wa.me/50663784552?text=Hola.%20Asesoría%20sobre%20apelación%20o%20prescripción%20de%20infracciones" class="btn btn-dark">Apelación o prescripción de infracciones</a>
     </div>
 
-    <div id="install-overlay" class="overlay">
+    <div id="classes-overlay" class="overlay">
         <div class="popup-card">
-            <i class="fas fa-times close-modal-x" onclick="cerrarInstalacion()"></i>
-            <img src="logo.png" style="width:70px; border-radius:15px; margin-bottom:10px;">
-            <div style="margin-bottom:20px;">
-                <b>Teórico CR</b><br>
-                <span style="color:#666; font-size:0.9rem;">Instala la app en tu inicio para practicar en cualquier momento.</span>
+            <i class="fas fa-times close-modal-x" onclick="cerrarClases()"></i>
+            <h3 style="margin-top:0; color:var(--rojo-principal);">Paquetes de Clases de Manejo</h3>
+            <p style="font-size:0.85rem; color:#666;">Selecciona tu nivel actual:</p>
+            <div class="service-grid">
+                <button class="btn-service btn-package" onclick="contactarWhatsApp('Información sobre paquete: Desde cero')">Desde cero</button>
+                <button class="btn-service btn-package" onclick="contactarWhatsApp('Información sobre paquete: Principiante')">Principiante</button>
+                <button class="btn-service btn-package" onclick="contactarWhatsApp('Información sobre paquete: Intermedio')">Intermedio</button>
+                <button class="btn-service btn-package" onclick="contactarWhatsApp('Información sobre paquete: Avanzado')">Avanzado</button>
+                <button class="btn-service btn-package" onclick="contactarWhatsApp('Información sobre paquete: Licencia en mano')">Licencia en mano</button>
             </div>
-            <button id="btn-instalar-pwa" class="btn" style="width: 100%;">Instalar</button>
         </div>
     </div>
 
@@ -149,16 +153,15 @@
         <div class="popup-card">
             <i class="fas fa-times close-modal-x" onclick="cerrarAlquiler()"></i>
             <h3 style="margin-top:0; color:var(--rojo-principal);">Alquiler de Vehículo</h3>
-            <p style="font-size:0.85rem; color:#666;">Selecciona la categoría:</p>
             <div class="service-grid">
-                <button class="btn-cat" onclick="contactarWhatsApp('Tengo interés en alquilar un vehiculo B1')">B1</button>
-                <button class="btn-cat" onclick="contactarWhatsApp('Tengo interés en alquilar un vehiculo B2')">B2</button>
-                <button class="btn-cat" onclick="contactarWhatsApp('Tengo interés en alquilar un vehiculo B3')">B3</button>
-                <button class="btn-cat" onclick="contactarWhatsApp('Tengo interés en alquilar un vehiculo B4')">B4</button>
-                <button class="btn-cat" onclick="contactarWhatsApp('Tengo interés en alquilar un vehiculo A1')">A1</button>
-                <button class="btn-cat" onclick="contactarWhatsApp('Tengo interés en alquilar un vehiculo A2')">A2</button>
-                <button class="btn-cat" onclick="contactarWhatsApp('Tengo interés en alquilar un vehiculo A3')">A3</button>
-                <button class="btn-cat" onclick="contactarWhatsApp('Tengo interés en alquilar un vehiculo C2')">C2</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Interés en alquilar vehículo B1')">B1</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Interés en alquilar vehículo B2')">B2</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Interés en alquilar vehículo B3')">B3</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Interés en alquilar vehículo B4')">B4</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Interés en alquilar vehículo A1')">A1</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Interés en alquilar vehículo A2')">A2</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Interés en alquilar vehículo A3')">A3</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Interés en alquilar vehículo C2')">C2</button>
             </div>
         </div>
     </div>
@@ -167,20 +170,21 @@
         <div class="popup-card">
             <i class="fas fa-times close-modal-x" onclick="cerrarServicios()"></i>
             <h3 style="margin:0; color:var(--rojo-principal); font-size: 1.2rem;">Otros Servicios</h3>
-            <p style="font-size:0.8rem; color:#666; margin-bottom: 10px;">¿En qué podemos ayudarte?</p>
             <div class="service-grid">
-                <button class="btn-service" onclick="contactarWhatsApp('Solicito información sobre: Renovación de licencia')"><i class="fas fa-id-card"></i> Renovación</button>
-                <button class="btn-service" onclick="contactarWhatsApp('Solicito información sobre: Permiso temporal')"><i class="fas fa-clock"></i> Permiso Temporal</button>
-                <button class="btn-service" onclick="contactarWhatsApp('Solicito información sobre: Duplicado de licencia')"><i class="fas fa-copy"></i> Duplicado</button>
-                <button class="btn-service" onclick="contactarWhatsApp('Solicito información sobre: Cita teórica o práctica')"><i class="fas fa-calendar-alt"></i> Citas</button>
-                <button class="btn-service" onclick="contactarWhatsApp('Solicito información sobre: Cursos para examen teórico personalizado')"><i class="fas fa-graduation-cap"></i> Cursos Teóricos</button>
-                <button class="btn-service" onclick="contactarWhatsApp('Solicito información sobre: Resumen de motocicleta o automóvil')"><i class="fas fa-book"></i> Resúmenes</button>
-                <button class="btn-service" onclick="contactarWhatsApp('Solicito información sobre: Prescripción de infracciones')"><i class="fas fa-file-invoice"></i> Prescripción</button>
-                <button class="btn-service" onclick="contactarWhatsApp('Solicito información sobre: Asesoría legal sobre materia de transito')"><i class="fas fa-gavel"></i> Asesoría Legal</button>
-                <button class="btn-service" onclick="contactarWhatsApp('Solicito información sobre: Dictamen médico para licencia')"><i class="fas fa-stethoscope"></i> Dictamen Médico</button>
-                <button class="btn-service" onclick="contactarWhatsApp('Solicito información sobre: Pre-evaluación para prueba de manejo (Plantel Réplica)')"><i class="fas fa-clipboard-check"></i> Pre-evaluación</button>
-                <button class="btn-service" style="grid-column: span 2;" onclick="contactarWhatsApp('Solicito información sobre: Reconocimiento de rutas')"><i class="fas fa-map-marked-alt"></i> Reconocimiento de rutas</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Info sobre: Renovación')"><i class="fas fa-id-card"></i> Renovación</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Info sobre: Permiso temporal')"><i class="fas fa-clock"></i> Permiso</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Info sobre: Citas')"><i class="fas fa-calendar-alt"></i> Citas</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Info sobre: Dictamen médico')"><i class="fas fa-stethoscope"></i> Dictamen</button>
             </div>
+        </div>
+    </div>
+
+    <div id="install-overlay" class="overlay">
+        <div class="popup-card">
+            <i class="fas fa-times close-modal-x" onclick="cerrarInstalacion()"></i>
+            <b>Instalar Teórico CR</b>
+            <p>Práctica en cualquier momento desde tu inicio.</p>
+            <button id="btn-instalar-pwa" class="btn" style="width: 100%;">Instalar</button>
         </div>
     </div>
 
@@ -193,11 +197,7 @@
     <div id="result-container">
         <div id="result-status" class="status-badge"></div>
         <div class="score-circle" id="result-score"></div>
-        <p id="result-message" style="font-size: 1.1rem; padding: 0 10px; font-weight: 500;"></p>
-        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 25px;">
-            <button class="btn" onclick="compartirResultado()"><i class="fas fa-share-alt"></i> Compartir resultado</button>
-            <button class="btn btn-outline" onclick="location.reload()">Reintentar examen</button>
-        </div>
+        <button class="btn" onclick="location.reload()">Regresar al inicio</button>
     </div>
 
     <footer id="mainFooter">
@@ -212,27 +212,26 @@
 
     <script>
         let preguntasSimulacro = [];
-        let index = 0;
-        let puntos = 0;
-        let bloquearOpciones = false;
+        let index = 0; let puntos = 0; let bloquearOpciones = false;
         const letrasOpciones = ['A', 'B', 'C', 'D'];
 
         window.onload = () => { window.history.pushState({ etapa: 'menu' }, ''); };
 
+        // --- MANEJO DE HISTORIAL (BOTÓN ATRÁS) ---
         window.onpopstate = function(event) {
             const quizVisible = document.getElementById('quiz-container').style.display === 'block';
+            const modalAbierto = document.querySelector('.overlay.show');
+
             if (quizVisible) {
-                if (confirm("¿Deseas salir del examen? Se perderá el progreso.")) {
-                    location.reload();
-                } else {
-                    window.history.pushState({ etapa: 'examen' }, '');
-                }
+                if (confirm("¿Deseas salir del examen?")) { location.reload(); } 
+                else { window.history.pushState({ etapa: 'examen' }, ''); }
+            } else if (modalAbierto) {
+                cerrarTodosModales();
             } else {
-                location.reload();
+                // Si está en el menú, permite la acción normal del navegador (salir)
             }
         };
 
-        // --- LÓGICA DE WHATSAPP ---
         function contactarWhatsApp(detalle) {
             const tel = "50672408103";
             const msg = `Hola vengo de la app Teórico CR. ${detalle}`;
@@ -240,35 +239,28 @@
         }
 
         // --- FUNCIONES MODALES ---
-        function abrirAlquiler() { document.getElementById('rental-overlay').classList.add('show'); }
+        function registrarEstadoModal() { window.history.pushState({ etapa: 'modal' }, ''); }
+
+        function abrirClases() { registrarEstadoModal(); document.getElementById('classes-overlay').classList.add('show'); }
+        function cerrarClases() { document.getElementById('classes-overlay').classList.remove('show'); }
+
+        function abrirAlquiler() { registrarEstadoModal(); document.getElementById('rental-overlay').classList.add('show'); }
         function cerrarAlquiler() { document.getElementById('rental-overlay').classList.remove('show'); }
         
-        function abrirServicios() { document.getElementById('services-overlay').classList.add('show'); }
+        function abrirServicios() { registrarEstadoModal(); document.getElementById('services-overlay').classList.add('show'); }
         function cerrarServicios() { document.getElementById('services-overlay').classList.remove('show'); }
 
-        // --- PWA ---
-        let deferredPrompt;
-        if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault(); deferredPrompt = e;
-            setTimeout(() => { if(document.getElementById('mainMenu').style.display !== 'none') document.getElementById('install-overlay').classList.add('show'); }, 3000);
-        });
-        document.getElementById('btn-instalar-pwa').addEventListener('click', async () => {
-            if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null; cerrarInstalacion(); }
-        });
         function cerrarInstalacion() { document.getElementById('install-overlay').classList.remove('show'); }
+        
+        function cerrarTodosModales() {
+            cerrarClases(); cerrarAlquiler(); cerrarServicios(); cerrarInstalacion();
+        }
 
         // --- EXAMEN ---
         function iniciarExamen(tipo) {
-            cerrarAlquiler(); cerrarServicios(); cerrarInstalacion();
+            cerrarTodosModales();
             window.history.pushState({ etapa: 'examen' }, '');
-            let fuente;
-            if (tipo === 'moto') {
-                fuente = (typeof bancoPreguntasMoto !== 'undefined') ? bancoPreguntasMoto : 
-                         (typeof bancoPreguntasmoto !== 'undefined') ? bancoPreguntasmoto : null;
-            } else {
-                fuente = (typeof bancoPreguntas !== 'undefined') ? bancoPreguntas : null;
-            }
+            let fuente = (tipo === 'moto') ? (typeof bancoPreguntasMoto !== 'undefined' ? bancoPreguntasMoto : bancoPreguntasmoto) : bancoPreguntas;
             if (!fuente) { alert("Cargando preguntas..."); return; }
             preguntasSimulacro = [...fuente].sort(() => 0.5 - Math.random()).slice(0, 40);
             index = 0; puntos = 0;
@@ -313,24 +305,16 @@
             statusDiv.innerHTML = (nota <= 69) ? '<i class="fas fa-times-circle"></i> REPROBADO' : '<i class="fas fa-check-circle"></i> APROBADO';
             statusDiv.style.color = color;
             document.getElementById('result-score').style.color = color;
-            document.getElementById('result-message').innerText = (nota <= 69) ? "Debes estudiar más." : (nota <= 85) ? "Bien, pero puedes mejorar." : "Excelente trabajo.";
             if (nota === 100) dispararConfeti();
         }
 
         function dispararConfeti() {
-            var duration = 3 * 1000; var end = Date.now() + duration;
+            var end = Date.now() + 3000;
             (function frame() {
                 confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#e31e24', '#28a745'] });
                 confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#e31e24', '#28a745'] });
                 if (Date.now() < end) requestAnimationFrame(frame);
             }());
-        }
-
-        function compartirResultado() {
-            const nota = document.getElementById('result-score').innerText;
-            const text = `¡Saqué un ${nota} en mi simulacro de Teórico CR! 🚗💨`;
-            if (navigator.share) navigator.share({ title: 'Resultado Teórico CR', text: text });
-            else window.open(`https://wa.me/?text=${encodeURIComponent(text)}`);
         }
     </script>
 </body>
