@@ -67,22 +67,26 @@
         .overlay.show { display: flex; }
 
         .popup-card {
-            width: 85%; max-width: 340px; background: white;
-            border-radius: 25px; padding: 25px; text-align: center;
+            width: 90%; max-width: 360px; background: white;
+            border-radius: 25px; padding: 20px; text-align: center;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             position: relative; animation: popIn 0.3s ease-out;
+            max-height: 90vh; overflow-y: auto;
         }
         @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
         .close-modal-x { position: absolute; top: 15px; right: 15px; font-size: 20px; color: #bbb; cursor: pointer; }
 
-        .rental-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px; }
-        .btn-cat {
-            background: #f8f9fa; border: 2px solid #eee; padding: 12px;
-            border-radius: 15px; font-weight: bold; color: var(--negro-suave);
-            cursor: pointer; transition: all 0.2s; font-size: 1.1rem;
+        .service-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 15px; }
+        .btn-service {
+            background: #f8f9fa; border: 1.5px solid #eee; padding: 10px 5px;
+            border-radius: 12px; font-weight: 600; color: var(--negro-suave);
+            cursor: pointer; transition: all 0.2s; font-size: 0.75rem;
+            display: flex; flex-direction: column; align-items: center; gap: 5px;
         }
-        .btn-cat:active { background: var(--rojo-principal); color: white; border-color: var(--rojo-principal); transform: scale(0.95); }
+        .btn-service i { color: var(--rojo-principal); font-size: 1.1rem; }
+        .btn-service:active { background: var(--rojo-principal); color: white; border-color: var(--rojo-principal); transform: scale(0.95); }
+        .btn-service:active i { color: white; }
 
         /* --- CONTENEDORES DE EXAMEN --- */
         #quiz-container { width: 90%; max-width: 400px; display: none; padding: 20px 0; }
@@ -125,7 +129,7 @@
         <div class="section-title">Nuestros Servicios</div>
         <a href="https://wa.me/50672408103?text=Hola.%20Me%20interesan%20las%20Clases%20de%20manejo%20B1" class="btn">Clases de manejo B1</a>
         <button class="btn" onclick="abrirAlquiler()">Alquiler de vehículos (San Ramón)</button>
-        <a href="https://wa.me/50672408103?text=Hola.%20Quisiera%20más%20información%20sobre%20otros%20servicios" class="btn">Otros servicios</a>
+        <button class="btn" onclick="abrirServicios()">Otros servicios</button>
         <a href="https://wa.me/50663784552?text=Hola.%20Asesoría%20sobre%20apelación%20o%20prescripción%20de%20infracciones" class="btn btn-dark">Apelación o prescripción de infracciones</a>
     </div>
 
@@ -145,16 +149,37 @@
         <div class="popup-card">
             <i class="fas fa-times close-modal-x" onclick="cerrarAlquiler()"></i>
             <h3 style="margin-top:0; color:var(--rojo-principal);">Alquiler de Vehículo</h3>
-            <p style="font-size:0.85rem; color:#666;">Selecciona el tipo de licencia:</p>
-            <div class="rental-grid">
-                <button class="btn-cat" onclick="contactarAlquiler('B1')">B1</button>
-                <button class="btn-cat" onclick="contactarAlquiler('B2')">B2</button>
-                <button class="btn-cat" onclick="contactarAlquiler('B3')">B3</button>
-                <button class="btn-cat" onclick="contactarAlquiler('B4')">B4</button>
-                <button class="btn-cat" onclick="contactarAlquiler('A1')">A1</button>
-                <button class="btn-cat" onclick="contactarAlquiler('A2')">A2</button>
-                <button class="btn-cat" onclick="contactarAlquiler('A3')">A3</button>
-                <button class="btn-cat" onclick="contactarAlquiler('C2')">C2</button>
+            <p style="font-size:0.85rem; color:#666;">Selecciona la categoría:</p>
+            <div class="service-grid">
+                <button class="btn-cat" onclick="contactarWhatsApp('Tengo interés en alquilar un vehiculo B1')">B1</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Tengo interés en alquilar un vehiculo B2')">B2</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Tengo interés en alquilar un vehiculo B3')">B3</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Tengo interés en alquilar un vehiculo B4')">B4</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Tengo interés en alquilar un vehiculo A1')">A1</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Tengo interés en alquilar un vehiculo A2')">A2</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Tengo interés en alquilar un vehiculo A3')">A3</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Tengo interés en alquilar un vehiculo C2')">C2</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="services-overlay" class="overlay">
+        <div class="popup-card">
+            <i class="fas fa-times close-modal-x" onclick="cerrarServicios()"></i>
+            <h3 style="margin:0; color:var(--rojo-principal); font-size: 1.2rem;">Otros Servicios</h3>
+            <p style="font-size:0.8rem; color:#666; margin-bottom: 10px;">¿En qué podemos ayudarte?</p>
+            <div class="service-grid">
+                <button class="btn-service" onclick="contactarWhatsApp('Solicito información sobre: Renovación de licencia')"><i class="fas fa-id-card"></i> Renovación</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Solicito información sobre: Permiso temporal')"><i class="fas fa-clock"></i> Permiso Temporal</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Solicito información sobre: Duplicado de licencia')"><i class="fas fa-copy"></i> Duplicado</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Solicito información sobre: Cita teórica o práctica')"><i class="fas fa-calendar-alt"></i> Citas</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Solicito información sobre: Cursos para examen teórico personalizado')"><i class="fas fa-graduation-cap"></i> Cursos Teóricos</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Solicito información sobre: Resumen de motocicleta o automóvil')"><i class="fas fa-book"></i> Resúmenes</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Solicito información sobre: Prescripción de infracciones')"><i class="fas fa-file-invoice"></i> Prescripción</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Solicito información sobre: Asesoría legal sobre materia de transito')"><i class="fas fa-gavel"></i> Asesoría Legal</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Solicito información sobre: Dictamen médico para licencia')"><i class="fas fa-stethoscope"></i> Dictamen Médico</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Solicito información sobre: Pre-evaluación para prueba de manejo (Plantel Réplica)')"><i class="fas fa-clipboard-check"></i> Pre-evaluación</button>
+                <button class="btn-service" style="grid-column: span 2;" onclick="contactarWhatsApp('Solicito información sobre: Reconocimiento de rutas')"><i class="fas fa-map-marked-alt"></i> Reconocimiento de rutas</button>
             </div>
         </div>
     </div>
@@ -196,32 +221,32 @@
 
         window.onpopstate = function(event) {
             const quizVisible = document.getElementById('quiz-container').style.display === 'block';
-            const resultVisible = document.getElementById('result-container').style.display === 'block';
-            const rentalVisible = document.getElementById('rental-overlay').classList.contains('show');
-
             if (quizVisible) {
                 if (confirm("¿Deseas salir del examen? Se perderá el progreso.")) {
                     location.reload();
                 } else {
                     window.history.pushState({ etapa: 'examen' }, '');
                 }
-            } else if (resultVisible || rentalVisible) {
+            } else {
                 location.reload();
             }
         };
 
-        function abrirAlquiler() { 
-            window.history.pushState({ etapa: 'modal' }, '');
-            document.getElementById('rental-overlay').classList.add('show'); 
-        }
-        function cerrarAlquiler() { document.getElementById('rental-overlay').classList.remove('show'); }
-        
-        function contactarAlquiler(tipo) {
+        // --- LÓGICA DE WHATSAPP ---
+        function contactarWhatsApp(detalle) {
             const tel = "50672408103";
-            const msg = `Hola vengo de la app Teórico CR. Tengo interés en alquilar un vehiculo ${tipo}`;
+            const msg = `Hola vengo de la app Teórico CR. ${detalle}`;
             window.open(`https://wa.me/${tel}?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
+        // --- FUNCIONES MODALES ---
+        function abrirAlquiler() { document.getElementById('rental-overlay').classList.add('show'); }
+        function cerrarAlquiler() { document.getElementById('rental-overlay').classList.remove('show'); }
+        
+        function abrirServicios() { document.getElementById('services-overlay').classList.add('show'); }
+        function cerrarServicios() { document.getElementById('services-overlay').classList.remove('show'); }
+
+        // --- PWA ---
         let deferredPrompt;
         if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
         window.addEventListener('beforeinstallprompt', (e) => {
@@ -233,8 +258,9 @@
         });
         function cerrarInstalacion() { document.getElementById('install-overlay').classList.remove('show'); }
 
+        // --- EXAMEN ---
         function iniciarExamen(tipo) {
-            cerrarAlquiler(); cerrarInstalacion();
+            cerrarAlquiler(); cerrarServicios(); cerrarInstalacion();
             window.history.pushState({ etapa: 'examen' }, '');
             let fuente;
             if (tipo === 'moto') {
@@ -281,15 +307,14 @@
             document.getElementById('result-container').style.display = 'block';
             document.getElementById('mainFooter').style.display = 'flex';
             const nota = Math.round((puntos / 40) * 100);
-            const scoreDiv = document.getElementById('result-score');
-            const statusDiv = document.getElementById('result-status');
-            const messageP = document.getElementById('result-message');
-            scoreDiv.innerText = nota;
+            document.getElementById('result-score').innerText = nota;
+            let statusDiv = document.getElementById('result-status');
             let color = (nota <= 69) ? "var(--rojo-principal)" : "var(--verde-exito)";
             statusDiv.innerHTML = (nota <= 69) ? '<i class="fas fa-times-circle"></i> REPROBADO' : '<i class="fas fa-check-circle"></i> APROBADO';
-            let msg = (nota <= 69) ? "Debes estudiar más." : (nota <= 85) ? "Bien, pero puedes mejorar." : (nota <= 99) ? "Muy bien. Vas por buen camino." : "Serás un excelente conductor o conductora.";
+            statusDiv.style.color = color;
+            document.getElementById('result-score').style.color = color;
+            document.getElementById('result-message').innerText = (nota <= 69) ? "Debes estudiar más." : (nota <= 85) ? "Bien, pero puedes mejorar." : "Excelente trabajo.";
             if (nota === 100) dispararConfeti();
-            statusDiv.style.color = color; scoreDiv.style.color = color; messageP.innerText = msg;
         }
 
         function dispararConfeti() {
