@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Teórico CR</title>
+    <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
@@ -38,7 +39,6 @@
 
         .menu-container { width: 90%; max-width: 380px; display: flex; flex-direction: column; gap: 10px; padding-bottom: 80px; }
         
-        /* Sección de Simulación */
         .section-title { 
             font-weight: bold; 
             font-size: 0.9rem; 
@@ -63,6 +63,22 @@
         .btn-dark { background-color: var(--negro-suave); }
         .btn-outline { background-color: transparent; border: 2px solid var(--rojo-principal); color: var(--rojo-principal); }
 
+        /* Pop-up de Instalación PWA */
+        #install-popup {
+            position: fixed; bottom: -120px; left: 50%; transform: translateX(-50%);
+            width: 90%; max-width: 400px; background: white;
+            box-shadow: 0 -5px 25px rgba(0,0,0,0.15);
+            border-radius: 20px 20px 0 0; padding: 15px;
+            display: flex; align-items: center; gap: 15px;
+            z-index: 1001; transition: bottom 0.5s ease;
+        }
+        #install-popup.show { bottom: 0; }
+        .popup-icon { width: 50px; height: 50px; border-radius: 10px; }
+        .popup-text { flex: 1; }
+        .popup-text b { display: block; font-size: 0.95rem; }
+        .popup-text span { font-size: 0.8rem; color: #666; }
+        .close-popup { font-size: 20px; color: #ccc; cursor: pointer; padding: 5px; }
+
         /* Estilos Examen */
         #quiz-container { width: 90%; max-width: 400px; display: none; padding: 20px 0; }
         #question-text { font-weight: bold; font-size: 1.1rem; margin-bottom: 20px; color: #222; text-align: center; }
@@ -73,28 +89,23 @@
             font-size: 1rem; cursor: pointer; display: flex; align-items: flex-start; gap: 12px;
             transition: all 0.2s ease;
         }
-
         .option-btn.correct { background-color: #d4edda !important; border-color: var(--verde-exito) !important; color: #155724 !important; }
         .option-btn.incorrect { background-color: #f8d7da !important; border-color: var(--rojo-principal) !important; color: #721c24 !important; }
-        
         .option-letter { font-weight: bold; color: var(--rojo-principal); min-width: 22px; }
-        .correct .option-letter { color: var(--verde-exito); }
 
         /* Pantalla Resultados */
         #result-container { width: 90%; max-width: 400px; text-align: center; display: none; padding: 20px 0; }
         .score-circle { font-size: 3.5rem; font-weight: bold; margin: 10px 0; color: var(--rojo-principal); }
         .status-badge { font-weight: bold; font-size: 1.4rem; margin-bottom: 15px; }
 
-        footer { position: fixed; bottom: 0; width: 100%; background: white; padding: 12px 0; display: flex; justify-content: center; gap: 35px; border-top: 1px solid #eee; }
+        footer { position: fixed; bottom: 0; width: 100%; background: white; padding: 12px 0; display: flex; justify-content: center; gap: 35px; border-top: 1px solid #eee; z-index: 900;}
         footer a { color: #555; font-size: 24px; text-decoration: none; }
     </style>
 </head>
 <body>
 
     <header id="mainHeader">
-        <div class="school-info">
-            <b>Escuela de manejo CR</b><br>San Ramón
-        </div>
+        <div class="school-info"><b>Escuela de manejo CR</b><br>San Ramón</div>
         <div class="header-top">
             <img src="logo.png" alt="Logo" class="app-logo">
             <div class="app-name-text">Teórico CR</div>
@@ -116,6 +127,16 @@
         <a href="https://wa.me/50663784552?text=Hola.%20Asesoría%20infracciones" class="btn btn-dark">Apelación de Infracciones</a>
     </div>
 
+    <div id="install-popup">
+        <img src="logo.png" class="popup-icon" alt="App Icon">
+        <div class="popup-text">
+            <b>Teórico CR</b>
+            <span>Instala esta app en tu inicio</span>
+        </div>
+        <button id="btn-instalar-pwa" class="btn" style="padding: 8px 15px; font-size: 13px;">Instalar</button>
+        <i class="fas fa-times close-popup" onclick="cerrarPopup()"></i>
+    </div>
+
     <div id="quiz-container">
         <div id="question-number" style="color: #e31e24; font-weight: bold; margin-bottom: 8px; text-align: center;"></div>
         <div id="question-text"></div>
@@ -126,7 +147,6 @@
         <div id="result-status" class="status-badge"></div>
         <div class="score-circle" id="result-score"></div>
         <p id="result-message" style="font-size: 1.1rem; padding: 0 10px;"></p>
-        
         <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 25px;">
             <button class="btn" onclick="compartirResultado()"><i class="fas fa-share-alt"></i> Compartir resultado</button>
             <button class="btn btn-outline" onclick="location.reload()">Reintentar examen</button>
@@ -148,11 +168,46 @@
         let bloquearOpciones = false;
         const letrasOpciones = ['A', 'B', 'C', 'D'];
 
-        function iniciarExamen() {
-            if (typeof bancoPreguntas === 'undefined') {
-                alert("Error: No se encontró el archivo de preguntas.");
-                return;
+        // --- LÓGICA DE INSTALACIÓN PWA ---
+        let deferredPrompt;
+        const installPopup = document.getElementById('install-popup');
+        const btnInstalar = document.getElementById('btn-instalar-pwa');
+
+        // Registro del Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            // Mostrar pop-up a los 3 segundos de entrar
+            setTimeout(() => {
+                if(document.getElementById('mainMenu').style.display !== 'none') {
+                    installPopup.classList.add('show');
+                }
+            }, 3000);
+        });
+
+        btnInstalar.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                deferredPrompt = null;
+                cerrarPopup();
+            } else {
+                alert("Para instalar en iOS: Toca 'Compartir' y luego 'Añadir a pantalla de inicio'.");
             }
+        });
+
+        function cerrarPopup() {
+            installPopup.classList.remove('show');
+        }
+        // --------------------------------
+
+        function iniciarExamen() {
+            cerrarPopup();
+            if (typeof bancoPreguntas === 'undefined') { alert("Error: No se encontró el archivo de preguntas."); return; }
             preguntasSimulacro = [...bancoPreguntas].sort(() => 0.5 - Math.random()).slice(0, 40);
             index = 0; puntos = 0;
             document.getElementById('mainHeader').style.display = 'none';
@@ -173,19 +228,11 @@
                 const b = document.createElement('button');
                 b.className = 'option-btn';
                 b.innerHTML = `<span class="option-letter">${letrasOpciones[i]}</span> <span>${opt}</span>`;
-                
                 b.onclick = () => {
                     if (bloquearOpciones) return;
                     bloquearOpciones = true;
-
-                    if(i === p.correcta) {
-                        puntos++;
-                        b.classList.add('correct');
-                    } else {
-                        b.classList.add('incorrect');
-                        container.children[p.correcta].classList.add('correct');
-                    }
-
+                    if(i === p.correcta) { puntos++; b.classList.add('correct'); }
+                    else { b.classList.add('incorrect'); container.children[p.correcta].classList.add('correct'); }
                     setTimeout(() => {
                         index++;
                         if(index < 40) mostrarPregunta(); else finalizar();
@@ -202,27 +249,15 @@
             const nota = Math.round((puntos / 40) * 100);
             document.getElementById('result-score').innerText = nota;
             const st = document.getElementById('result-status');
-            const msg = document.getElementById('result-message');
-            
-            if (nota < 70) {
-                st.innerText = "REPROBADO"; st.style.color = "red";
-                msg.innerText = "Debes estudiar más.";
-            } else {
-                st.innerText = "APROBADO"; st.style.color = "green";
-                if (nota <= 85) msg.innerText = "Bien. Pero puedes mejorar.";
-                else if (nota <= 99) msg.innerText = "Muy bien. Vas por buen camino.";
-                else msg.innerText = "Serás un excelente conductor o conductora.";
-            }
+            if (nota < 70) { st.innerText = "REPROBADO"; st.style.color = "red"; }
+            else { st.innerText = "APROBADO"; st.style.color = "green"; }
         }
 
         function compartirResultado() {
             const nota = document.getElementById('result-score').innerText;
-            const text = `¡Saqué un ${nota} en mi simulacro de Teórico CR! Inténtalo tú también aquí: https://tu-sitio.github.io/`;
-            if (navigator.share) {
-                navigator.share({ title: 'Mi resultado Teórico CR', text: text });
-            } else {
-                window.open(`https://wa.me/?text=${encodeURIComponent(text)}`);
-            }
+            const text = `¡Saqué un ${nota} en mi simulacro de Teórico CR!`;
+            if (navigator.share) { navigator.share({ title: 'Resultado Teórico CR', text: text }); }
+            else { window.open(`https://wa.me/?text=${encodeURIComponent(text)}`); }
         }
     </script>
 </body>
