@@ -89,7 +89,7 @@
         <p id="result-message" style="font-size: 1.1rem; padding: 0 10px;"></p>
         
         <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 25px;">
-            <button class="btn" onclick="compartirResultado()"><i class="fas fa-share-alt"></i> Compartir resultado</button>
+            <button class="btn" onclick="compartirResultado()"><i class="fas fa-share-alt"></i> Compartir resultado. Inténtalo tu también.</button>
             <button class="btn btn-outline" onclick="location.reload()">Reintentar examen</button>
             
             <p style="margin-top: 20px; font-weight: bold; color: #444;">¿Quieres prepararte más?</p>
@@ -113,7 +113,7 @@
 
         function iniciarExamen() {
             if (typeof bancoPreguntas === 'undefined') {
-                alert("Error: No se encontró el archivo de preguntas.");
+                alert("Error: No se encontró el archivo de preguntas (preguntas.js).");
                 return;
             }
             preguntasSimulacro = [...bancoPreguntas].sort(() => 0.5 - Math.random()).slice(0, 40);
@@ -168,7 +168,8 @@
 
         function compartirResultado() {
             const nota = document.getElementById('result-score').innerText;
-            const text = `¡Saqué un ${nota} en mi simulacro de Teórico CR! Inténtalo tú también aquí: https://play.google.com/store/apps/details?id=TU_ID_AQUI`;
+            // Reemplaza el enlace de Google Play por el real de tu app
+            const text = `¡Saqué un ${nota} en mi simulacro de Teórico CR! Inténtalo tú también aquí: https://play.google.com/store/apps/details?id=tu.id.de.app`;
             if (navigator.share) {
                 navigator.share({ title: 'Mi resultado Teórico CR', text: text });
             } else {
