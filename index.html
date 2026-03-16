@@ -112,8 +112,8 @@
     <div class="menu-container" id="mainMenu">
         <div class="section-title">Simulación de prueba</div>
         <div class="exam-grid">
-            <button class="btn" onclick="iniciarExamen('moto')"><i class="fas fa-motorcycle"></i> Moto</button>
-            <button class="btn" onclick="iniciarExamen('auto')"><i class="fas fa-car"></i> Auto</button>
+            <button class="btn" onclick="iniciarExamen('moto')"><i class="fas fa-motorcycle"></i> Motocicleta</button>
+            <button class="btn" onclick="iniciarExamen('auto')"><i class="fas fa-car"></i> Automóvil</button>
         </div>
 
         <div class="section-title">Servicios y Material</div>
@@ -161,13 +161,13 @@
     <script src="preguntasmoto.js"></script>
 
     <script>
+        // ... (lógica de inicio y mostrarPregunta queda igual) ...
         let preguntasSimulacro = [];
         let index = 0;
         let puntos = 0;
         let bloquearOpciones = false;
         const letrasOpciones = ['A', 'B', 'C', 'D'];
 
-        // --- PWA ---
         let deferredPrompt;
         const installPopup = document.getElementById('install-popup');
         if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
@@ -185,27 +185,21 @@
                 deferredPrompt.prompt();
                 deferredPrompt = null;
                 cerrarPopup();
-            } else {
-                alert("Para instalar: Toca 'Compartir' y luego 'Añadir a pantalla de inicio'.");
             }
         });
 
         function cerrarPopup() { installPopup.classList.remove('show'); }
 
-        // --- EXAMEN ---
         function iniciarExamen(tipo) {
             cerrarPopup();
             let fuente;
             if (tipo === 'moto') {
-                // Validación para soportar tanto bancoPreguntasMoto como bancoPreguntasmoto
                 fuente = (typeof bancoPreguntasMoto !== 'undefined') ? bancoPreguntasMoto : 
                          (typeof bancoPreguntasmoto !== 'undefined') ? bancoPreguntasmoto : null;
             } else {
                 fuente = (typeof bancoPreguntas !== 'undefined') ? bancoPreguntas : null;
             }
-
-            if (!fuente) { alert("Error: No se cargaron las preguntas de " + tipo); return; }
-
+            if (!fuente) { alert("Error al cargar preguntas"); return; }
             preguntasSimulacro = [...fuente].sort(() => 0.5 - Math.random()).slice(0, 40);
             index = 0; puntos = 0;
             document.getElementById('mainHeader').style.display = 'none';
@@ -222,7 +216,6 @@
             document.getElementById('question-text').innerText = p.pregunta;
             const container = document.getElementById('options-container');
             container.innerHTML = '';
-            
             p.opciones.forEach((opt, i) => {
                 const b = document.createElement('button');
                 b.className = 'option-btn';
@@ -242,6 +235,7 @@
             window.scrollTo(0,0);
         }
 
+        // --- FUNCIÓN ACTUALIZADA ---
         function finalizar() {
             document.getElementById('quiz-container').style.display = 'none';
             document.getElementById('result-container').style.display = 'block';
@@ -256,22 +250,21 @@
 
             let msg = "";
             let color = "";
-            let icono = "";
 
             if (nota <= 69) {
                 statusDiv.innerHTML = '<i class="fas fa-times-circle"></i> REPROBADO';
                 color = "var(--rojo-principal)";
                 msg = "Debes estudiar más.";
             } else {
-                icono = '<i class="fas fa-check-circle"></i> ';
+                statusDiv.innerHTML = '<i class="fas fa-check-circle"></i> APROBADO';
                 color = "var(--verde-exito)";
-                if (nota <= 85) msg = "Aprobado. Bien. Pero puedes mejorar.";
-                else if (nota <= 99) msg = "Aprobado. Muy bien. Vas por buen camino.";
+                // Mensajes sin repetir la palabra "Aprobado"
+                if (nota <= 85) msg = "Bien, pero puedes mejorar.";
+                else if (nota <= 99) msg = "Muy bien. Vas por buen camino.";
                 else {
-                    msg = "Aprobado. Serás un excelente conductor o conductora.";
+                    msg = "Serás un excelente conductor o conductora.";
                     dispararConfeti();
                 }
-                statusDiv.innerHTML = icono + "APROBADO";
             }
 
             statusDiv.style.color = color;
@@ -285,15 +278,15 @@
             (function frame() {
                 confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#e31e24', '#28a745'] });
                 confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#e31e24', '#28a745'] });
-                if (Date.now() < end) { requestAnimationFrame(frame); }
+                if (Date.now() < end) requestAnimationFrame(frame);
             }());
         }
 
         function compartirResultado() {
             const nota = document.getElementById('result-score').innerText;
             const text = `¡Saqué un ${nota} en mi simulacro de Teórico CR! 🚗💨`;
-            if (navigator.share) { navigator.share({ title: 'Resultado Teórico CR', text: text }); }
-            else { window.open(`https://wa.me/?text=${encodeURIComponent(text)}`); }
+            if (navigator.share) navigator.share({ title: 'Resultado Teórico CR', text: text });
+            else window.open(`https://wa.me/?text=${encodeURIComponent(text)}`);
         }
     </script>
 </body>
