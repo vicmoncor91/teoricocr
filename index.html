@@ -26,17 +26,18 @@
             background-color: var(--blanco);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             height: 100%;
-            transition: background 0.3s ease; /* Transición suave al poner el fondo */
+            transition: background 0.3s ease;
         }
 
         body { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; }
 
-        /* CLASE ESPECIAL PARA EL FONDO DE AUTOMÓVIL */
+        /* AJUSTE DE FONDO PARA QUE NO SE CORTE A LOS LADOS */
         body.fondo-auto {
             background-image: url('fondoexamen.jpeg');
-            background-size: cover;
+            background-size: 100% 100%; /* Ajuste forzado al ancho y alto del dispositivo */
             background-position: center;
             background-attachment: fixed;
+            background-repeat: no-repeat;
             background-color: rgba(255, 255, 255, 0.85);
             background-blend-mode: overlay;
         }
@@ -68,7 +69,6 @@
         .btn-dark { background-color: var(--negro-suave); }
         .btn-outline { background-color: transparent; border: 2px solid var(--rojo-principal); color: var(--rojo-principal); }
 
-        /* --- MODALES --- */
         .overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.6); z-index: 2000;
@@ -100,7 +100,6 @@
         
         .btn-package { grid-column: span 2; padding: 15px; font-size: 1rem; }
 
-        /* --- EXAMEN --- */
         #quiz-container { width: 90%; max-width: 400px; display: none; padding: 20px 0; position: relative; z-index: 10; }
         #question-text { font-weight: bold; font-size: 1.1rem; margin-bottom: 20px; color: #222; text-align: center; }
         .option-btn {
@@ -235,7 +234,7 @@
 
             if (quizVisible) {
                 if (confirm("¿Deseas salir del examen? Se perderá el progreso.")) { 
-                    document.body.classList.remove('fondo-auto'); // Quita el fondo si sale
+                    document.body.classList.remove('fondo-auto');
                     location.reload(); 
                 } 
                 else { window.history.pushState({ etapa: 'examen' }, ''); }
@@ -263,7 +262,6 @@
             cerrarTodosModales();
             window.history.pushState({ etapa: 'examen' }, '');
             
-            // APLICAR FONDO SOLO SI ES AUTO
             if (tipo === 'auto') {
                 document.body.classList.add('fondo-auto');
             } else {
