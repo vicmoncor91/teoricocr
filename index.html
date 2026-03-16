@@ -14,6 +14,11 @@
             --blanco: #ffffff;
             --negro-suave: #333;
             --gris-claro: #f4f4f4;
+            /* Colores Redes */
+            --tiktok: #000000;
+            --facebook: #1877F2;
+            --instagram: #E4405F;
+            --whatsapp: #25D366;
         }
 
         html, body {
@@ -58,6 +63,7 @@
             padding: 14px 10px; border-radius: 12px; font-size: 15px; font-weight: 600;
             display: flex; align-items: center; justify-content: center; gap: 8px;
             text-decoration: none; cursor: pointer; transition: transform 0.1s;
+            text-align: center;
         }
         .btn:active { transform: scale(0.97); }
         .btn-dark { background-color: var(--negro-suave); }
@@ -85,7 +91,6 @@
             width: 100%; padding: 15px; margin-bottom: 12px; border-radius: 12px;
             border: 1px solid #ddd; background: #f9f9f9; text-align: left; 
             font-size: 1rem; cursor: pointer; display: flex; align-items: flex-start; gap: 12px;
-            transition: all 0.2s ease;
         }
         .option-btn.correct { background-color: #d4edda !important; border-color: var(--verde-exito) !important; color: #155724 !important; }
         .option-btn.incorrect { background-color: #f8d7da !important; border-color: var(--rojo-principal) !important; color: #721c24 !important; }
@@ -96,7 +101,12 @@
         .status-badge { font-weight: bold; font-size: 1.4rem; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; }
 
         footer { position: fixed; bottom: 0; width: 100%; background: white; padding: 12px 0; display: flex; justify-content: center; gap: 35px; border-top: 1px solid #eee; z-index: 900;}
-        footer a { color: #555; font-size: 24px; text-decoration: none; }
+        footer a { font-size: 26px; text-decoration: none; transition: transform 0.2s; }
+        footer a:active { transform: scale(1.2); }
+        .fa-tiktok { color: var(--tiktok); }
+        .fa-facebook { color: var(--facebook); }
+        .fa-instagram { color: var(--instagram); }
+        .fa-whatsapp { color: var(--whatsapp); }
     </style>
 </head>
 <body>
@@ -116,26 +126,22 @@
             <button class="btn" onclick="iniciarExamen('auto')"><i class="fas fa-car"></i> Automóvil</button>
         </div>
 
-        <div class="section-title">Servicios y Material</div>
-        <a href="https://wa.me/50672408103?text=Hola.%20Quisiera%20más%20información%20sobre%20el%20Curso%20virtual%20personalizado" class="btn">Curso Virtual Personalizado</a>
-        <a href="https://wa.me/50672408103?text=Hola.%20Estoy%20utilizando%20la%20app%20Teórico%20CR.%20Quisiera%20más%20información%20sobre%20el%20Material%20didáctico%20resumido" class="btn">Material Didáctico Resumido</a>
-        <a href="#" class="btn">Clases de Manejo B1</a>
-        <a href="#" class="btn">Alquiler San Ramón</a>
-        <a href="https://wa.me/50663784552?text=Hola.%20Asesoría%20infracciones" class="btn btn-dark">Apelación de Infracciones</a>
+        <div class="section-title">Nuestros Servicios</div>
+        <a href="https://wa.me/50672408103?text=Hola.%20Me%20interesan%20las%20Clases%20de%20manejo%20B1" class="btn">Clases de manejo B1</a>
+        <a href="https://wa.me/50672408103?text=Hola.%20Quisiera%20consultar%20por%20el%20Alquiler%20de%20vehículos%20en%20San%20Ramón" class="btn">Alquiler de vehículos (San Ramón)</a>
+        <a href="https://wa.me/50672408103?text=Hola.%20Quisiera%20más%20información%20sobre%20otros%20servicios" class="btn">Otros servicios</a>
+        <a href="https://wa.me/50663784552?text=Hola.%20Asesoría%20sobre%20apelación%20o%20prescripción%20de%20infracciones" class="btn btn-dark">Apelación o prescripción de infracciones</a>
     </div>
 
     <div id="install-popup">
         <img src="logo.png" class="popup-icon" alt="App Icon">
-        <div class="popup-text">
-            <b>Teórico CR</b>
-            <span>Instala esta app en tu inicio</span>
-        </div>
+        <div class="popup-text"><b>Teórico CR</b><span>Instala esta app en tu inicio</span></div>
         <button id="btn-instalar-pwa" class="btn" style="padding: 8px 15px; font-size: 13px;">Instalar</button>
         <i class="fas fa-times close-popup" onclick="cerrarPopup()"></i>
     </div>
 
     <div id="quiz-container">
-        <div id="question-number" style="color: #e31e24; font-weight: bold; margin-bottom: 8px; text-align: center;"></div>
+        <div id="question-number" style="color: var(--rojo-principal); font-weight: bold; margin-bottom: 8px; text-align: center;"></div>
         <div id="question-text"></div>
         <div id="options-container"></div>
     </div>
@@ -167,17 +173,15 @@
         let bloquearOpciones = false;
         const letrasOpciones = ['A', 'B', 'C', 'D'];
 
-        // --- MANEJO DEL BOTÓN ATRÁS ---
-        window.onload = () => {
-            window.history.pushState({ etapa: 'menu' }, '');
-        };
+        // --- MANEJO HISTORIAL (BOTÓN ATRÁS) ---
+        window.onload = () => { window.history.pushState({ etapa: 'menu' }, ''); };
 
         window.onpopstate = function(event) {
             const quizVisible = document.getElementById('quiz-container').style.display === 'block';
             const resultVisible = document.getElementById('result-container').style.display === 'block';
 
             if (quizVisible) {
-                if (confirm("¿Estás seguro de que deseas salir del examen? Perderás tu progreso actual.")) {
+                if (confirm("¿Deseas salir del examen? Se perderá el progreso.")) {
                     location.reload();
                 } else {
                     window.history.pushState({ etapa: 'examen' }, '');
@@ -193,28 +197,19 @@
         if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
 
         window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            setTimeout(() => {
-                if(document.getElementById('mainMenu').style.display !== 'none') installPopup.classList.add('show');
-            }, 3000);
+            e.preventDefault(); deferredPrompt = e;
+            setTimeout(() => { if(document.getElementById('mainMenu').style.display !== 'none') installPopup.classList.add('show'); }, 3000);
         });
 
         document.getElementById('btn-instalar-pwa').addEventListener('click', async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt = null;
-                cerrarPopup();
-            }
+            if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null; cerrarPopup(); }
         });
-
         function cerrarPopup() { installPopup.classList.remove('show'); }
 
         // --- EXAMEN ---
         function iniciarExamen(tipo) {
             cerrarPopup();
             window.history.pushState({ etapa: 'examen' }, '');
-
             let fuente;
             if (tipo === 'moto') {
                 fuente = (typeof bancoPreguntasMoto !== 'undefined') ? bancoPreguntasMoto : 
@@ -248,10 +243,7 @@
                     bloquearOpciones = true;
                     if(i === p.correcta) { puntos++; b.classList.add('correct'); } 
                     else { b.classList.add('incorrect'); container.children[p.correcta].classList.add('correct'); }
-                    setTimeout(() => {
-                        index++;
-                        if(index < 40) mostrarPregunta(); else finalizar();
-                    }, 650);
+                    setTimeout(() => { index++; if(index < 40) mostrarPregunta(); else finalizar(); }, 650);
                 };
                 container.appendChild(b);
             });
@@ -262,38 +254,28 @@
             document.getElementById('quiz-container').style.display = 'none';
             document.getElementById('result-container').style.display = 'block';
             document.getElementById('mainFooter').style.display = 'flex';
-            
             const nota = Math.round((puntos / 40) * 100);
             const scoreDiv = document.getElementById('result-score');
             const statusDiv = document.getElementById('result-status');
             const messageP = document.getElementById('result-message');
-
             scoreDiv.innerText = nota;
-            let msg = "";
-            let color = "";
+            let msg = ""; let color = "";
 
             if (nota <= 69) {
                 statusDiv.innerHTML = '<i class="fas fa-times-circle"></i> REPROBADO';
-                color = "var(--rojo-principal)";
-                msg = "Debes estudiar más.";
+                color = "var(--rojo-principal)"; msg = "Debes estudiar más.";
             } else {
                 statusDiv.innerHTML = '<i class="fas fa-check-circle"></i> APROBADO';
                 color = "var(--verde-exito)";
                 if (nota <= 85) msg = "Bien, pero puedes mejorar.";
                 else if (nota <= 99) msg = "Muy bien. Vas por buen camino.";
-                else {
-                    msg = "Serás un excelente conductor o conductora.";
-                    dispararConfeti();
-                }
+                else { msg = "Serás un excelente conductor o conductora."; dispararConfeti(); }
             }
-            statusDiv.style.color = color;
-            scoreDiv.style.color = color;
-            messageP.innerText = msg;
+            statusDiv.style.color = color; scoreDiv.style.color = color; messageP.innerText = msg;
         }
 
         function dispararConfeti() {
-            var duration = 3 * 1000;
-            var end = Date.now() + duration;
+            var duration = 3 * 1000; var end = Date.now() + duration;
             (function frame() {
                 confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#e31e24', '#28a745'] });
                 confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#e31e24', '#28a745'] });
