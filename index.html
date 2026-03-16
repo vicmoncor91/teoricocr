@@ -57,15 +57,16 @@
         .btn-dark { background-color: var(--negro-suave); }
         .btn-outline { background-color: transparent; border: 2px solid var(--rojo-principal); color: var(--rojo-principal); }
 
-        /* --- MODAL DE INSTALACIÓN MEJORADO --- */
-        #install-overlay {
+        /* --- MODALES (INSTALACIÓN Y ALQUILER) --- */
+        .overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); z-index: 2000;
+            background: rgba(0,0,0,0.6); z-index: 2000;
             display: none; align-items: center; justify-content: center;
+            backdrop-filter: blur(2px);
         }
-        #install-overlay.show { display: flex; }
+        .overlay.show { display: flex; }
 
-        #install-popup {
+        .popup-card {
             width: 85%; max-width: 340px; background: white;
             border-radius: 25px; padding: 25px; text-align: center;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
@@ -73,14 +74,16 @@
         }
         @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-        .popup-icon-large { width: 80px; height: 80px; border-radius: 18px; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .popup-text b { font-size: 1.3rem; display: block; margin-bottom: 5px; color: #000; }
-        .popup-text span { font-size: 0.9rem; color: #666; display: block; margin-bottom: 20px; }
-        
-        .close-modal-x { 
-            position: absolute; top: 15px; right: 15px; 
-            font-size: 20px; color: #bbb; cursor: pointer; 
+        .close-modal-x { position: absolute; top: 15px; right: 15px; font-size: 20px; color: #bbb; cursor: pointer; }
+
+        /* --- GRID DE ALQUILER --- */
+        .rental-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px; }
+        .btn-cat {
+            background: #f8f9fa; border: 2px solid #eee; padding: 12px;
+            border-radius: 15px; font-weight: bold; color: var(--negro-suave);
+            cursor: pointer; transition: all 0.2s; font-size: 1.1rem;
         }
+        .btn-cat:active { background: var(--rojo-principal); color: white; border-color: var(--rojo-principal); transform: scale(0.95); }
 
         /* --- CONTENEDORES DE EXAMEN --- */
         #quiz-container { width: 90%; max-width: 400px; display: none; padding: 20px 0; }
@@ -122,21 +125,41 @@
 
         <div class="section-title">Nuestros Servicios</div>
         <a href="https://wa.me/50672408103?text=Hola.%20Me%20interesan%20las%20Clases%20de%20manejo%20B1" class="btn">Clases de manejo B1</a>
-        <a href="https://wa.me/50672408103?text=Hola.%20Quisiera%20consultar%20por%20el%20Alquiler%20de%20vehículos%20en%20San%20Ramón" class="btn">Alquiler de vehículos (San Ramón)</a>
+        
+        <button class="btn" onclick="abrirAlquiler()">Alquiler de vehículos (San Ramón)</button>
+        
         <a href="https://wa.me/50672408103?text=Hola.%20Quisiera%20más%20información%20sobre%20otros%20servicios" class="btn">Otros servicios</a>
         <a href="https://wa.me/50663784552?text=Hola.%20Asesoría%20sobre%20apelación%20o%20prescripción%20de%20infracciones" class="btn btn-dark">Apelación o prescripción de infracciones</a>
     </div>
 
-    <div id="install-overlay">
-        <div id="install-popup">
-            <i class="fas fa-times close-modal-x" onclick="cerrarPopup()"></i>
-            <img src="logo.png" class="popup-icon-large" alt="App Icon">
-            <div class="popup-text">
-                <b>Teórico CR</b>
-                <span>¿Quieres instalar esta aplicación en tu pantalla de inicio para un acceso rápido?</span>
+    <div id="install-overlay" class="overlay">
+        <div class="popup-card">
+            <i class="fas fa-times close-modal-x" onclick="cerrarInstalacion()"></i>
+            <img src="logo.png" style="width:70px; border-radius:15px; margin-bottom:10px;">
+            <div style="margin-bottom:20px;">
+                <b>Teórico CR</b><br>
+                <span style="color:#666; font-size:0.9rem;">Instala la app en tu inicio para practicar en cualquier momento.</span>
             </div>
-            <button id="btn-instalar-pwa" class="btn" style="width: 100%;">Instalar ahora</button>
-            <button class="btn btn-outline" onclick="cerrarPopup()" style="width: 100%; border: none; margin-top: 5px; font-size: 14px;">Más tarde</button>
+            <button id="btn-instalar-pwa" class="btn" style="width: 100%;">Instalar</button>
+        </div>
+    </div>
+
+    <div id="rental-overlay" class="overlay">
+        <div class="popup-card">
+            <i class="fas fa-times close-modal-x" onclick="cerrarAlquiler()"></i>
+            <h3 style="margin-top:0; color:var(--rojo-principal);">Alquiler de Vehículo</h3>
+            <p style="font-size:0.85rem; color:#666;">Selecciona el tipo de licencia:</p>
+            
+            <div class="rental-grid">
+                <button class="btn-cat" onclick="contactarAlquiler('B1')">B1</button>
+                <button class="btn-cat" onclick="contactarAlquiler('B2')">B2</button>
+                <button class="btn-cat" onclick="contactarAlquiler('B3')">B3</button>
+                <button class="btn-cat" onclick="contactarAlquiler('B4')">B4</button>
+                <button class="btn-cat" onclick="contactarAlquiler('A1')">A1</button>
+                <button class="btn-cat" onclick="contactarAlquiler('A2')">A2</button>
+                <button class="btn-cat" onclick="contactarAlquiler('A3')">A3</button>
+                <button class="btn-cat" onclick="contactarAlquiler('C2')">C2</button>
+            </div>
         </div>
     </div>
 
@@ -175,43 +198,32 @@
 
         window.onload = () => { window.history.pushState({ etapa: 'menu' }, ''); };
 
-        window.onpopstate = function(event) {
-            if (document.getElementById('quiz-container').style.display === 'block') {
-                if (confirm("¿Deseas salir? Se perderá el progreso.")) { location.reload(); }
-                else { window.history.pushState({ etapa: 'examen' }, ''); }
-            } else if (document.getElementById('result-container').style.display === 'block') {
-                location.reload();
-            }
-        };
-
-        // --- PWA (VENTANA MODAL) ---
-        let deferredPrompt;
-        const installOverlay = document.getElementById('install-overlay');
+        // --- FUNCIONES DE ALQUILER ---
+        function abrirAlquiler() { document.getElementById('rental-overlay').classList.add('show'); }
+        function cerrarAlquiler() { document.getElementById('rental-overlay').classList.remove('show'); }
         
-        if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
+        function contactarAlquiler(tipo) {
+            const tel = "50672408103";
+            const msg = `Hola vengo de la app Teórico CR. Tengo interés en alquilar un vehiculo ${tipo}`;
+            window.open(`https://wa.me/${tel}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
 
+        // --- PWA ---
+        let deferredPrompt;
+        if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault(); deferredPrompt = e;
-            // Muestra la ventana tras 3 segundos en el menú
-            setTimeout(() => { 
-                if(document.getElementById('mainMenu').style.display !== 'none') installOverlay.classList.add('show'); 
-            }, 3000);
+            setTimeout(() => { if(document.getElementById('mainMenu').style.display !== 'none') document.getElementById('install-overlay').classList.add('show'); }, 3000);
         });
-
         document.getElementById('btn-instalar-pwa').addEventListener('click', async () => {
-            if (deferredPrompt) { 
-                deferredPrompt.prompt(); 
-                const { outcome } = await deferredPrompt.userChoice;
-                deferredPrompt = null; 
-                cerrarPopup(); 
-            }
+            if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null; cerrarInstalacion(); }
         });
-
-        function cerrarPopup() { installOverlay.classList.remove('show'); }
+        function cerrarInstalacion() { document.getElementById('install-overlay').classList.remove('show'); }
 
         // --- LÓGICA DE EXAMEN (MANTENIDA) ---
         function iniciarExamen(tipo) {
-            cerrarPopup();
+            cerrarAlquiler();
+            cerrarInstalacion();
             window.history.pushState({ etapa: 'examen' }, '');
             let fuente;
             if (tipo === 'moto') {
