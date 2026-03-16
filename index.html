@@ -161,13 +161,33 @@
     <script src="preguntasmoto.js"></script>
 
     <script>
-        // ... (lógica de inicio y mostrarPregunta queda igual) ...
         let preguntasSimulacro = [];
         let index = 0;
         let puntos = 0;
         let bloquearOpciones = false;
         const letrasOpciones = ['A', 'B', 'C', 'D'];
 
+        // --- MANEJO DEL BOTÓN ATRÁS ---
+        window.onload = () => {
+            window.history.pushState({ etapa: 'menu' }, '');
+        };
+
+        window.onpopstate = function(event) {
+            const quizVisible = document.getElementById('quiz-container').style.display === 'block';
+            const resultVisible = document.getElementById('result-container').style.display === 'block';
+
+            if (quizVisible) {
+                if (confirm("¿Estás seguro de que deseas salir del examen? Perderás tu progreso actual.")) {
+                    location.reload();
+                } else {
+                    window.history.pushState({ etapa: 'examen' }, '');
+                }
+            } else if (resultVisible) {
+                location.reload();
+            }
+        };
+
+        // --- PWA ---
         let deferredPrompt;
         const installPopup = document.getElementById('install-popup');
         if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
@@ -190,8 +210,11 @@
 
         function cerrarPopup() { installPopup.classList.remove('show'); }
 
+        // --- EXAMEN ---
         function iniciarExamen(tipo) {
             cerrarPopup();
+            window.history.pushState({ etapa: 'examen' }, '');
+
             let fuente;
             if (tipo === 'moto') {
                 fuente = (typeof bancoPreguntasMoto !== 'undefined') ? bancoPreguntasMoto : 
@@ -235,7 +258,6 @@
             window.scrollTo(0,0);
         }
 
-        // --- FUNCIÓN ACTUALIZADA ---
         function finalizar() {
             document.getElementById('quiz-container').style.display = 'none';
             document.getElementById('result-container').style.display = 'block';
@@ -247,7 +269,6 @@
             const messageP = document.getElementById('result-message');
 
             scoreDiv.innerText = nota;
-
             let msg = "";
             let color = "";
 
@@ -258,7 +279,6 @@
             } else {
                 statusDiv.innerHTML = '<i class="fas fa-check-circle"></i> APROBADO';
                 color = "var(--verde-exito)";
-                // Mensajes sin repetir la palabra "Aprobado"
                 if (nota <= 85) msg = "Bien, pero puedes mejorar.";
                 else if (nota <= 99) msg = "Muy bien. Vas por buen camino.";
                 else {
@@ -266,7 +286,6 @@
                     dispararConfeti();
                 }
             }
-
             statusDiv.style.color = color;
             scoreDiv.style.color = color;
             messageP.innerText = msg;
