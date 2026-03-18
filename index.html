@@ -34,11 +34,11 @@
         body.fondo-auto { background-image: url('fondoexamen.jpeg'); background-size: cover; background-position: center; background-attachment: fixed; background-blend-mode: overlay; background-color: rgba(255, 255, 255, 0.85); }
         body.fondo-moto { background-image: url('fondomoto.jpeg'); background-size: cover; background-position: center; background-attachment: fixed; background-blend-mode: overlay; background-color: rgba(255, 255, 255, 0.85); }
 
-        header { text-align: center; padding: 15px 10px; width: 100%; }
-        .header-top { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 5px; }
-        .app-logo { height: 80px; width: auto; } 
-        .app-name-text { font-weight: bold; font-size: 1.5rem; color: #000; }
-        .school-info { color: #666; font-size: 0.85rem; line-height: 1.2; }
+        /* HEADER AJUSTADO: LOGO GRANDE Y CENTRADO */
+        header { text-align: center; padding: 25px 10px; width: 100%; }
+        .header-top { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
+        .app-logo { height: 140px; width: auto; transition: transform 0.3s; } 
+        .school-info { color: #666; font-size: 0.85rem; line-height: 1.2; margin-bottom: 10px; }
 
         .menu-container { width: 90%; max-width: 380px; display: flex; flex-direction: column; gap: 10px; padding-bottom: 80px; }
         .section-title { 
@@ -130,16 +130,18 @@
         footer a { font-size: 26px; text-decoration: none; }
         .fa-tiktok { color: var(--tiktok); } .fa-facebook { color: var(--facebook); } .fa-instagram { color: var(--instagram); } .fa-whatsapp { color: var(--whatsapp); }
 
-        /* --- INSTALACIÓN --- */
-        #install-banner {
-            position: fixed; bottom: 70px; left: 50%; transform: translateX(-50%);
-            width: 90%; max-width: 400px; background: #333; color: white;
-            padding: 12px 15px; border-radius: 15px; display: none;
-            align-items: center; justify-content: space-between; gap: 10px;
-            z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            font-size: 0.9rem;
+        /* --- VENTANA PEQUEÑA DE INSTALACIÓN --- */
+        #install-mini-card {
+            position: fixed; bottom: 85px; left: 50%; transform: translateX(-50%);
+            width: 85%; max-width: 320px; background: white;
+            padding: 12px; border-radius: 18px; display: none;
+            align-items: center; justify-content: space-between; gap: 12px;
+            z-index: 1000; box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            border: 1px solid #eee; animation: slideUp 0.4s ease-out;
         }
-        #install-banner i { font-size: 1.2rem; color: var(--rojo-principal); }
+        @keyframes slideUp { from { bottom: -100px; } to { bottom: 85px; } }
+        .install-icon-box { background: var(--gris-claro); padding: 8px; border-radius: 10px; color: var(--rojo-principal); }
+        .install-text-content { flex: 1; font-size: 0.85rem; color: #444; font-weight: 500; }
     </style>
 </head>
 <body>
@@ -148,7 +150,6 @@
         <div class="school-info"><b>Escuela de manejo CR</b><br>San Ramón</div>
         <div class="header-top">
             <img src="logo.png" alt="Logo" class="app-logo">
-            <div class="app-name-text">Teórico CR</div>
         </div>
     </header>
 
@@ -164,15 +165,16 @@
         <button class="btn" onclick="abrirAlquiler()">Alquiler de vehículos (San Ramón)</button>
         <button class="btn" onclick="abrirServicios()">Otros servicios</button>
         <a href="https://wa.me/50663784552?text=Hola.%20Asesoría%20sobre%20apelación%20o%20prescripción%20de%20infracciones" class="btn btn-dark">Apelación o prescripción de infracciones</a>
+        
+        <div class="section-title">Extras</div>
+        <button class="btn btn-outline" onclick="compartirAppGeneral()"><i class="fas fa-share-nodes"></i> Compartir App Teórico CR</button>
     </div>
 
-    <div id="install-banner">
-        <div style="display:flex; align-items:center; gap:10px;">
-            <i class="fas fa-mobile-alt"></i>
-            <span id="install-text">Instala la App en tu pantalla</span>
-        </div>
-        <button id="btn-install-action" class="btn" style="padding: 6px 12px; font-size: 0.8rem;">Instalar</button>
-        <i class="fas fa-times" onclick="this.parentElement.style.display='none'" style="color:#aaa; cursor:pointer;"></i>
+    <div id="install-mini-card">
+        <div class="install-icon-box"><i class="fas fa-cloud-download-alt"></i></div>
+        <div class="install-text-content" id="install-text-msg">Instala la App en tu pantalla</div>
+        <button id="btn-install-mini" class="btn" style="padding: 6px 10px; font-size: 0.75rem;">Instalar</button>
+        <i class="fas fa-times" onclick="this.parentElement.style.display='none'" style="color:#ccc; cursor:pointer; padding-left: 5px;"></i>
     </div>
 
     <div id="classes-overlay" class="overlay">
@@ -272,39 +274,49 @@
         let paqueteActualTexto = "";
         const letrasOpciones = ['A', 'B', 'C', 'D'];
 
+        // --- LÓGICA DE COMPARTIR APP ---
+        function compartirAppGeneral() {
+            const text = `¡Instala la App Teórico CR tú tambien! Practica aquí: https://abre.ai/teoricocr`;
+            if (navigator.share) {
+                navigator.share({ title: 'Teórico CR', text: text }).catch(console.error);
+            } else {
+                window.open(`https://wa.me/?text=${encodeURIComponent(text)}`);
+            }
+        }
+
         // --- LÓGICA DE INSTALACIÓN ---
         let deferredPrompt;
-        const installBanner = document.getElementById('install-banner');
-        const installText = document.getElementById('install-text');
-        const installBtn = document.getElementById('btn-install-action');
+        const installCard = document.getElementById('install-mini-card');
+        const installMsg = document.getElementById('install-text-msg');
+        const installBtn = document.getElementById('btn-install-mini');
 
         const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
         const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
 
         if (!isStandalone) {
             if (isIos) {
-                installText.innerText = "Toca Compartir y 'Añadir a inicio'";
+                installMsg.innerText = "Toca 'Compartir' y luego 'Añadir a inicio'";
                 installBtn.style.display = "none";
-                installBanner.style.display = "flex";
+                setTimeout(() => { installCard.style.display = "flex"; }, 2000);
             }
         }
 
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            installBanner.style.display = "flex";
+            setTimeout(() => { installCard.style.display = "flex"; }, 2000);
         });
 
         installBtn.addEventListener('click', async () => {
             if (deferredPrompt) {
                 deferredPrompt.prompt();
                 const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') installBanner.style.display = 'none';
+                if (outcome === 'accepted') installCard.style.display = 'none';
                 deferredPrompt = null;
             }
         });
 
-        // --- DATOS DE PAQUETES ---
+        // --- DATOS DE PAQUETES (MANTENIDOS) ---
         const dataPaquetes = {
             'desdecero': { 
                 titulo: '🔴 Paquete 12 horas – Desde Cero', 
@@ -380,7 +392,7 @@
             document.getElementById('mainMenu').style.display = 'none';
             document.getElementById('mainFooter').style.display = 'none';
             document.getElementById('quiz-container').style.display = 'block';
-            installBanner.style.display = 'none';
+            installCard.style.display = 'none';
             mostrarPregunta();
         }
 
@@ -435,7 +447,7 @@
         function compartirResultado() {
             const nota = document.getElementById('result-score').innerText;
             const text = `¡Saqué un ${nota} en Teórico CR! 🚗💨. Practica tú aquí: https://abre.ai/teoricocr`;
-            if (navigator.share) navigator.share({ text: text }); else window.open(`https://wa.me/?text=${encodeURIComponent(text)}`);
+            if (navigator.share) navigator.share({ text: text }).catch(console.error); else window.open(`https://wa.me/?text=${encodeURIComponent(text)}`);
         }
 
         function dispararConfeti() {
