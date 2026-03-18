@@ -214,21 +214,27 @@
             </div>
         </div>
     </div>
-
-    <div id="services-overlay" class="overlay">
+  <div id="services-overlay" class="overlay">
         <div class="popup-card">
-            <i class="fas fa-times close-modal-x" onclick="window.history.back()"></i>
+            <i class="fas fa-times close-modal-x" onclick="cerrarServicios()"></i>
             <h3 style="margin:0; color:var(--rojo-principal); font-size: 1.2rem;">Otros Servicios</h3>
             <div class="service-grid">
-                <button class="btn-service" onclick="contactarWhatsApp('Renovación')"><i class="fas fa-id-card"></i> Renovación</button>
-                <button class="btn-service" onclick="contactarWhatsApp('Permiso temporal')"><i class="fas fa-clock"></i> Permiso</button>
-                <button class="btn-service" onclick="contactarWhatsApp('Citas')"><i class="fas fa-calendar-alt"></i> Citas</button>
-                <button class="btn-service" onclick="contactarWhatsApp('Dictamen médico')"><i class="fas fa-stethoscope"></i> Dictamen</button>
-                <button class="btn-service" onclick="contactarWhatsApp('Traslado de expediente')"><i class="fas fa-file-export"></i> Traslado</button>
-                <button class="btn-service" onclick="contactarWhatsApp('Homologación')"><i class="fas fa-globe"></i> Homologar</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Quiero información sobre: Renovación de licencia')"><i class="fas fa-id-card"></i> Renovación</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Quiero información sobre: Permiso temporal')"><i class="fas fa-clock"></i> Permiso temporal</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Quiero información sobre: Duplicado de licencia')"><i class="fas fa-copy"></i> Duplicado</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Quiero información sobre: Cita teórica o práctica')"><i class="fas fa-calendar-alt"></i> Citas</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Quiero información sobre: Cursos teóricos personalizados')"><i class="fas fa-graduation-cap"></i> Cursos Teóricos</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Quiero información sobre: Resumen de motocicleta o automóvil')"><i class="fas fa-book"></i> Resúmenes</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Quiero información sobre: Prescripción de infracciones')"><i class="fas fa-file-invoice"></i> Prescripción</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Quiero información sobre: Asesoría legal tránsito')"><i class="fas fa-gavel"></i> Asesoría legal</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Quiero información sobre: Dictamen médico')"><i class="fas fa-stethoscope"></i> Dictamen médico</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Quiero información sobre: Pre-evaluación (Plantel réplica)')"><i class="fas fa-clipboard-check"></i> Pre-evaluación</button>
+                <button class="btn-service" style="grid-column: span 2;" onclick="contactarWhatsApp('Información sobre: Reconocimiento de rutas')"><i class="fas fa-map-marked-alt"></i> Reconocimiento de rutas</button>
             </div>
         </div>
     </div>
+
+
 
     <div id="quiz-container">
         <div id="question-number" style="color: var(--rojo-principal); font-weight: bold; margin-bottom: 8px; text-align: center;"></div>
