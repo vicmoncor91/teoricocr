@@ -26,9 +26,31 @@
             background-color: var(--blanco);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             height: 100%;
+            transition: background 0.3s ease;
         }
 
-        body { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        body { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; }
+
+        /* FONDOS PARA LOS EXÁMENES */
+        body.fondo-auto {
+            background-image: url('fondoexamen.jpeg');
+            background-size: 100% 100%;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-color: rgba(255, 255, 255, 0.85);
+            background-blend-mode: overlay;
+        }
+
+        body.fondo-moto {
+            background-image: url('fondomoto.jpeg');
+            background-size: 100% 100%;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-color: rgba(255, 255, 255, 0.85);
+            background-blend-mode: overlay;
+        }
 
         header { text-align: center; padding: 15px 10px; width: 100%; }
         .header-top { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 5px; }
@@ -57,7 +79,6 @@
         .btn-dark { background-color: var(--negro-suave); }
         .btn-outline { background-color: transparent; border: 2px solid var(--rojo-principal); color: var(--rojo-principal); }
 
-        /* --- MODALES --- */
         .overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.6); z-index: 2000;
@@ -89,8 +110,7 @@
         
         .btn-package { grid-column: span 2; padding: 15px; font-size: 1rem; }
 
-        /* --- EXAMEN --- */
-        #quiz-container { width: 90%; max-width: 400px; display: none; padding: 20px 0; }
+        #quiz-container { width: 90%; max-width: 400px; display: none; padding: 20px 0; position: relative; z-index: 10; }
         #question-text { font-weight: bold; font-size: 1.1rem; margin-bottom: 20px; color: #222; text-align: center; }
         .option-btn {
             width: 100%; padding: 15px; margin-bottom: 12px; border-radius: 12px;
@@ -180,7 +200,7 @@
                 <button class="btn-service" onclick="contactarWhatsApp('Quiero información sobre: Asesoría legal tránsito')"><i class="fas fa-gavel"></i> Asesoría legal</button>
                 <button class="btn-service" onclick="contactarWhatsApp('Quiero información sobre: Dictamen médico')"><i class="fas fa-stethoscope"></i> Dictamen médico</button>
                 <button class="btn-service" onclick="contactarWhatsApp('Quiero información sobre: Pre-evaluación (Plantel réplica)')"><i class="fas fa-clipboard-check"></i> Pre-evaluación</button>
-                <button class="btn-service" style="grid-column: span 2;" onclick="contactarWhatsApp('Información sobre: Reconocimiento de rutas')"><i class="fas fa-map-marked-alt"></i> Reconocimiento de rutas</button>
+                <button class="btn-service" style="grid-column: span 2;" onclick="contactarWhatsApp('Info sobre: Reconocimiento de rutas')"><i class="fas fa-map-marked-alt"></i> Reconocimiento de rutas</button>
             </div>
         </div>
     </div>
@@ -223,7 +243,10 @@
             const modalAbierto = document.querySelector('.overlay.show');
 
             if (quizVisible) {
-                if (confirm("¿Deseas salir del examen? Se perderá el progreso.")) { location.reload(); } 
+                if (confirm("¿Deseas salir del examen? Se perderá el progreso.")) { 
+                    document.body.classList.remove('fondo-auto', 'fondo-moto');
+                    location.reload(); 
+                } 
                 else { window.history.pushState({ etapa: 'examen' }, ''); }
             } else if (modalAbierto) {
                 cerrarTodosModales();
@@ -248,6 +271,15 @@
         function iniciarExamen(tipo) {
             cerrarTodosModales();
             window.history.pushState({ etapa: 'examen' }, '');
+            
+            // LIMPIAR CLASES Y APLICAR LA CORRESPONDIENTE
+            document.body.classList.remove('fondo-auto', 'fondo-moto');
+            if (tipo === 'auto') {
+                document.body.classList.add('fondo-auto');
+            } else if (tipo === 'moto') {
+                document.body.classList.add('fondo-moto');
+            }
+
             let fuente = (tipo === 'moto') ? (typeof bancoPreguntasMoto !== 'undefined' ? bancoPreguntasMoto : bancoPreguntasmoto) : bancoPreguntas;
             if (!fuente) { alert("Cargando preguntas..."); return; }
             preguntasSimulacro = [...fuente].sort(() => 0.5 - Math.random()).slice(0, 40);
