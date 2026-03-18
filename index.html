@@ -129,6 +129,17 @@
         footer { position: fixed; bottom: 0; width: 100%; background: white; padding: 12px 0; display: flex; justify-content: center; gap: 35px; border-top: 1px solid #eee; z-index: 900;}
         footer a { font-size: 26px; text-decoration: none; }
         .fa-tiktok { color: var(--tiktok); } .fa-facebook { color: var(--facebook); } .fa-instagram { color: var(--instagram); } .fa-whatsapp { color: var(--whatsapp); }
+
+        /* --- INSTALACIÓN --- */
+        #install-banner {
+            position: fixed; bottom: 70px; left: 50%; transform: translateX(-50%);
+            width: 90%; max-width: 400px; background: #333; color: white;
+            padding: 12px 15px; border-radius: 15px; display: none;
+            align-items: center; justify-content: space-between; gap: 10px;
+            z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            font-size: 0.9rem;
+        }
+        #install-banner i { font-size: 1.2rem; color: var(--rojo-principal); }
     </style>
 </head>
 <body>
@@ -153,6 +164,15 @@
         <button class="btn" onclick="abrirAlquiler()">Alquiler de vehículos (San Ramón)</button>
         <button class="btn" onclick="abrirServicios()">Otros servicios</button>
         <a href="https://wa.me/50663784552?text=Hola.%20Asesoría%20sobre%20apelación%20o%20prescripción%20de%20infracciones" class="btn btn-dark">Apelación o prescripción de infracciones</a>
+    </div>
+
+    <div id="install-banner">
+        <div style="display:flex; align-items:center; gap:10px;">
+            <i class="fas fa-mobile-alt"></i>
+            <span id="install-text">Instala la App en tu pantalla</span>
+        </div>
+        <button id="btn-install-action" class="btn" style="padding: 6px 12px; font-size: 0.8rem;">Instalar</button>
+        <i class="fas fa-times" onclick="this.parentElement.style.display='none'" style="color:#aaa; cursor:pointer;"></i>
     </div>
 
     <div id="classes-overlay" class="overlay">
@@ -252,6 +272,39 @@
         let paqueteActualTexto = "";
         const letrasOpciones = ['A', 'B', 'C', 'D'];
 
+        // --- LÓGICA DE INSTALACIÓN ---
+        let deferredPrompt;
+        const installBanner = document.getElementById('install-banner');
+        const installText = document.getElementById('install-text');
+        const installBtn = document.getElementById('btn-install-action');
+
+        const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+
+        if (!isStandalone) {
+            if (isIos) {
+                installText.innerText = "Toca Compartir y 'Añadir a inicio'";
+                installBtn.style.display = "none";
+                installBanner.style.display = "flex";
+            }
+        }
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBanner.style.display = "flex";
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') installBanner.style.display = 'none';
+                deferredPrompt = null;
+            }
+        });
+
+        // --- RESTO DE FUNCIONES ---
         const dataPaquetes = {
             'desdecero': { titulo: '🔴 Paquete 12 horas – Desde Cero', imagen: 'desdecero.jpeg', info: `Aprenderás desde lo más básico hasta dominar todas las habilidades necesarias para aprobar con seguridad.\n\n🚗 Incluye:\n✔ 12 horas de práctica total\n✔ Vehículo para realizar la prueba\n✔ Entrenamiento progresivo\n✔ Circuito réplica COSEVI\n✔ Rutas reales\n✔ Acompañamiento completo` },
             'principiante': { titulo: '🟠 Paquete 8 horas – Principiantes', imagen: 'principiantes.jpeg', info: `Una opción más intensiva para aumentar significativamente tus probabilidades de aprobar en el primer intento.\n\n🚗 Incluye:\n✔ 8 horas de práctica intensiva\n✔ Vehículo para la prueba\n✔ Entrenamiento en circuito tipo COSEVI\n✔ Práctica en rutas reales` },
@@ -307,6 +360,7 @@
             document.getElementById('mainMenu').style.display = 'none';
             document.getElementById('mainFooter').style.display = 'none';
             document.getElementById('quiz-container').style.display = 'block';
+            installBanner.style.display = 'none'; // Ocultar banner durante examen
             mostrarPregunta();
         }
 
