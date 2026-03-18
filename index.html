@@ -30,32 +30,38 @@
 
         body { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; }
 
-        /* FONDOS */
+        /* FONDOS DINÁMICOS */
         body.fondo-auto { background-image: url('fondoexamen.jpeg'); background-size: cover; background-position: center; background-attachment: fixed; background-blend-mode: overlay; background-color: rgba(255, 255, 255, 0.85); }
         body.fondo-moto { background-image: url('fondomoto.jpeg'); background-size: cover; background-position: center; background-attachment: fixed; background-blend-mode: overlay; background-color: rgba(255, 255, 255, 0.85); }
 
         header { text-align: center; padding: 15px 10px; width: 100%; }
-        .header-top { display: flex; align-items: center; justify-content: center; gap: 15px; }
+        .header-top { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 5px; }
         .app-logo { height: 80px; width: auto; } 
         .app-name-text { font-weight: bold; font-size: 1.5rem; color: #000; }
         .school-info { color: #666; font-size: 0.85rem; line-height: 1.2; }
 
         .menu-container { width: 90%; max-width: 380px; display: flex; flex-direction: column; gap: 10px; padding-bottom: 80px; }
-        .section-title { font-weight: bold; font-size: 0.9rem; color: #555; text-transform: uppercase; border-bottom: 2px solid var(--gris-claro); padding-bottom: 5px; margin-top: 10px; }
+        .section-title { 
+            font-weight: bold; font-size: 0.9rem; color: #555; 
+            text-transform: uppercase; letter-spacing: 1px;
+            margin-top: 10px; margin-bottom: 5px;
+            border-bottom: 2px solid var(--gris-claro); padding-bottom: 5px;
+        }
         
-        .exam-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .exam-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
 
         .btn {
             background-color: var(--rojo-principal); color: white; border: none;
             padding: 14px 10px; border-radius: 12px; font-size: 15px; font-weight: 600;
             display: flex; align-items: center; justify-content: center; gap: 8px;
             text-decoration: none; cursor: pointer; transition: transform 0.1s;
+            text-align: center;
         }
         .btn:active { transform: scale(0.97); }
         .btn-dark { background-color: var(--negro-suave); }
         .btn-outline { background-color: transparent; border: 2px solid var(--rojo-principal); color: var(--rojo-principal); }
 
-        /* MODALES ESTÁNDAR */
+        /* --- MODALES Y PANTALLAS --- */
         .overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.6); z-index: 2000;
@@ -67,22 +73,24 @@
         .popup-card {
             width: 90%; max-width: 360px; background: white;
             border-radius: 25px; padding: 20px; text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3); position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            position: relative; animation: popIn 0.3s ease-out;
+            max-height: 90vh; overflow-y: auto;
         }
+        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-        /* PANTALLA COMPLETA DE DETALLES */
+        /* PANTALLA COMPLETA PAQUETES */
         .full-page-detail {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: white; z-index: 3000; display: none;
-            flex-direction: column; overflow-y: auto;
-            scroll-behavior: auto; /* Para que el reseteo sea instantáneo */
+            flex-direction: column; overflow-y: auto; scroll-behavior: auto;
         }
         .full-page-detail.show { display: flex; }
 
         .back-nav {
             position: sticky; top: 0; background: white; padding: 15px;
             display: flex; align-items: center; gap: 15px; font-weight: bold;
-            font-size: 1.1rem; border-bottom: 1px solid #eee; z-index: 10;
+            font-size: 1.1rem; border-bottom: 1px solid #eee; z-index: 10; cursor: pointer;
         }
 
         .detail-img { width: 100%; height: auto; display: block; }
@@ -94,26 +102,33 @@
 
         .service-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 15px; }
         .btn-service, .btn-cat {
-            background: #f8f9fa; border: 1.5px solid #eee; padding: 12px 5px;
-            border-radius: 12px; font-weight: 600; cursor: pointer; font-size: 0.8rem;
-            display: flex; flex-direction: column; align-items: center; gap: 5px;
+            background: #f8f9fa; border: 1.5px solid #eee; padding: 10px 5px;
+            border-radius: 12px; font-weight: 600; color: var(--negro-suave);
+            cursor: pointer; transition: all 0.2s; font-size: 0.75rem;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
         }
+        .btn-service i { color: var(--rojo-principal); font-size: 1.1rem; }
         .btn-package { grid-column: span 2; padding: 15px; font-size: 1rem; }
 
-        /* QUIZ */
+        /* --- EXAMEN --- */
         #quiz-container { width: 90%; max-width: 400px; display: none; padding: 20px 0; }
+        #question-text { font-weight: bold; font-size: 1.1rem; margin-bottom: 20px; color: #222; text-align: center; }
         .option-btn {
             width: 100%; padding: 15px; margin-bottom: 12px; border-radius: 12px;
             border: 1px solid #ddd; background: #f9f9f9; text-align: left; 
-            font-size: 1rem; cursor: pointer; display: flex; gap: 12px;
+            font-size: 1rem; cursor: pointer; display: flex; align-items: flex-start; gap: 12px;
         }
-        .option-btn.correct { background-color: #d4edda !important; border-color: var(--verde-exito); }
-        .option-btn.incorrect { background-color: #f8d7da !important; border-color: var(--rojo-principal); }
+        .option-btn.correct { background-color: #d4edda !important; border-color: var(--verde-exito) !important; color: #155724 !important; }
+        .option-btn.incorrect { background-color: #f8d7da !important; border-color: var(--rojo-principal) !important; color: #721c24 !important; }
+        .option-letter { font-weight: bold; color: var(--rojo-principal); min-width: 22px; }
 
         #result-container { width: 90%; max-width: 400px; text-align: center; display: none; padding: 20px 0; }
-        
+        .score-circle { font-size: 3.5rem; font-weight: bold; margin: 10px 0; }
+        .status-badge { font-weight: bold; font-size: 1.4rem; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+
         footer { position: fixed; bottom: 0; width: 100%; background: white; padding: 12px 0; display: flex; justify-content: center; gap: 35px; border-top: 1px solid #eee; z-index: 900;}
         footer a { font-size: 26px; text-decoration: none; }
+        .fa-tiktok { color: var(--tiktok); } .fa-facebook { color: var(--facebook); } .fa-instagram { color: var(--instagram); } .fa-whatsapp { color: var(--whatsapp); }
     </style>
 </head>
 <body>
@@ -173,14 +188,14 @@
             <i class="fas fa-times close-modal-x" onclick="cerrarAlquiler()"></i>
             <h3 style="margin-top:0; color:var(--rojo-principal);">Alquiler de Vehículo</h3>
             <div class="service-grid">
-                <button class="btn-cat" onclick="contactarWhatsApp('Alquiler B1')">B1</button>
-                <button class="btn-cat" onclick="contactarWhatsApp('Alquiler B2')">B2</button>
-                <button class="btn-cat" onclick="contactarWhatsApp('Alquiler B3')">B3</button>
-                <button class="btn-cat" onclick="contactarWhatsApp('Alquiler B4')">B4</button>
-                <button class="btn-cat" onclick="contactarWhatsApp('Alquiler A1')">A1</button>
-                <button class="btn-cat" onclick="contactarWhatsApp('Alquiler A2')">A2</button>
-                <button class="btn-cat" onclick="contactarWhatsApp('Alquiler A3')">A3</button>
-                <button class="btn-cat" onclick="contactarWhatsApp('Alquiler C2')">C2</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Quiero alquilar un vehículo categoría B1')">B1</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Quiero alquilar un vehículo categoría B2')">B2</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Quiero alquilar un vehículo categoría B3')">B3</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Quiero alquilar un vehículo categoría B4')">B4</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Quiero alquilar un vehículo categoría A1')">A1</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Quiero alquilar un vehículo categoría A2')">A2</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Quiero alquilar un vehículo categoría A3')">A3</button>
+                <button class="btn-cat" onclick="contactarWhatsApp('Quiero alquilar un vehículo categoría C2')">C2</button>
             </div>
         </div>
     </div>
@@ -188,28 +203,37 @@
     <div id="services-overlay" class="overlay">
         <div class="popup-card">
             <i class="fas fa-times close-modal-x" onclick="cerrarServicios()"></i>
-            <h3 style="margin:0; color:var(--rojo-principal);">Otros Servicios</h3>
+            <h3 style="margin:0; color:var(--rojo-principal); font-size: 1.2rem;">Otros Servicios</h3>
             <div class="service-grid">
-                <button class="btn-service" onclick="contactarWhatsApp('Renovación')"><i class="fas fa-id-card"></i> Renovación</button>
-                <button class="btn-service" onclick="contactarWhatsApp('Citas')"><i class="fas fa-calendar-alt"></i> Citas</button>
-                <button class="btn-service" onclick="contactarWhatsApp('Dictamen')"><i class="fas fa-stethoscope"></i> Dictamen</button>
-                <button class="btn-service" style="grid-column: span 2;" onclick="contactarWhatsApp('Rutas')"><i class="fas fa-map-marked-alt"></i> Reconocimiento de rutas</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Renovación de licencia')"><i class="fas fa-id-card"></i> Renovación</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Permiso temporal')"><i class="fas fa-clock"></i> Permiso temporal</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Duplicado de licencia')"><i class="fas fa-copy"></i> Duplicado</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Cita teórica o práctica')"><i class="fas fa-calendar-alt"></i> Citas</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Cursos teóricos personalizados')"><i class="fas fa-graduation-cap"></i> Cursos Teóricos</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Resumen de motocicleta o automóvil')"><i class="fas fa-book"></i> Resúmenes</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Prescripción de infracciones')"><i class="fas fa-file-invoice"></i> Prescripción</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Asesoría legal tránsito')"><i class="fas fa-gavel"></i> Asesoría legal</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Dictamen médico')"><i class="fas fa-stethoscope"></i> Dictamen médico</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Pre-evaluación (Plantel réplica)')"><i class="fas fa-clipboard-check"></i> Pre-evaluación</button>
+                <button class="btn-service" style="grid-column: span 2;" onclick="contactarWhatsApp('Reconocimiento de rutas')"><i class="fas fa-map-marked-alt"></i> Reconocimiento de rutas</button>
             </div>
         </div>
     </div>
 
     <div id="quiz-container">
-        <div id="question-number" style="color: var(--rojo-principal); font-weight: bold; text-align: center;"></div>
+        <div id="question-number" style="color: var(--rojo-principal); font-weight: bold; margin-bottom: 8px; text-align: center;"></div>
         <div id="question-text"></div>
         <div id="options-container"></div>
     </div>
 
     <div id="result-container">
-        <div id="result-status"></div>
-        <div id="result-score" style="font-size: 3.5rem; font-weight: bold;"></div>
-        <p id="result-message"></p>
-        <button class="btn" style="width:100%; margin-bottom:10px;" onclick="compartirResultado()">Compartir</button>
-        <button class="btn btn-outline" style="width:100%;" onclick="location.reload()">Reintentar</button>
+        <div id="result-status" class="status-badge"></div>
+        <div class="score-circle" id="result-score"></div>
+        <p id="result-message" style="font-size: 1.1rem; padding: 0 10px; font-weight: 500;"></p>
+        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 25px;">
+            <button class="btn" onclick="compartirResultado()"><i class="fas fa-share-alt"></i> Compartir resultado</button>
+            <button class="btn btn-outline" onclick="location.reload()">Reintentar examen</button>
+        </div>
     </div>
 
     <footer id="mainFooter">
@@ -226,128 +250,55 @@
         let preguntasSimulacro = [];
         let index = 0; let puntos = 0; let bloquearOpciones = false;
         let paqueteActualTexto = "";
+        const letrasOpciones = ['A', 'B', 'C', 'D'];
 
         const dataPaquetes = {
-            'desdecero': {
-                titulo: '🔴 Paquete 12 horas – Desde Cero',
-                imagen: 'desdecero.jpeg',
-                info: `Este paquete está pensado para personas que inician desde cero o que desean una preparación completa y sin estrés.
-
-Aprenderás desde lo más básico hasta dominar todas las habilidades necesarias para aprobar con seguridad.
-
-🚗 Incluye:
-✔ 12 horas de práctica total
-✔ Vehículo para realizar la prueba
-✔ Entrenamiento progresivo paso a paso
-✔ Circuito réplica COSEVI
-✔ Rutas reales y simulación de examen
-✔ Acompañamiento completo
-
-💡 Perfecto si querés aprender bien desde el inicio y ganar confianza total.`
-            },
-            'principiante': {
-                titulo: '🟠 Paquete 8 horas – Principiantes',
-                imagen: 'principiantes.jpeg',
-                info: `Una opción más intensiva para quienes quieren prepararse de forma completa y aumentar significativamente sus probabilidades de aprobar en el primer intento.
-
-🚗 Incluye:
-✔ 8 horas de práctica intensiva
-✔ Vehículo para la prueba
-✔ Entrenamiento en circuito tipo COSEVI
-✔ Práctica en rutas reales
-✔ Corrección continua con instructor
-
-💡 Recomendado si querés sentirte seguro(a) en todo momento.`
-            },
-            'intermedio': {
-                titulo: '🟡 Paquete 4 horas – Nivel Intermedio',
-                imagen: 'intermedio.jpeg',
-                info: `Este paquete está diseñado para personas que ya manejan, pero desean perfeccionar su técnica y aumentar su confianza antes del examen práctico.
-
-🚗 Incluye:
-✔ 4 horas de práctica
-✔ Vehículo para realizar la prueba
-✔ Simulación de examen
-✔ Identificación de posibles “trampas”
-✔ Tips prácticos para aprobar
-
-💡 Ideal para pulir detalles y asegurar un mejor resultado.`
-            },
-            'avanzado': {
-                titulo: '🔹 Alquiler + 1 hora de práctica',
-                imagen: 'avanzado.jpeg',
-                info: `Si ya tenés conocimientos básicos pero querés reforzar tu seguridad al volante, esta opción es ideal para vos.
-
-🚗 Incluye:
-✔ 1 hora de práctica personalizada
-✔ Vehículo automático para realizar la prueba
-✔ Tips para mejorar tu técnica
-✔ Enfoque en puntos débiles
-
-💡 Perfecto para quienes necesitan un último ajuste antes de la prueba.`
-            },
-            'enmano': {
-                titulo: '🎉 PAQUETE LICENCIA EN MANO 🎉',
-                imagen: 'enmano.jpeg',
-                info: `203.000,00 CRC (Antes 290.000,00 CRC)
-
-Olvidate de complicaciones, nosotros nos encargamos de TODO para que salgas manejando con tu licencia en mano ✅
-
-Este paquete incluye:
-✔️ Enteros del banco ya pagos 🏦
-✔️ Citas gestionadas en COSEVI 📅
-✔️ Clases de manejo ILIMITADAS hasta que te sintás seguro/a 💪
-✔️ Vehículo cómodo y seguro para aprender 🚗
-✔️ Vehículo para el día de la prueba oficial 🏁
-✔️ Acompañamiento y asesoría en todo el proceso 🙌
-✔️ Material de apoyo y consejos prácticos para aprobar a la primera 📘✨
-
-📍 Contáctanos hoy y asegurá tu espacio.`
-            }
+            'desdecero': { titulo: '🔴 Paquete 12 horas – Desde Cero', imagen: 'desdecero.jpeg', info: `Aprenderás desde lo más básico hasta dominar todas las habilidades necesarias para aprobar con seguridad.\n\n🚗 Incluye:\n✔ 12 horas de práctica total\n✔ Vehículo para realizar la prueba\n✔ Entrenamiento progresivo\n✔ Circuito réplica COSEVI\n✔ Rutas reales\n✔ Acompañamiento completo` },
+            'principiante': { titulo: '🟠 Paquete 8 horas – Principiantes', imagen: 'principiantes.jpeg', info: `Una opción más intensiva para aumentar significativamente tus probabilidades de aprobar en el primer intento.\n\n🚗 Incluye:\n✔ 8 horas de práctica intensiva\n✔ Vehículo para la prueba\n✔ Entrenamiento en circuito tipo COSEVI\n✔ Práctica en rutas reales` },
+            'intermedio': { titulo: '🟡 Paquete 4 horas – Nivel Intermedio', imagen: 'intermedio.jpeg', info: `Diseñado para personas que ya manejan, pero desean perfeccionar su técnica.\n\n🚗 Incluye:\n✔ 4 horas de práctica\n✔ Vehículo para realizar la prueba\n✔ Simulación de examen\n✔ Tips prácticos para aprobar` },
+            'avanzado': { titulo: '🔹 Alquiler + 1 hora de práctica', imagen: 'avanzado.jpeg', info: `Si ya tenés conocimientos básicos pero querés reforzar tu seguridad al volante.\n\n🚗 Incluye:\n✔ 1 hora de práctica personalizada\n✔ Vehículo automático para la prueba\n✔ Enfoque en puntos débiles` },
+            'enmano': { titulo: '🎉 PAQUETE LICENCIA EN MANO 🎉', imagen: 'enmano.jpeg', info: `Nos encargamos de TODO para que salgas manejando con tu licencia en mano ✅\n\nEste paquete incluye:\n✔️ Enteros del banco pagos\n✔️ Citas gestionadas\n✔️ Clases ILIMITADAS hasta que te sintás seguro/a\n✔️ Vehículo para prueba oficial\n✔️ Acompañamiento total` }
         };
 
         function contactarWhatsApp(detalle) {
-            window.open(`https://wa.me/50672408103?text=${encodeURIComponent("Hola Teórico CR. " + detalle)}`, '_blank');
+            const msg = `Hola vengo de la app Teórico CR. Información sobre: ${detalle}`;
+            window.open(`https://wa.me/50672408103?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
-        function abrirClases() { document.getElementById('classes-overlay').classList.add('show'); window.history.pushState({ etapa: 'modal' }, ''); }
+        // NAVEGACIÓN
+        function abrirClases() { window.history.pushState({ etapa: 'modal' }, ''); document.getElementById('classes-overlay').classList.add('show'); }
         function cerrarClases() { document.getElementById('classes-overlay').classList.remove('show'); }
-        function abrirAlquiler() { document.getElementById('rental-overlay').classList.add('show'); window.history.pushState({ etapa: 'modal' }, ''); }
+        function abrirAlquiler() { window.history.pushState({ etapa: 'modal' }, ''); document.getElementById('rental-overlay').classList.add('show'); }
         function cerrarAlquiler() { document.getElementById('rental-overlay').classList.remove('show'); }
-        function abrirServicios() { document.getElementById('services-overlay').classList.add('show'); window.history.pushState({ etapa: 'modal' }, ''); }
+        function abrirServicios() { window.history.pushState({ etapa: 'modal' }, ''); document.getElementById('services-overlay').classList.add('show'); }
         function cerrarServicios() { document.getElementById('services-overlay').classList.remove('show'); }
 
         function abrirDetallePaquete(id) {
             const p = dataPaquetes[id];
             paqueteActualTexto = p.titulo;
-            
-            // RESETEAR EL SCROLL AL INICIO
             const contenedor = document.getElementById('full-detail-page');
             contenedor.scrollTop = 0; 
-
             document.getElementById('p-img').src = p.imagen;
             document.getElementById('p-titulo').innerText = p.titulo;
             document.getElementById('p-info').innerText = p.info;
             contenedor.classList.add('show');
-            document.getElementById('classes-overlay').classList.remove('show');
+            cerrarClases();
             window.history.pushState({ etapa: 'detalle' }, '');
         }
 
         function cerrarDetalle() { document.getElementById('full-detail-page').classList.remove('show'); }
-        function contactarPaquete() { contactarWhatsApp(`Me interesa el ${paqueteActualTexto}`); }
-
-        function cerrarTodosModales() { 
-            cerrarClases(); cerrarAlquiler(); cerrarServicios(); cerrarDetalle();
-        }
+        function contactarPaquete() { contactarWhatsApp(paqueteActualTexto); }
 
         window.onpopstate = function() {
             if (document.getElementById('quiz-container').style.display === 'block') {
                 if (confirm("¿Salir del examen?")) { location.reload(); } else { window.history.pushState({ etapa: 'examen' }, ''); }
-            } else { cerrarTodosModales(); }
+            } else { 
+                cerrarClases(); cerrarAlquiler(); cerrarServicios(); cerrarDetalle();
+            }
         };
 
+        // LÓGICA DE EXAMEN RESTAURADA
         function iniciarExamen(tipo) {
-            cerrarTodosModales();
             window.history.pushState({ etapa: 'examen' }, '');
             document.body.classList.remove('fondo-auto', 'fondo-moto');
             document.body.classList.add(tipo === 'auto' ? 'fondo-auto' : 'fondo-moto');
@@ -371,7 +322,7 @@ Este paquete incluye:
             p.opciones.forEach((opt, i) => {
                 const b = document.createElement('button');
                 b.className = 'option-btn';
-                b.innerHTML = `<b>${['A','B','C','D'][i]}</b> <span style="margin-left:10px">${opt}</span>`;
+                b.innerHTML = `<span class="option-letter">${letrasOpciones[i]}</span> <span>${opt}</span>`;
                 b.onclick = () => {
                     if (bloquearOpciones) return;
                     bloquearOpciones = true;
@@ -389,14 +340,39 @@ Este paquete incluye:
             document.getElementById('result-container').style.display = 'block';
             document.getElementById('mainFooter').style.display = 'flex';
             const nota = Math.round((puntos / 40) * 100);
-            document.getElementById('result-score').innerText = nota;
-            document.getElementById('result-score').style.color = nota > 69 ? 'var(--verde-exito)' : 'var(--rojo-principal)';
+            const scoreDiv = document.getElementById('result-score');
+            const statusDiv = document.getElementById('result-status');
+            const messageP = document.getElementById('result-message');
+            scoreDiv.innerText = nota;
+            
+            let color = (nota <= 69) ? "var(--rojo-principal)" : "var(--verde-exito)";
+            statusDiv.innerHTML = (nota <= 69) ? '<i class="fas fa-times-circle"></i> REPROBADO' : '<i class="fas fa-check-circle"></i> APROBADO';
+            
+            let msg = "";
+            if (nota <= 69) msg = "Debes estudiar más.";
+            else if (nota <= 85) msg = "Bien. Pero puedes mejorar.";
+            else if (nota <= 99) msg = "Muy bien. Vas por buen camino.";
+            else msg = "Serás un excelente conductor o conductora.";
+
+            statusDiv.style.color = color;
+            scoreDiv.style.color = color;
+            messageP.innerText = msg;
+            if (nota === 100) dispararConfeti();
         }
 
         function compartirResultado() {
             const nota = document.getElementById('result-score').innerText;
             const text = `¡Saqué un ${nota} en Teórico CR! 🚗💨. Practica tú aquí: https://abre.ai/teoricocr`;
             if (navigator.share) navigator.share({ text: text }); else window.open(`https://wa.me/?text=${encodeURIComponent(text)}`);
+        }
+
+        function dispararConfeti() {
+            var end = Date.now() + 3000;
+            (function frame() {
+                confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#e31e24', '#28a745'] });
+                confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#e31e24', '#28a745'] });
+                if (Date.now() < end) requestAnimationFrame(frame);
+            }());
         }
     </script>
 </body>
