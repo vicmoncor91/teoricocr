@@ -67,37 +67,30 @@
         .btn:active { transform: scale(0.97); }
         .btn-dark { background-color: var(--negro-suave); }
 
-        /* --- MODALES Y DETALLE CON ANIMACIÓN --- */
+        /* MODALES Y DETALLE */
         .overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.6); z-index: 2000;
             display: none; align-items: center; justify-content: center;
             backdrop-filter: blur(2px);
-            opacity: 0;
-            transition: opacity 0.3s ease-out;
         }
-        .overlay.show { display: flex; opacity: 1; }
+        .overlay.show { display: flex; }
 
         .popup-card {
             width: 90%; max-width: 360px; background: white;
             border-radius: 25px; padding: 20px; text-align: center;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            position: relative; 
+            position: relative; animation: popIn 0.3s ease-out;
             max-height: 90vh; overflow-y: auto;
-            transform: scale(0.8);
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        .overlay.show .popup-card { transform: scale(1); }
+        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
         .full-page-detail {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: white; z-index: 3000; display: none;
             flex-direction: column; overflow-y: auto;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.3s ease-out;
         }
-        .full-page-detail.show { display: flex; opacity: 1; transform: translateY(0); }
+        .full-page-detail.show { display: flex; }
 
         .back-nav {
             position: sticky; top: 0; background: white; padding: 15px;
@@ -221,11 +214,10 @@
             </div>
         </div>
     </div>
-
-    <div id="services-overlay" class="overlay">
-        <div class="popup-card">
-            <i class="fas fa-times close-modal-x" onclick="window.history.back()"></i>
-            <h3 style="margin:0; color:var(--rojo-principal); font-size: 1.2rem;">Otros Servicios</h3>
+<div id="services-overlay" class="overlay">
+    <div class="popup-card">
+        <i class="fas fa-times close-modal-x" onclick="window.history.back()"></i>
+        <h3 style="margin:0; color:var(--rojo-principal); font-size: 1.2rem;">Otros Servicios</h3>
             <div class="service-grid">
                 <button class="btn-service" onclick="contactarWhatsApp('Quiero información sobre: Renovación de licencia')"><i class="fas fa-id-card"></i> Renovación</button>
                 <button class="btn-service" onclick="contactarWhatsApp('Quiero información sobre: Permiso temporal')"><i class="fas fa-clock"></i> Permiso temporal</button>
@@ -241,6 +233,8 @@
             </div>
         </div>
     </div>
+
+
 
     <div id="quiz-container">
         <div id="question-number" style="color: var(--rojo-principal); font-weight: bold; margin-bottom: 8px; text-align: center;"></div>
@@ -314,12 +308,12 @@
             'avanzado': { 
                 titulo: '🔹 Alquiler + 1 hora de práctica', 
                 imagen: 'avanzado.jpeg', 
-                info: `Si ya tenés conocimientos básicos pero querés reforzar tu seguridad al volante, esta opción es ideal para vos.\nEn esta sesión trabajarás maniobras específica...` 
+                info: `Si ya tenés conocimientos básicos pero querés reforzar tu seguridad al volante, esta opción es ideal para vos.\nEn esta sesión trabajarás maniobras específicas, corrección de errores y consejos clave para mejorar tu desempeño.\n\n🚗 Incluye:\n✔ 1 hora de práctica personalizada\n✔ Vehículo automático para realizar la prueba\n✔ Tips para mejorar tu técnica\n✔ Enfoque en puntos débiles\n\n💡 Perfecto para quienes necesitan un último ajuste antes de la prueba.` 
             },
             'enmano': { 
                 titulo: '🎉 PAQUETE LICENCIA EN MANO 🎉', 
                 imagen: 'enmano.jpeg', 
-                info: `203.000,00 CRC 290.000,00 CRC\n\nOlvidate de complicaciones...` 
+                info: `203.000,00 CRC 290.000,00 CRC\n\nOlvidate de complicaciones, nosotros nos encargamos de TODO para que salgas manejando con tu licencia en mano ✅\n\nEste paquete incluye:\n✔️ Enteros del banco ya pagos 🏦\n✔️ Citas gestionadas en COSEVI 📅\n✔️ Clases de manejo ILIMITADAS hasta que te sintás seguro/a 💪\n✔️ Vehículo cómodo y seguro para aprender 🚗\n✔️ Vehículo para el día de la prueba oficial 🏁\n✔️ Acompañamiento y asesoría en todo el proceso 🙌\n✔️ Material de apoyo y consejos prácticos para aprobar a la primera 📘✨\n\n🔥 ¡Un servicio integral pensado para que lo único que tengas que hacer sea aprender y ganar confianza al volante!\n\n📍 Contáctanos hoy y asegurá tu espacio, que las citas se agotan rápido.\n📲 WhatsApp: 7240-8103` 
             }
         };
 
@@ -336,8 +330,7 @@
         function abrirApelaciones() {
             whatsappMsgGlobal = "Apelación de infracciones"; whatsappNumGlobal = "50663784552";
             document.getElementById('p-img').src = 'apelacion.png'; 
-            document.getElementById('p-titulo').innerText = 'Apelación o Prescripción';
-            document.getElementById('p-info').innerText = 'Asesoría legal para gestión de multas e infracciones.';
+
             document.getElementById('full-detail-page').classList.add('show');
             window.history.pushState({ etapa: 'detalle' }, '');
         }
@@ -390,6 +383,7 @@
             window.scrollTo(0,0);
         }
 
+
         function finalizar() {
             document.getElementById('quiz-container').style.display = 'none';
             document.getElementById('result-container').style.display = 'block';
@@ -399,12 +393,20 @@
             const statusDiv = document.getElementById('result-status');
             const messageP = document.getElementById('result-message');
             scoreDiv.innerText = nota;
+            
             let color = (nota <= 69) ? "var(--rojo-principal)" : "var(--verde-exito)";
             statusDiv.innerHTML = (nota <= 69) ? '<i class="fas fa-times-circle"></i> REPROBADO' : '<i class="fas fa-check-circle"></i> APROBADO';
             
-            let msg = (nota <= 69) ? "Debes estudiar más." : (nota <= 85) ? "Bien. Pero puedes mejorar." : (nota <= 99) ? "Muy bien. Vas por buen camino." : "¡Excelente!";
-            statusDiv.style.color = color; scoreDiv.style.color = color; messageP.innerText = msg;
-            if (nota === 100) confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            let msg = "";
+            if (nota <= 69) msg = "Debes estudiar más.";
+            else if (nota <= 85) msg = "Bien. Pero puedes mejorar.";
+            else if (nota <= 99) msg = "Muy bien. Vas por buen camino.";
+            else msg = "Serás un excelente conductor o conductora.";
+
+            statusDiv.style.color = color;
+            scoreDiv.style.color = color;
+            messageP.innerText = msg;
+            if (nota === 100) dispararConfeti();
         }
 
         function compartirResultado() {
