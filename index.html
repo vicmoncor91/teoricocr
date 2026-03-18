@@ -21,47 +21,51 @@
         }
 
         html, body {
-            overflow: hidden; /* Evita scroll accidental */
+            overflow-x: hidden;
             margin: 0; padding: 0;
             background-color: var(--blanco);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             height: 100%;
         }
 
-        body { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        body { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; }
 
-        /* HEADER COMPACTO */
-        header { text-align: center; padding: 10px 0; width: 100%; position: relative; }
+        /* FONDOS DINÁMICOS RESTAURADOS */
+        body.fondo-auto { background-image: url('fondoexamen.jpeg'); background-size: cover; background-position: center; background-attachment: fixed; background-blend-mode: overlay; background-color: rgba(255, 255, 255, 0.85); }
+        body.fondo-moto { background-image: url('fondomoto.jpeg'); background-size: cover; background-position: center; background-attachment: fixed; background-blend-mode: overlay; background-color: rgba(255, 255, 255, 0.85); }
+
+        /* HEADER */
+        header { text-align: center; padding: 15px 10px; width: 100%; position: relative; }
         .btn-share-top { 
-            position: absolute; top: 10px; right: 15px; 
+            position: absolute; top: 15px; right: 15px; 
             background: var(--gris-claro); color: var(--negro-suave);
-            border: none; width: 32px; height: 32px; border-radius: 50%;
+            border: none; width: 35px; height: 35px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            cursor: pointer; font-size: 0.9rem; z-index: 10;
+            cursor: pointer; z-index: 10;
         }
-        .app-logo { height: 80px; width: auto; } 
-        .school-info { color: #666; font-size: 0.7rem; line-height: 1.1; margin-bottom: 5px; }
+        .app-logo { height: 120px; width: auto; } 
+        .school-info { color: #666; font-size: 0.8rem; line-height: 1.2; margin-bottom: 5px; }
 
-        .menu-container { width: 90%; max-width: 360px; display: flex; flex-direction: column; gap: 8px; }
+        .menu-container { width: 90%; max-width: 380px; display: flex; flex-direction: column; gap: 10px; padding-bottom: 80px; }
         .section-title { 
-            font-weight: bold; font-size: 0.75rem; color: #555; 
-            text-transform: uppercase; letter-spacing: 0.5px;
-            margin-top: 5px; margin-bottom: 2px;
-            border-bottom: 1px solid var(--gris-claro); padding-bottom: 2px;
+            font-weight: bold; font-size: 0.85rem; color: #555; 
+            text-transform: uppercase; letter-spacing: 1px;
+            margin-top: 10px; margin-bottom: 5px;
+            border-bottom: 2px solid var(--gris-claro); padding-bottom: 5px;
         }
         
-        .exam-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .exam-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
         .btn {
             background-color: var(--rojo-principal); color: white; border: none;
-            padding: 12px 10px; border-radius: 12px; font-size: 14px; font-weight: 600;
+            padding: 14px 10px; border-radius: 12px; font-size: 15px; font-weight: 600;
             display: flex; align-items: center; justify-content: center; gap: 8px;
             text-decoration: none; cursor: pointer; transition: transform 0.1s;
         }
         .btn:active { transform: scale(0.97); }
         .btn-dark { background-color: var(--negro-suave); }
 
-        /* MODALES Y PANTALLAS */
+        /* MODALES */
         .overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.6); z-index: 2000;
@@ -74,7 +78,9 @@
             width: 90%; max-width: 360px; background: white;
             border-radius: 25px; padding: 20px; text-align: center;
             position: relative; max-height: 90vh; overflow-y: auto;
+            animation: popIn 0.3s ease-out;
         }
+        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
         .full-page-detail {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -86,36 +92,46 @@
         .back-nav {
             position: sticky; top: 0; background: white; padding: 15px;
             display: flex; align-items: center; gap: 15px; font-weight: bold;
-            border-bottom: 1px solid #eee; z-index: 10; cursor: pointer;
+            font-size: 1.1rem; border-bottom: 1px solid #eee; z-index: 10; cursor: pointer;
         }
 
         .detail-img { width: 100%; height: auto; display: block; }
-        .detail-body { padding: 20px; }
-        .detail-title { color: var(--rojo-principal); margin-bottom: 10px; font-size: 1.3rem; }
-        .detail-text { font-size: 0.95rem; line-height: 1.5; color: #333; white-space: pre-line; }
+        .detail-body { padding: 20px; padding-bottom: 40px; }
+        .detail-title { color: var(--rojo-principal); margin-bottom: 15px; font-size: 1.4rem; }
+        .detail-text { font-size: 1rem; line-height: 1.6; color: #333; white-space: pre-line; }
 
         .close-modal-x { position: absolute; top: 15px; right: 15px; font-size: 20px; color: #bbb; cursor: pointer; }
 
-        .service-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+        .service-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 15px; }
         .btn-service, .btn-cat {
-            background: #f8f9fa; border: 1.2px solid #eee; padding: 10px 5px;
-            border-radius: 12px; font-weight: 600; font-size: 0.7rem;
-            cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px;
+            background: #f8f9fa; border: 1.5px solid #eee; padding: 12px 5px;
+            border-radius: 12px; font-weight: 600; color: var(--negro-suave);
+            cursor: pointer; font-size: 0.75rem; display: flex; flex-direction: column; align-items: center; gap: 5px;
         }
-        .btn-package { grid-column: span 2; padding: 12px; font-size: 0.9rem; }
+        .btn-package { grid-column: span 2; padding: 15px; font-size: 1rem; }
 
-        footer { position: fixed; bottom: 0; width: 100%; background: white; padding: 10px 0; display: flex; justify-content: center; gap: 30px; border-top: 1px solid #eee; }
-        footer a { font-size: 24px; }
+        /* EXAMEN */
+        #quiz-container { width: 90%; max-width: 400px; display: none; padding: 20px 0; }
+        #question-text { font-weight: bold; font-size: 1.1rem; margin-bottom: 20px; text-align: center; }
+        .option-btn {
+            width: 100%; padding: 15px; margin-bottom: 12px; border-radius: 12px;
+            border: 1px solid #ddd; background: #f9f9f9; text-align: left; 
+            font-size: 1rem; cursor: pointer; display: flex; align-items: flex-start; gap: 12px;
+        }
+
+        footer { position: fixed; bottom: 0; width: 100%; background: white; padding: 12px 0; display: flex; justify-content: center; gap: 35px; border-top: 1px solid #eee; z-index: 900;}
+        footer a { font-size: 26px; text-decoration: none; }
 
         /* INSTALACIÓN */
         #install-mini-card {
-            position: fixed; bottom: 65px; left: 50%; transform: translateX(-50%);
-            width: 80%; max-width: 300px; background: white;
-            padding: 10px; border-radius: 15px; display: none;
-            align-items: center; justify-content: space-between; gap: 10px;
-            z-index: 1000; box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            border: 1px solid #eee;
+            position: fixed; bottom: 85px; left: 50%; transform: translateX(-50%);
+            width: 85%; max-width: 320px; background: white;
+            padding: 12px; border-radius: 18px; display: none;
+            align-items: center; justify-content: space-between; gap: 12px;
+            z-index: 1000; box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            border: 1px solid #eee; animation: slideUp 0.4s ease-out;
         }
+        @keyframes slideUp { from { bottom: -100px; } to { bottom: 85px; } }
     </style>
 </head>
 <body>
@@ -136,29 +152,29 @@
         </div>
 
         <div class="section-title">Nuestros Servicios</div>
-        <button class="btn" onclick="abrirClases()">Paquetes de Manejo</button>
-        <button class="btn" onclick="abrirAlquiler()">Alquiler de vehículos</button>
+        <button class="btn" onclick="abrirClases()">Paquetes de Clases de Manejo</button>
+        <button class="btn" onclick="abrirAlquiler()">Alquiler de vehículos (San Ramón)</button>
         <button class="btn" onclick="abrirServicios()">Otros servicios</button>
         <button class="btn btn-dark" onclick="abrirApelaciones()">Apelación o prescripción</button>
     </div>
 
     <div id="install-mini-card">
-        <div style="color: var(--rojo-principal); font-size: 1.1rem;"><i class="fas fa-mobile-screen"></i></div>
-        <div style="flex:1; font-size: 0.8rem; font-weight: 500;" id="install-text-msg">Instala la App en tu inicio</div>
-        <button id="btn-install-mini" class="btn" style="padding: 5px 8px; font-size: 0.7rem;">Instalar</button>
-        <i class="fas fa-times" onclick="this.parentElement.style.display='none'" style="color:#ccc; cursor:pointer;"></i>
+        <div style="background: var(--gris-claro); padding: 8px; border-radius: 10px; color: var(--rojo-principal);"><i class="fas fa-cloud-download-alt"></i></div>
+        <div style="flex: 1; font-size: 0.85rem; color: #444; font-weight: 500;" id="install-text-msg">Instala la App en tu pantalla</div>
+        <button id="btn-install-mini" class="btn" style="padding: 6px 10px; font-size: 0.75rem;">Instalar</button>
+        <i class="fas fa-times" onclick="this.parentElement.style.display='none'" style="color:#ccc; cursor:pointer; padding-left: 5px;"></i>
     </div>
 
     <div id="full-detail-page" class="full-page-detail">
         <div class="back-nav" onclick="cerrarDetalle()">
             <i class="fas fa-arrow-left"></i> Volver
         </div>
-        <img id="p-img" src="" alt="" class="detail-img">
+        <img id="p-img" src="" alt="Detalle" class="detail-img">
         <div class="detail-body">
             <h3 id="p-titulo" class="detail-title"></h3>
             <div id="p-info" class="detail-text"></div>
-            <button class="btn" style="width: 100%; margin-top: 20px;" onclick="contactarAccion()">
-                <i class="fab fa-whatsapp"></i> <span id="btn-whatsapp-text">Consultar ahora</span>
+            <button class="btn" style="width: 100%; margin-top: 30px;" onclick="contactarAccion()">
+                <i class="fab fa-whatsapp"></i> <span id="btn-whatsapp-text">Contactar</span>
             </button>
         </div>
     </div>
@@ -166,7 +182,7 @@
     <div id="classes-overlay" class="overlay">
         <div class="popup-card">
             <i class="fas fa-times close-modal-x" onclick="cerrarClases()"></i>
-            <h3 style="margin:0 0 10px 0; color:var(--rojo-principal); font-size: 1.1rem;">Selecciona un Paquete</h3>
+            <h3 style="margin-top:0; color:var(--rojo-principal);">Paquetes de Manejo</h3>
             <div class="service-grid">
                 <button class="btn-service btn-package" onclick="abrirDetallePaquete('desdecero')">Desde cero</button>
                 <button class="btn-service btn-package" onclick="abrirDetallePaquete('principiante')">Principiante</button>
@@ -180,16 +196,12 @@
     <div id="rental-overlay" class="overlay">
         <div class="popup-card">
             <i class="fas fa-times close-modal-x" onclick="cerrarAlquiler()"></i>
-            <h3 style="margin:0 0 10px 0; color:var(--rojo-principal); font-size: 1.1rem;">Alquiler de Vehículo</h3>
+            <h3 style="margin-top:0; color:var(--rojo-principal);">Alquiler de Vehículo</h3>
             <div class="service-grid">
                 <button class="btn-cat" onclick="contactarWhatsApp('Alquiler B1')">B1</button>
                 <button class="btn-cat" onclick="contactarWhatsApp('Alquiler B2')">B2</button>
-                <button class="btn-cat" onclick="contactarWhatsApp('Alquiler B3')">B3</button>
-                <button class="btn-cat" onclick="contactarWhatsApp('Alquiler B4')">B4</button>
                 <button class="btn-cat" onclick="contactarWhatsApp('Alquiler A1')">A1</button>
                 <button class="btn-cat" onclick="contactarWhatsApp('Alquiler A2')">A2</button>
-                <button class="btn-cat" onclick="contactarWhatsApp('Alquiler A3')">A3</button>
-                <button class="btn-cat" onclick="contactarWhatsApp('Alquiler C2')">C2</button>
             </div>
         </div>
     </div>
@@ -197,20 +209,25 @@
     <div id="services-overlay" class="overlay">
         <div class="popup-card">
             <i class="fas fa-times close-modal-x" onclick="cerrarServicios()"></i>
-            <h3 style="margin:0 0 10px 0; color:var(--rojo-principal); font-size: 1.1rem;">Otros Servicios</h3>
+            <h3 style="margin:0; color:var(--rojo-principal); font-size: 1.2rem;">Otros Servicios</h3>
             <div class="service-grid">
                 <button class="btn-service" onclick="contactarWhatsApp('Renovación')"><i class="fas fa-id-card"></i> Renovación</button>
-                <button class="btn-service" onclick="contactarWhatsApp('Permiso temporal')"><i class="fas fa-clock"></i> Permiso</button>
                 <button class="btn-service" onclick="contactarWhatsApp('Citas')"><i class="fas fa-calendar-alt"></i> Citas</button>
                 <button class="btn-service" onclick="contactarWhatsApp('Dictamen médico')"><i class="fas fa-stethoscope"></i> Dictamen</button>
+                <button class="btn-service" onclick="contactarWhatsApp('Curso Teórico')"><i class="fas fa-graduation-cap"></i> Cursos</button>
             </div>
         </div>
     </div>
 
-    <div id="quiz-container" style="display:none; padding:20px; overflow-y: auto; height: 100vh; background:white;">
-        <div id="question-number" style="color:var(--rojo-principal); font-weight:bold; text-align:center;"></div>
-        <div id="question-text" style="font-weight:bold; margin:20px 0; text-align:center;"></div>
+    <div id="quiz-container">
+        <div id="question-number" style="color: var(--rojo-principal); font-weight: bold; margin-bottom: 8px; text-align: center;"></div>
+        <div id="question-text"></div>
         <div id="options-container"></div>
+    </div>
+
+    <div id="result-container" style="display:none; text-align:center; padding:20px;">
+        <h2 id="result-score" style="font-size:3rem; margin:10px 0;"></h2>
+        <button class="btn" onclick="location.reload()">Volver al Inicio</button>
     </div>
 
     <footer id="mainFooter">
@@ -230,81 +247,75 @@
         let whatsappNumGlobal = "50672408103";
 
         function compartirAppGeneral() {
-            const text = `¡Instala la App Teórico CR tú tambien! https://abre.ai/teoricocr`;
+            const text = `¡Instala la App Teórico CR tú tambien! Practica aquí: https://abre.ai/teoricocr`;
             if (navigator.share) navigator.share({ text: text });
             else window.open(`https://wa.me/?text=${encodeURIComponent(text)}`);
         }
 
-        // --- INSTALACIÓN ---
-        let deferredPrompt;
-        const installCard = document.getElementById('install-mini-card');
-        if (!window.matchMedia('(display-mode: standalone)').matches) {
-            if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
-                document.getElementById('install-text-msg').innerText = "Toca 'Compartir' y 'Añadir a inicio'";
-                document.getElementById('btn-install-mini').style.display = "none";
-                setTimeout(() => installCard.style.display = "flex", 3000);
+        // --- MANEJO DE HISTORIAL (ATRAS) ---
+        window.onpopstate = function() {
+            cerrarClases(); cerrarAlquiler(); cerrarServicios(); cerrarDetalle();
+            if (document.getElementById('quiz-container').style.display === 'block') {
+                location.reload();
             }
-        }
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault(); deferredPrompt = e;
-            setTimeout(() => installCard.style.display = "flex", 3000);
-        });
-        document.getElementById('btn-install-mini').onclick = async () => {
-            if (deferredPrompt) { deferredPrompt.prompt(); installCard.style.display='none'; }
         };
 
-        // --- PAQUETES DATOS ---
-        const dataPaquetes = {
-            'desdecero': { titulo: '🔴 Paquete 12 horas – Desde Cero', imagen: 'desdecero.jpeg', info: `Pensado para iniciar desde cero.\n\n🚗 Incluye:\n✔ 12 horas de práctica\n✔ Vehículo para prueba\n✔ Circuito réplica COSEVI\n✔ Rutas reales` },
-            'principiante': { titulo: '🟠 Paquete 8 horas – Principiantes', imagen: 'principiantes.jpeg', info: `Para aumentar probabilidades de aprobar.\n\n🚗 Incluye:\n✔ 8 horas de práctica\n✔ Vehículo para prueba\n✔ Entrenamiento en circuito` },
-            'intermedio': { titulo: '🟡 Paquete 4 horas – Nivel Intermedio', imagen: 'intermedio.jpeg', info: `Para perfeccionar técnica.\n\n🚗 Incluye:\n✔ 4 horas de práctica\n✔ Simulación de examen\n✔ Tips prácticos` },
-            'avanzado': { titulo: '🔹 Alquiler + 1 hora de práctica', imagen: 'avanzado.jpeg', info: `Para reforzar seguridad.\n\n🚗 Incluye:\n✔ 1 hora personalizada\n✔ Vehículo automático\n✔ Enfoque en puntos débiles` },
-            'enmano': { titulo: '🎉 LICENCIA EN MANO 🎉', imagen: 'enmano.jpeg', info: `Nos encargamos de TODO.\n\n✔️ Enteros del banco pagos\n✔️ Citas gestionadas\n✔️ Clases ILIMITADAS\n✔️ Vehículo incluido` }
-        };
-
-        function contactarWhatsApp(detalle, num = "50672408103") {
-            window.open(`https://wa.me/${num}?text=${encodeURIComponent("Hola. Información sobre: " + detalle)}`, '_blank');
-        }
-
-        function abrirClases() { document.getElementById('classes-overlay').classList.add('show'); }
+        function abrirClases() { window.history.pushState({ etapa: 'modal' }, ''); document.getElementById('classes-overlay').classList.add('show'); }
         function cerrarClases() { document.getElementById('classes-overlay').classList.remove('show'); }
-        function abrirAlquiler() { document.getElementById('rental-overlay').classList.add('show'); }
+        function abrirAlquiler() { window.history.pushState({ etapa: 'modal' }, ''); document.getElementById('rental-overlay').classList.add('show'); }
         function cerrarAlquiler() { document.getElementById('rental-overlay').classList.remove('show'); }
-        function abrirServicios() { document.getElementById('services-overlay').classList.add('show'); }
+        function abrirServicios() { window.history.pushState({ etapa: 'modal' }, ''); document.getElementById('services-overlay').classList.add('show'); }
         function cerrarServicios() { document.getElementById('services-overlay').classList.remove('show'); }
+        function cerrarDetalle() { document.getElementById('full-detail-page').classList.remove('show'); }
+
+        const dataPaquetes = {
+            'desdecero': { titulo: '🔴 Paquete 12 horas – Desde Cero', imagen: 'desdecero.jpeg', info: `Completo y sin estrés.\n\n🚗 Incluye:\n✔ 12 horas de práctica\n✔ Vehículo para prueba\n✔ Circuito réplica COSEVI` },
+            'principiante': { titulo: '🟠 Paquete 8 horas – Principiantes', imagen: 'principiantes.jpeg', info: `Intensivo para asegurar el éxito.\n\n🚗 Incluye:\n✔ 8 horas de práctica\n✔ Vehículo para prueba\n✔ Entrenamiento en circuito` },
+            'intermedio': { titulo: '🟡 Paquete 4 horas – Nivel Intermedio', imagen: 'intermedio.jpeg', info: `Para perfeccionar técnica.\n\n🚗 Incluye:\n✔ 4 horas de práctica\n✔ Simulación de examen\n✔ Tips prácticos` },
+            'avanzado': { titulo: '🔹 Alquiler + 1 hora de práctica', imagen: 'avanzado.jpeg', info: `Refuerzo de seguridad.\n\n🚗 Incluye:\n✔ 1 hora personalizada\n✔ Vehículo automático\n✔ Enfoque en puntos débiles` },
+            'enmano': { titulo: '🎉 LICENCIA EN MANO 🎉', imagen: 'enmano.jpeg', info: `Nos encargamos de TODO.\n\n✔️ Enteros pagos\n✔️ Citas gestionadas\n✔️ Clases ILIMITADAS` }
+        };
 
         function abrirDetallePaquete(id) {
             const p = dataPaquetes[id];
             whatsappMsgGlobal = p.titulo; whatsappNumGlobal = "50672408103";
-            document.getElementById('p-img').src = p.image || p.imagen;
+            document.getElementById('p-img').src = p.imagen;
             document.getElementById('p-titulo').innerText = p.titulo;
             document.getElementById('p-info').innerText = p.info;
-            document.getElementById('btn-whatsapp-text').innerText = "Consultar ahora";
+            document.getElementById('btn-whatsapp-text').innerText = "Contactar por WhatsApp";
             document.getElementById('full-detail-page').classList.add('show');
             cerrarClases();
+            window.history.pushState({ etapa: 'detalle' }, '');
         }
 
         function abrirApelaciones() {
             whatsappMsgGlobal = "Apelación de infracciones"; whatsappNumGlobal = "50663784552";
-            document.getElementById('p-img').src = 'apelaciones.png';
+            document.getElementById('p-img').src = 'apelaciones.png'; // IMAGEN RESTAURADA
             document.getElementById('p-titulo').innerText = 'Apelación o Prescripción';
-            document.getElementById('p-info').innerText = 'Asesoría legal para gestión de multas de tránsito. Evaluamos su caso para apelación o prescripción.';
+            document.getElementById('p-info').innerText = 'Asesoría legal para gestión de multas. Evaluamos si aplica apelación o prescripción por tiempo.';
             document.getElementById('btn-whatsapp-text').innerText = "Consulta gratis";
             document.getElementById('full-detail-page').classList.add('show');
+            window.history.pushState({ etapa: 'detalle' }, '');
         }
 
-        function cerrarDetalle() { document.getElementById('full-detail-page').classList.remove('show'); }
         function contactarAccion() { contactarWhatsApp(whatsappMsgGlobal, whatsappNumGlobal); }
+        function contactarWhatsApp(detalle, num = "50672408103") {
+            window.open(`https://wa.me/${num}?text=${encodeURIComponent("Hola. Vengo de la App. Info sobre: " + detalle)}`, '_blank');
+        }
 
+        // --- EXAMEN ---
         function iniciarExamen(tipo) {
-            document.body.style.overflow = "auto";
+            window.history.pushState({ etapa: 'examen' }, '');
+            document.body.classList.remove('fondo-auto', 'fondo-moto');
+            document.body.classList.add(tipo === 'auto' ? 'fondo-auto' : 'fondo-moto');
+            let fuente = (tipo === 'moto') ? (typeof bancoPreguntasMoto !== 'undefined' ? bancoPreguntasMoto : bancoPreguntasmoto) : bancoPreguntas;
+            preguntasSimulacro = [...fuente].sort(() => 0.5 - Math.random()).slice(0, 40);
+            index = 0; puntos = 0;
             document.getElementById('mainHeader').style.display = 'none';
             document.getElementById('mainMenu').style.display = 'none';
             document.getElementById('mainFooter').style.display = 'none';
             document.getElementById('quiz-container').style.display = 'block';
-            let fuente = (tipo === 'moto') ? (typeof bancoPreguntasMoto !== 'undefined' ? bancoPreguntasMoto : bancoPreguntasmoto) : bancoPreguntas;
-            preguntasSimulacro = [...fuente].sort(() => 0.5 - Math.random()).slice(0, 40);
-            index = 0; puntos = 0; mostrarPregunta();
+            mostrarPregunta();
         }
 
         function mostrarPregunta() {
@@ -316,17 +327,26 @@
             container.innerHTML = '';
             p.opciones.forEach((opt, i) => {
                 const b = document.createElement('button');
-                b.innerHTML = opt;
-                b.style.cssText = "width:100%; padding:12px; margin-bottom:8px; border-radius:10px; border:1px solid #ddd; background:#f9f9f9; text-align:left;";
+                b.className = 'option-btn';
+                b.innerHTML = `<span style="font-weight:bold; color:var(--rojo-principal); min-width:22px;">${['A','B','C','D'][i]}</span> <span>${opt}</span>`;
                 b.onclick = () => {
                     if (bloquearOpciones) return; bloquearOpciones = true;
                     if(i === p.correcta) { puntos++; b.style.backgroundColor = '#d4edda'; } 
                     else { b.style.backgroundColor = '#f8d7da'; container.children[p.correcta].style.backgroundColor = '#d4edda'; }
-                    setTimeout(() => { index++; if(index < 40) mostrarPregunta(); else location.reload(); }, 600);
+                    setTimeout(() => { index++; if(index < 40) mostrarPregunta(); else finalizar(); }, 650);
                 };
                 container.appendChild(b);
             });
             window.scrollTo(0,0);
+        }
+
+        function finalizar() {
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('result-container').style.display = 'block';
+            document.getElementById('result-score').innerText = Math.round((puntos/40)*100);
+            if (puntos === 40) {
+                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            }
         }
     </script>
 </body>
