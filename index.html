@@ -237,10 +237,10 @@
     </div>
 
     <footer id="mainFooter">
-        <a href="#"><i class="fab fa-tiktok"></i></a>
-        <a href="#"><i class="fab fa-facebook"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="https://wa.me/50672408103"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://www.tiktok.com/@christianescuelademanejo?_r=1&_t=ZS-94nadHmypQu" target="_blank"><i class="fab fa-tiktok"></i></a>
+        <a href="https://www.facebook.com/share/1FY2w4BgwW/?mibextid=wwXIfr" target="_blank"><i class="fab fa-facebook"></i></a>
+        <a href="https://www.instagram.com/escuelademanejocr.christian?igsh=a2JpN2tsZmdheW8w&utm_source=qr" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://wa.me/50672408103" target="_blank"><i class="fab fa-whatsapp"></i></a>
     </footer>
 
     <script src="preguntas.js"></script>
@@ -265,7 +265,6 @@
             window.open(`https://wa.me/50672408103?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
-        // NAVEGACIÓN
         function abrirClases() { window.history.pushState({ etapa: 'modal' }, ''); document.getElementById('classes-overlay').classList.add('show'); }
         function cerrarClases() { document.getElementById('classes-overlay').classList.remove('show'); }
         function abrirAlquiler() { window.history.pushState({ etapa: 'modal' }, ''); document.getElementById('rental-overlay').classList.add('show'); }
@@ -297,7 +296,6 @@
             }
         };
 
-        // LÓGICA DE EXAMEN RESTAURADA
         function iniciarExamen(tipo) {
             window.history.pushState({ etapa: 'examen' }, '');
             document.body.classList.remove('fondo-auto', 'fondo-moto');
