@@ -96,7 +96,7 @@
         }
         @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-        .close-modal-x { position: absolute; top: 15px; right: 15px; font-size: 20px; color: #bbb; cursor: pointer; }
+        .close-modal-x { position: absolute; top: 15px; right: 15px; font-size: 20px; color: #bbb; cursor: pointer; z-index: 10; }
 
         .service-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 15px; }
         .btn-service, .btn-cat {
@@ -109,6 +109,13 @@
         .btn-service:active, .btn-cat:active { background: var(--rojo-principal); color: white; border-color: var(--rojo-principal); transform: scale(0.95); }
         
         .btn-package { grid-column: span 2; padding: 15px; font-size: 1rem; }
+
+        /* Estilos específicos para la ficha de detalle */
+        .detail-card { padding: 0; overflow: hidden; text-align: left; }
+        .detail-img { width: 100%; height: auto; display: block; }
+        .detail-content { padding: 20px; }
+        .detail-title { color: var(--rojo-principal); margin-top: 0; font-size: 1.3rem; }
+        .detail-text { font-size: 0.95rem; line-height: 1.5; color: #444; white-space: pre-line; }
 
         #quiz-container { width: 90%; max-width: 400px; display: none; padding: 20px 0; position: relative; z-index: 10; }
         #question-text { font-weight: bold; font-size: 1.1rem; margin-bottom: 20px; color: #222; text-align: center; }
@@ -159,11 +166,25 @@
             <i class="fas fa-times close-modal-x" onclick="cerrarClases()"></i>
             <h3 style="margin-top:0; color:var(--rojo-principal);">Paquetes de Clases de Manejo</h3>
             <div class="service-grid">
-                <button class="btn-service btn-package" onclick="contactarWhatsApp('Información sobre paquete: Desde cero')">Desde cero</button>
-                <button class="btn-service btn-package" onclick="contactarWhatsApp('Información sobre paquete: Principiante')">Principiante</button>
-                <button class="btn-service btn-package" onclick="contactarWhatsApp('Información sobre paquete: Intermedio')">Intermedio</button>
-                <button class="btn-service btn-package" onclick="contactarWhatsApp('Quiero información sobre paquete: Avanzado')">Avanzado</button>
-                <button class="btn-service btn-package" onclick="contactarWhatsApp('Quiero información sobre paquete: Licencia en mano')">Licencia en mano</button>
+                <button class="btn-service btn-package" onclick="abrirDetallePaquete('desdecero')">Desde cero</button>
+                <button class="btn-service btn-package" onclick="abrirDetallePaquete('principiante')">Principiante</button>
+                <button class="btn-service btn-package" onclick="abrirDetallePaquete('intermedio')">Intermedio</button>
+                <button class="btn-service btn-package" onclick="abrirDetallePaquete('avanzado')">Avanzado</button>
+                <button class="btn-service btn-package" onclick="abrirDetallePaquete('enmano')">Licencia en mano</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="detail-overlay" class="overlay">
+        <div class="popup-card detail-card">
+            <i class="fas fa-times close-modal-x" onclick="cerrarDetalle()" style="background: white; border-radius: 50%; padding: 5px; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2);"></i>
+            <img id="p-img" src="" alt="Imagen Paquete" class="detail-img">
+            <div class="detail-content">
+                <h3 id="p-titulo" class="detail-title"></h3>
+                <div id="p-info" class="detail-text"></div>
+                <button class="btn" style="width: 100%; margin-top: 20px;" onclick="contactarPaquete()">
+                    <i class="fab fa-whatsapp"></i> Contactar
+                </button>
             </div>
         </div>
     </div>
@@ -234,23 +255,94 @@
     <script>
         let preguntasSimulacro = [];
         let index = 0; let puntos = 0; let bloquearOpciones = false;
+        let nombrePaqueteActual = "";
         const letrasOpciones = ['A', 'B', 'C', 'D'];
+
+        const dataPaquetes = {
+            'desdecero': {
+                titulo: '🔴 Paquete 12 horas – Desde Cero',
+                imagen: 'desdecero.jpeg',
+                info: `Este paquete está pensado para personas que inician desde cero o que desean una preparación completa y sin estrés. Aprenderás desde lo más básico hasta dominar todas las habilidades necesarias para aprobar con seguridad.
+
+🚗 Incluye:
+✔ 12 horas de práctica total
+✔ Vehículo para realizar la prueba
+✔ Entrenamiento progresivo paso a paso
+✔ Circuito réplica COSEVI
+✔ Rutas reales y simulación de examen
+✔ Acompañamiento completo
+
+💡 Perfecto si querés aprender bien desde el inicio y ganar confianza total.`
+            },
+            'principiante': {
+                titulo: '🟠 Paquete 8 horas – Principiantes',
+                imagen: 'principiantes.jpeg',
+                info: `Una opción más intensiva para quienes quieren prepararse de forma completa y aumentar significativamente sus probabilidades de aprobar en el primer intento. Aquí desarrollarás confianza, dominio del vehículo y control en diferentes situaciones reales.
+
+🚗 Incluye:
+✔ 8 horas de práctica intensiva
+✔ Vehículo para la prueba
+✔ Entrenamiento en circuito tipo COSEVI
+✔ Práctica en rutas reales
+✔ Corrección continua con instructor
+
+💡 Recomendado si querés sentirte seguro(a) en todo momento.`
+            },
+            'intermedio': {
+                titulo: '🟡 Paquete 4 horas – Nivel Intermedio',
+                imagen: 'intermedio.jpeg',
+                info: `Este paquete está diseñado para personas que ya manejan, pero desean perfeccionar su técnica y aumentar su confianza antes del examen práctico. Durante las sesiones trabajarás rutas reales, maniobras clave y errores comunes que pueden hacerte perder la prueba.
+
+🚗 Incluye:
+✔ 4 horas de práctica
+✔ Vehículo para realizar la prueba
+✔ Simulación de examen
+✔ Identificación de posibles “trampas”
+✔ Tips prácticos para aprobar
+
+💡 Ideal para pulir detalles y asegurar un mejor resultado.`
+            },
+            'avanzado': {
+                titulo: '🔹 Alquiler + 1 hora de práctica',
+                imagen: 'avanzado.jpeg',
+                info: `Si ya tenés conocimientos básicos pero querés reforzar tu seguridad al volante, esta opción es ideal para vos. En esta sesión trabajarás maniobras específicas, corrección de errores y consejos clave para mejorar tu desempeño.
+
+🚗 Incluye:
+✔ 1 hora de práctica personalizada
+✔ Vehículo automático para realizar la prueba
+✔ Tips para mejorar tu técnica
+✔ Enfoque en puntos débiles
+
+💡 Perfecto para quienes necesitan un último ajuste antes de la prueba.`
+            },
+            'enmano': {
+                titulo: '🎉 PAQUETE LICENCIA EN MANO 🎉',
+                imagen: 'enmano.jpeg',
+                info: `203.000,00 CRC (Antes 290.000,00 CRC)
+Olvidate de complicaciones, nosotros nos encargamos de TODO para que salgas manejando con tu licencia en mano ✅
+
+Este paquete incluye:
+✔️ Enteros del banco ya pagos 🏦
+✔️ Citas gestionadas en COSEVI 📅
+✔️ Clases de manejo ILIMITADAS hasta que te sintás seguro/a 💪
+✔️ Vehículo cómodo y seguro para aprender 🚗
+✔️ Vehículo para el día de la prueba oficial 🏁
+✔️ Acompañamiento y asesoría en todo el proceso 🙌
+✔️ Material de apoyo y consejos prácticos para aprobar a la primera 📘✨
+
+🔥 ¡Un servicio integral pensado para que lo único que tengas que hacer sea aprender y ganar confianza al volante!`
+            }
+        };
 
         window.onload = () => { window.history.pushState({ etapa: 'menu' }, ''); };
 
         window.onpopstate = function(event) {
             const quizVisible = document.getElementById('quiz-container').style.display === 'block';
             const modalAbierto = document.querySelector('.overlay.show');
-
             if (quizVisible) {
-                if (confirm("¿Deseas salir del examen? Se perderá el progreso.")) { 
-                    document.body.classList.remove('fondo-auto', 'fondo-moto');
-                    location.reload(); 
-                } 
+                if (confirm("¿Deseas salir del examen? Se perderá el progreso.")) { location.reload(); } 
                 else { window.history.pushState({ etapa: 'examen' }, ''); }
-            } else if (modalAbierto) {
-                cerrarTodosModales();
-            }
+            } else if (modalAbierto) { cerrarTodosModales(); }
         };
 
         function contactarWhatsApp(detalle) {
@@ -266,20 +358,27 @@
         function cerrarAlquiler() { document.getElementById('rental-overlay').classList.remove('show'); }
         function abrirServicios() { registrarEstadoModal(); document.getElementById('services-overlay').classList.add('show'); }
         function cerrarServicios() { document.getElementById('services-overlay').classList.remove('show'); }
-        function cerrarTodosModales() { cerrarClases(); cerrarAlquiler(); cerrarServicios(); }
+        
+        function abrirDetallePaquete(id) {
+            const p = dataPaquetes[id];
+            nombrePaqueteActual = p.titulo;
+            document.getElementById('p-img').src = p.imagen;
+            document.getElementById('p-titulo').innerText = p.titulo;
+            document.getElementById('p-info').innerText = p.info;
+            document.getElementById('detail-overlay').classList.add('show');
+            registrarEstadoModal();
+        }
+
+        function cerrarDetalle() { document.getElementById('detail-overlay').classList.remove('show'); }
+        function contactarPaquete() { contactarWhatsApp(`Me interesa el ${nombrePaqueteActual}`); }
+
+        function cerrarTodosModales() { cerrarClases(); cerrarAlquiler(); cerrarServicios(); cerrarDetalle(); }
 
         function iniciarExamen(tipo) {
             cerrarTodosModales();
             window.history.pushState({ etapa: 'examen' }, '');
-            
-            // LIMPIAR CLASES Y APLICAR LA CORRESPONDIENTE
             document.body.classList.remove('fondo-auto', 'fondo-moto');
-            if (tipo === 'auto') {
-                document.body.classList.add('fondo-auto');
-            } else if (tipo === 'moto') {
-                document.body.classList.add('fondo-moto');
-            }
-
+            document.body.classList.add(tipo === 'auto' ? 'fondo-auto' : 'fondo-moto');
             let fuente = (tipo === 'moto') ? (typeof bancoPreguntasMoto !== 'undefined' ? bancoPreguntasMoto : bancoPreguntasmoto) : bancoPreguntas;
             if (!fuente) { alert("Cargando preguntas..."); return; }
             preguntasSimulacro = [...fuente].sort(() => 0.5 - Math.random()).slice(0, 40);
@@ -323,19 +422,10 @@
             const statusDiv = document.getElementById('result-status');
             const messageP = document.getElementById('result-message');
             scoreDiv.innerText = nota;
-            
             let color = (nota <= 69) ? "var(--rojo-principal)" : "var(--verde-exito)";
             statusDiv.innerHTML = (nota <= 69) ? '<i class="fas fa-times-circle"></i> REPROBADO' : '<i class="fas fa-check-circle"></i> APROBADO';
-            
-            let msg = "";
-            if (nota <= 69) msg = "Debes estudiar más.";
-            else if (nota <= 85) msg = "Bien. Pero puedes mejorar.";
-            else if (nota <= 99) msg = "Muy bien. Vas por buen camino.";
-            else msg = "Serás un excelente conductor o conductora.";
-
-            statusDiv.style.color = color;
-            scoreDiv.style.color = color;
-            messageP.innerText = msg;
+            let msg = (nota <= 69) ? "Debes estudiar más." : (nota <= 85) ? "Bien. Pero puedes mejorar." : (nota <= 99) ? "Muy bien. Vas por buen camino." : "Serás un excelente conductor o conductora.";
+            statusDiv.style.color = color; scoreDiv.style.color = color; messageP.innerText = msg;
             if (nota === 100) dispararConfeti();
         }
 
