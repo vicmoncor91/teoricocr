@@ -30,7 +30,6 @@
 
         body { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; }
 
-        /* FONDOS DINÁMICOS EXAMEN */
         body.fondo-auto { background: url('fondoexamen.jpeg') center/cover fixed no-repeat; background-color: rgba(255,255,255,0.8); background-blend-mode: overlay; }
         body.fondo-moto { background: url('fondomoto.jpeg') center/cover fixed no-repeat; background-color: rgba(255,255,255,0.8); background-blend-mode: overlay; }
 
@@ -67,7 +66,6 @@
         .btn:active { transform: scale(0.97); }
         .btn-dark { background-color: var(--negro-suave); }
 
-        /* MODALES Y DETALLE */
         .overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.6); z-index: 2000;
@@ -92,6 +90,17 @@
         }
         .full-page-detail.show { display: flex; }
 
+        /* Mejora de visibilidad de contenido */
+        .full-page-detail .detail-body, 
+        .full-page-detail .detail-img {
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .full-page-detail.show .detail-body, 
+        .full-page-detail.show .detail-img {
+            opacity: 1;
+        }
+
         .back-nav {
             position: sticky; top: 0; background: white; padding: 15px;
             display: flex; align-items: center; gap: 15px; font-weight: bold;
@@ -115,7 +124,6 @@
         .btn-service i { color: var(--rojo-principal); font-size: 1.1rem; }
         .btn-package { grid-column: span 2; padding: 15px; font-size: 1rem; }
 
-        /* FOOTER ICONOS REDONDOS */
         footer { position: fixed; bottom: 0; width: 100%; background: white; padding: 10px 0; display: flex; justify-content: center; gap: 20px; border-top: 1px solid #eee; z-index: 900;}
         .social-circle {
             width: 45px; height: 45px; border-radius: 50%;
@@ -214,10 +222,11 @@
             </div>
         </div>
     </div>
-<div id="services-overlay" class="overlay">
-    <div class="popup-card">
-        <i class="fas fa-times close-modal-x" onclick="window.history.back()"></i>
-        <h3 style="margin:0; color:var(--rojo-principal); font-size: 1.2rem;">Otros Servicios</h3>
+
+    <div id="services-overlay" class="overlay">
+        <div class="popup-card">
+            <i class="fas fa-times close-modal-x" onclick="window.history.back()"></i>
+            <h3 style="margin:0; color:var(--rojo-principal); font-size: 1.2rem;">Otros Servicios</h3>
             <div class="service-grid">
                 <button class="btn-service" onclick="contactarWhatsApp('Quiero información sobre: Renovación de licencia')"><i class="fas fa-id-card"></i> Renovación</button>
                 <button class="btn-service" onclick="contactarWhatsApp('Quiero información sobre: Permiso temporal')"><i class="fas fa-clock"></i> Permiso temporal</button>
@@ -233,8 +242,6 @@
             </div>
         </div>
     </div>
-
-
 
     <div id="quiz-container">
         <div id="question-number" style="color: var(--rojo-principal); font-weight: bold; margin-bottom: 8px; text-align: center;"></div>
@@ -269,7 +276,7 @@
         let whatsappMsgGlobal = "";
         let whatsappNumGlobal = "50672408103";
 
-        window.onload = () => { window.history.pushState({ etapa: 'menu' }, ''); };
+        window.onload = () => { window.history.replaceState({ etapa: 'menu' }, ''); };
 
         window.onpopstate = function(event) {
             if (document.getElementById('quiz-container').style.display === 'block') {
@@ -317,31 +324,46 @@
             }
         };
 
-     function abrirDetallePaquete(id) {
-            const p = dataPaquetes[id];
-            whatsappMsgGlobal = p.titulo; whatsappNumGlobal = "50672408103";
-            document.getElementById('p-img').src = p.imagen;
-            document.getElementById('p-titulo').innerText = p.titulo;
-            document.getElementById('p-info').innerText = p.info;
+        // FUNCIÓN MAESTRA QUE REPARA EL ERROR DE PERSISTENCIA
+        function mostrarVentanaDetalle(datos) {
+            // LIMPIEZA TOTAL: Borramos todo antes de mostrar nada
+            document.getElementById('p-img').src = "";
+            document.getElementById('p-titulo').innerText = "Cargando...";
+            document.getElementById('p-info').innerText = "";
+
+            // CARGA DE NUEVOS DATOS
+            document.getElementById('p-img').src = datos.imagen;
+            document.getElementById('p-titulo').innerText = datos.titulo;
+            document.getElementById('p-info').innerText = datos.info;
+            
+            whatsappMsgGlobal = datos.titulo;
+            whatsappNumGlobal = datos.whatsapp || "50672408103";
+
+            // MOSTRAR
             document.getElementById('full-detail-page').classList.add('show');
             window.history.pushState({ etapa: 'detalle' }, '');
         }
 
+        function abrirDetallePaquete(id) {
+            const p = dataPaquetes[id];
+            if (p) {
+                mostrarVentanaDetalle({
+                    titulo: p.titulo,
+                    imagen: p.imagen,
+                    info: p.info,
+                    whatsapp: "50672408103"
+                });
+            }
+        }
 
-   function abrirApelaciones() {
-    // LIMPIEZA PREVIA
-    document.getElementById('p-img').src = "";
-    document.getElementById('p-info').innerText = "";
-
-    // DATOS DE APELACIONES
-    whatsappMsgGlobal = "Apelación de infracciones"; 
-    whatsappNumGlobal = "50663784552";
-    document.getElementById('p-img').src = 'apelacion.png'; 
-       
-    // MOSTRAR VENTANA
-    document.getElementById('full-detail-page').classList.add('show');
-    window.history.pushState({ etapa: 'detalle' }, '');
-}
+        function abrirApelaciones() {
+            mostrarVentanaDetalle({
+                titulo: 'Apelación o Prescripción',
+                imagen: 'apelacion.png',
+                info: 'Asesoría legal para gestión de multas e infracciones de tránsito.',
+                whatsapp: "50663784552"
+            });
+        }
 
         function contactarAccion() { contactarWhatsApp(whatsappMsgGlobal, whatsappNumGlobal); }
 
@@ -391,7 +413,6 @@
             window.scrollTo(0,0);
         }
 
-
         function finalizar() {
             document.getElementById('quiz-container').style.display = 'none';
             document.getElementById('result-container').style.display = 'block';
@@ -414,7 +435,7 @@
             statusDiv.style.color = color;
             scoreDiv.style.color = color;
             messageP.innerText = msg;
-            if (nota === 100) dispararConfeti();
+            if (nota === 100) confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
         }
 
         function compartirResultado() {
