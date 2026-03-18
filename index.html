@@ -317,7 +317,7 @@
             }
         };
 
-        function abrirDetallePaquete(id) {
+     function abrirDetallePaquete(id) {
             const p = dataPaquetes[id];
             whatsappMsgGlobal = p.titulo; whatsappNumGlobal = "50672408103";
             document.getElementById('p-img').src = p.imagen;
@@ -327,13 +327,22 @@
             window.history.pushState({ etapa: 'detalle' }, '');
         }
 
-        function abrirApelaciones() {
-            whatsappMsgGlobal = "Apelación de infracciones"; whatsappNumGlobal = "50663784552";
-            document.getElementById('p-img').src = 'apelacion.png'; 
 
-            document.getElementById('full-detail-page').classList.add('show');
-            window.history.pushState({ etapa: 'detalle' }, '');
-        }
+   function abrirApelaciones() {
+    // LIMPIEZA PREVIA
+    document.getElementById('p-img').src = "";
+    document.getElementById('p-titulo').innerText = "Cargando...";
+    document.getElementById('p-info').innerText = "";
+
+    // DATOS DE APELACIONES
+    whatsappMsgGlobal = "Apelación de infracciones"; 
+    whatsappNumGlobal = "50663784552";
+    document.getElementById('p-img').src = 'apelacion.png'; 
+       
+    // MOSTRAR VENTANA
+    document.getElementById('full-detail-page').classList.add('show');
+    window.history.pushState({ etapa: 'detalle' }, '');
+}
 
         function contactarAccion() { contactarWhatsApp(whatsappMsgGlobal, whatsappNumGlobal); }
 
