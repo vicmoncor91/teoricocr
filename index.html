@@ -75,6 +75,7 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: white; z-index: 3000; display: none;
             flex-direction: column; overflow-y: auto;
+            scroll-behavior: auto; /* Para que el reseteo sea instantáneo */
         }
         .full-page-detail.show { display: flex; }
 
@@ -319,10 +320,15 @@ Este paquete incluye:
         function abrirDetallePaquete(id) {
             const p = dataPaquetes[id];
             paqueteActualTexto = p.titulo;
+            
+            // RESETEAR EL SCROLL AL INICIO
+            const contenedor = document.getElementById('full-detail-page');
+            contenedor.scrollTop = 0; 
+
             document.getElementById('p-img').src = p.imagen;
             document.getElementById('p-titulo').innerText = p.titulo;
             document.getElementById('p-info').innerText = p.info;
-            document.getElementById('full-detail-page').classList.add('show');
+            contenedor.classList.add('show');
             document.getElementById('classes-overlay').classList.remove('show');
             window.history.pushState({ etapa: 'detalle' }, '');
         }
