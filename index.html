@@ -2,20 +2,37 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>APLICACIÓN EN CONSTRUCCIÖN</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba PWA</title>
     <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  
-            <header id="mainHeader">
-        <div class="school-info"><b>Escuela de manejo CR</b><br>San Ramón</div>
-        <div class="header-top">
-    
-            <div class="app-name-text">APLICACION EN CONSTRUCCIÓN</div>
-        </div>
-    </header>
-        
+    <style>
+        body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px; background-color: #f4f4f9; }
+        #display { font-size: 24px; font-weight: bold; margin-bottom: 20px; color: #2c3e50; min-height: 40px; border-bottom: 2px solid #3498db; padding: 10px; width: 100%; text-align: center; }
+        input { padding: 15px; width: 80%; max-width: 300px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 8px; }
+        button { padding: 15px 30px; background-color: #3498db; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; }
+        button:active { background-color: #2980b9; }
+    </style>
+</head>
+<body>
+    <div id="display">Escribe algo abajo</div>
+    <input type="text" id="userInput" placeholder="Escribe aquí...">
+    <button onclick="updateText()">Mostrar texto</button>
+
+    <script>
+        function updateText() {
+            const input = document.getElementById('userInput');
+            const display = document.getElementById('display');
+            if(input.value.trim() !== "") {
+                display.innerText = input.value;
+                input.value = '';
+            }
+        }
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+                .then(() => console.log("Service Worker registrado"))
+                .catch(err => console.log("Error al registrar SW", err));
+        }
     </script>
 </body>
 </html>
