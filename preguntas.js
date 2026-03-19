@@ -1,5 +1,5 @@
 const bancoPreguntas = [
-   { pregunta: "Según el texto, conducir no es solo encender el vehículo porque también requiere:", opciones: ["Saber mecánica avanzada", "Conocimientos de normas y factores de seguridad vial", "Solo habilidad física", "Saber cambiar marchas"], correcta: 1 },
+    { pregunta: "Según el texto, conducir no es solo encender el vehículo porque también requiere:", opciones: ["Saber mecánica avanzada", "Conocimientos de normas y factores de seguridad vial", "Solo habilidad física", "Saber cambiar marchas"], correcta: 1 },
     { pregunta: "El objetivo general del tema es:", opciones: ["Comprender movilidad y conducción segura en Costa Rica", "Aprender a manejar vehículos pesados", "Memorizar señales de tránsito", "Reducir el uso del transporte público"], correcta: 0 },
     { pregunta: "Conducir debe desarrollarse dentro de un marco de:", opciones: ["Competencia y rapidez", "Prioridad solo para automóviles", "Respeto mutuo, tolerancia y protección de la vida", "Libertad sin normas"], correcta: 2 },
     { pregunta: "¿Cuál de los siguientes NO se menciona como usuario del sistema vial?", opciones: ["Pilotos de avión", "Peatones", "Ciclistas", "Conductores de autobuses"], correcta: 0 },
@@ -48,7 +48,6 @@ const bancoPreguntas = [
     { pregunta: "El Permiso Temporal de Aprendizaje tiene vigencia de:", opciones: ["1 mes", "3 meses", "2 meses", "6 meses"], correcta: 1 },
     { pregunta: "Para permiso temporal, el aspirante debe conducir:", opciones: ["Acompañado por persona con licencia del mismo tipo o superior, vigente, con 5 años o más", "Solo, siempre", "Con cualquier amigo", "Solo de noche"], correcta: 0 },
     { pregunta: "Para la prueba práctica, debe presentarse:", opciones: ["5 minutos antes", "10 minutos antes", "30 minutos antes", "1 hora después"], correcta: 2 },
-   const bancoPreguntasParte2 = [
     { pregunta: "La regla de los 3 segundos sirve para:", opciones: ["Saber cuándo usar bocina", "Calcular distancia segura entre vehículos", "Medir velocidad máxima", "Cambiar de carril sin señalizar"], correcta: 1 },
     { pregunta: "La señalización en la vía es fundamental principalmente para:", opciones: ["Aumentar la velocidad", "La seguridad al conducir", "Reducir el uso de ciclovías", "Evitar que haya peatones"], correcta: 1 },
     { pregunta: "Estudiar el significado de cada señal ayuda a:", opciones: ["Evitar accidentes y multas", "Manejar sin licencia", "Saltarse semáforos", "No usar cinturón"], correcta: 0 },
