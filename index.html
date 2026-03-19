@@ -243,6 +243,16 @@
         </div>
     </div>
 
+    <div id="install-overlay" class="overlay">
+        <div class="popup-card">
+            <i class="fas fa-times close-modal-x" onclick="cerrarInstalacion()"></i>
+            <h3 style="margin-top:0; color:var(--rojo-principal); font-size: 1.2rem;">Instalar App</h3>
+            <p id="install-text" style="color: #555; font-size: 0.95rem; margin-bottom: 20px;">Instala Teórico CR en tu pantalla de inicio para un acceso más rápido y cómodo.</p>
+            <button id="install-btn-action" class="btn" onclick="ejecutarInstalacion()" style="width: 100%; justify-content: center;">
+                <i class="fas fa-download"></i> Instalar ahora
+            </button>
+        </div>
+    </div>
     <div id="quiz-container">
         <div id="question-number" style="color: var(--rojo-principal); font-weight: bold; margin-bottom: 8px; text-align: center;"></div>
         <div id="question-text"></div>
@@ -444,6 +454,52 @@
             if (navigator.share) navigator.share({ text: text });
             else window.open(`https://wa.me/?text=${encodeURIComponent(text)}`);
         }
+
+        // --- INICIO LÓGICA DE INSTALACIÓN PWA ---
+        let deferredPrompt;
+        const installOverlay = document.getElementById('install-overlay');
+        const installText = document.getElementById('install-text');
+        const installBtnAction = document.getElementById('install-btn-action');
+
+        function cerrarInstalacion() {
+            installOverlay.classList.remove('show');
+        }
+
+        // Lógica para ANDROID (Chrome)
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            // Muestra la ventana a los 2 segundos de cargar la app
+            setTimeout(() => installOverlay.classList.add('show'), 2000);
+        });
+
+        // Lógica para iOS (Safari)
+        const isIos = () => /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
+        const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.navigator.standalone);
+
+        if (isIos() && !isInStandaloneMode()) {
+            setTimeout(() => {
+                installOverlay.classList.add('show');
+                installText.innerHTML = 'Para instalar: toca el ícono <i class="fas fa-share-square"></i> en la barra inferior y luego selecciona <b>"Añadir a inicio"</b>.';
+                installBtnAction.style.display = 'none'; // En iOS el botón se oculta
+            }, 2000);
+        }
+
+        async function ejecutarInstalacion() {
+            if (deferredPrompt) {
+                installOverlay.classList.remove('show');
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                deferredPrompt = null;
+            }
+        }
+
+        // Se oculta automáticamente si se instala
+        window.addEventListener('appinstalled', () => {
+            installOverlay.classList.remove('show');
+            deferredPrompt = null;
+        });
+        // --- FIN LÓGICA DE INSTALACIÓN PWA ---
     </script>
 </body>
 </html>
