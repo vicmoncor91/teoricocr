@@ -288,32 +288,25 @@
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ1YWZsYW5raHhtc2dlYWl3Y216Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyMDE0NDQsImV4cCI6MjA4OTc3NzQ0NH0.EFbcma-3tEzAKUrW5i-1cg5hmJQPGXYTld-PJr5Jnac';
         const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-        async function registrarEnContador(tipo) {
-            try {
-                await supabaseClient
-                    .from('contador') 
-                    .insert([{ tipo_examen: tipo, fecha: new Date().toISOString() }]);
-            } catch (e) { console.error(e); }
+       async function registrarEnContador(tipo) {
+    // Definimos el ID exacto que tienes en tu tabla (según tu imagen)
+    const idFila = (tipo === 'auto') ? 'examen_auto' : 'examen_moto';
+    
+    console.log("Incrementando clics para:", idFila);
+
+    try {
+        const { error } = await supabaseClient
+            .rpc('incrementar_contador', { row_id: idFila });
+
+        if (error) {
+            console.error("Error al incrementar:", error.message);
+        } else {
+            console.log("Contador actualizado con éxito");
         }
-        // --- FIN CÓDIGO SUPABASE ---
-
-        let preguntasSimulacro = [];
-        let index = 0; let puntos = 0; let bloquearOpciones = false;
-        const letrasOpciones = ['A', 'B', 'C', 'D'];
-        let whatsappMsgGlobal = "";
-        let whatsappNumGlobal = "50672408103";
-
-        window.onload = () => { window.history.replaceState({ etapa: 'menu' }, ''); };
-
-        window.onpopstate = function(event) {
-            if (document.getElementById('quiz-container').style.display === 'block') {
-                if (confirm("¿Deseas salir del examen?")) { location.reload(); } 
-                else { window.history.pushState({ etapa: 'examen' }, ''); }
-                return;
-            }
-            cerrarModalesYDetalles();
-        };
-
+    } catch (e) {
+        console.error("Error de conexión:", e);
+    }
+}
         function cerrarModalesYDetalles() {
             document.querySelectorAll('.overlay').forEach(el => el.classList.remove('show'));
             document.getElementById('full-detail-page').classList.remove('show');
