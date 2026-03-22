@@ -7,6 +7,7 @@
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
             --rojo-principal: #e31e24;
@@ -280,6 +281,11 @@
     <script src="preguntasmoto.js"></script>
 
     <script>
+        // --- CONFIGURACIÓN SUPABASE ---
+        const SB_URL = "vuaflankhxmsgeaiwcmz"; 
+        const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ1YWZsYW5raHhtc2dlYWl3Y216Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyMDE0NDQsImV4cCI6MjA4OTc3NzQ0NH0.EFbcma-3tEzAKUrW5i-1cg5hmJQPGXYTld-PJr5Jnac";
+        const supabase = supabase.createClient(SB_URL, SB_KEY);
+
         let preguntasSimulacro = [];
         let index = 0; let puntos = 0; let bloquearOpciones = false;
         const letrasOpciones = ['A', 'B', 'C', 'D'];
@@ -346,7 +352,7 @@
             'avanzado': { 
                 titulo: '🔹 Alquiler + 1 hora de práctica', 
                 imagen: 'avanzado.jpeg', 
-                info: `Si ya tenés conocimientos básicos pero querés reforzar tu seguridad al volante, esta opción es ideal para vos.\nEn esta sesión trabajarás maniobras específicas, corrección de errores y consejos clave para mejorar tu desempeño.\n\n🚗 Incluye:\n✔ 1 hora de práctica personalizada\n✔ Vehículo automático para realizar la prueba\n✔ Tips para mejorar tu técnica\n✔ Enfoque en puntos débiles\n\n💡 Perfecto para quienes necesitan un último ajuste antes de la prueba.` 
+                info: `Si ya tenés conocimientos básicos pero querés reforzar tu seguridad al volante, esta opción es ideal para vos.\nEn esta sesión trabajarás maniobras específica, corrección de errores y consejos clave para mejorar tu desempeño.\n\n🚗 Incluye:\n✔ 1 hora de práctica personalizada\n✔ Vehículo automático para realizar la prueba\n✔ Tips para mejorar tu técnica\n✔ Enfoque en puntos débiles\n\n💡 Perfecto para quienes necesitan un último ajuste antes de la prueba.` 
             },
             'enmano': { 
                 titulo: '🎉 PAQUETE LICENCIA EN MANO 🎉', 
@@ -412,9 +418,22 @@
             else window.open(`https://wa.me/?text=${encodeURIComponent(text)}`);
         }
 
+        // --- FUNCIÓN PARA REGISTRAR VISITA ---
+        async function registrarClickEnBase(idFila) {
+            try {
+                await supabase.rpc('increment_button_count', { row_id: idFila });
+            } catch (e) {
+                console.error("Error al registrar contador:", e);
+            }
+        }
+
         function iniciarExamen(tipo) {
+            // REGISTRO DE CONTADOR
+            if (tipo === 'moto') registrarClickEnBase('examen_moto');
+            if (tipo === 'auto') registrarClickEnBase('examen_auto');
+
             window.history.pushState({ etapa: 'examen' }, '');
-            window.scrollTo(0,0); // RESET SCROLL AL INICIAR
+            window.scrollTo(0,0); 
             
             document.body.classList.remove('fondo-auto', 'fondo-moto');
             document.body.classList.add(tipo === 'auto' ? 'fondo-auto' : 'fondo-moto');
@@ -451,7 +470,7 @@
         }
 
         function finalizar() {
-            window.scrollTo(0,0); // RESET SCROLL PARA VER RESULTADOS
+            window.scrollTo(0,0);
             document.getElementById('quiz-container').style.display = 'none';
             document.getElementById('result-container').style.display = 'block';
             document.getElementById('mainFooter').style.display = 'flex';
